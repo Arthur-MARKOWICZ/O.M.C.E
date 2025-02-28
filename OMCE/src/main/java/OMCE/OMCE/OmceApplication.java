@@ -1,13 +1,13 @@
-package O.M.C.E.O.M.C.E;
+package OMCE.OMCE;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class OmceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(OmceApplication.class, args);
 	}
 
 }

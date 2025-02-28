@@ -1,10 +1,10 @@
-package O.M.C.E.O.M.C.E;
+package OMCE.OMCE;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ApplicationTests {
+class OmceApplicationTests {
 
 	@Test
 	void contextLoads() {

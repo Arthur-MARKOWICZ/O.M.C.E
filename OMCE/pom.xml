@@ -8,11 +8,11 @@
 		<version>3.4.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>O.M.C.E</groupId>
-	<artifactId>O.M.C.E</artifactId>
+	<groupId>OMCE</groupId>
+	<artifactId>OMCE</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>O.M.C.E</name>
-	<description>O.M.C.E</description>
+	<name>OMCE</name>
+	<description>OMCE</description>
 	<url/>
 	<licenses>
 		<license/>
