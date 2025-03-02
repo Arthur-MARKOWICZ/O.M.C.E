@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css" />
+    <title>login</title>
+</head>
+
+<body>
+<div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+
+<div class = 'loginBox'>
+        <h1>Acesse sua conta</h1>
+        <form action="" method="POST">
+            <p>
+                <label>Email</label>
+                <input type="text" name="email">
+            </p>
+            <p>
+                <label>Senha</label>
+                <input type="password" name="senha">
+            </p>
+            <p>
+                <button type="submite">Entrar</button>
+            </p>
+            <button><a href="cadastro.html" class="botao">Cadastrar-se</a></button>
+        </form>
+</div>
+</body>
+</html>
