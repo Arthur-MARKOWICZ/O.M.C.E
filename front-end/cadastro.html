@@ -223,7 +223,7 @@
         };
 
         console.log(JSON.stringify(usuario, null, 2));
-        const response = await fetch("http://localhost:8080/user", {
+        const response = await fetch("http://localhost:8080/auth/cadastro", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

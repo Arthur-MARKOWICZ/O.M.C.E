@@ -21,20 +21,21 @@
 
 <div class = 'loginBox'>
         <h1>Acesse sua conta</h1>
-        <form action="" method="POST">
+        <form id="loginForm" action="/login" method="POST">
             <p>
                 <label>Email</label>
-                <input type="text" name="email">
+                <input type="text" name="email" id="email">
             </p>
             <p>
                 <label>Senha</label>
-                <input type="password" name="senha">
+                <input type="password" name="senha" id="senha">
             </p>
             <p>
-                <button type="submite">Entrar</button>
+                <button type="submit">Entrar</button>
             </p>
             <button><a href="cadastro.html" class="botao">Cadastrar-se</a></button>
         </form>
 </div>
+<script src="login.js"></script>
 </body>
 </html>

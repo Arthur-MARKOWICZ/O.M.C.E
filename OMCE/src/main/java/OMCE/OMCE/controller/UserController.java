@@ -26,8 +26,5 @@ public class UserController {
        return ResponseEntity.ok("Usuário cadastrado com sucesso!");
 
     }
-    @GetMapping("/login")
-    public ResponseEntity<String> login() {
-        return ResponseEntity.ok("Login realizado com sucesso!");
-    }
+
 }
