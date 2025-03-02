@@ -19,8 +19,10 @@ public class UserController {
     @Transactional
 
     public ResponseEntity<String>  cadastrarUser(@RequestBody  DadosCadastroUser dados){
-       var user = new User(dados);
+        System.out.println("Recebido: " + dados);
+        var user = new User(dados);
        userRepository.save(user);
+        System.out.println("Usuário salvo no banco!");
        return ResponseEntity.ok("Usuário cadastrado com sucesso!");
 
     }
