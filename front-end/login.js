@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (response.ok) {
             alert("Login bem-sucedido!");
-            window.location.href = "/home";
+            window.location.href = "/front-end/home.html";
         } else {
             alert("Login falhou!");
         }
