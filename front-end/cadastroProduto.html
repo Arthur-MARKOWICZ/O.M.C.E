@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" href="cadastroProduto.css">
+    <title>Document</title>
+</head>
+<body>
+    <H1>Cadstro De Produto</H1>
+    <h2>lembrando que o site cobra 8% sobre o valor da venda do produto</h2>
+    <div>
+        <form
+        id="form_cadastroProduto"
+        onsubmit="return btnSendOnClickProduto();"
+        method="post"
+        enctype="multipart/form-data">
+        Nome: <input type="text" name="txtName" id="txtName" placeholder="Insira o nome do produto" /><br />
+        Preco <input type="text" name="txtPreco" id="txtPreco" placeholder="Insira o valor de vendada do produto"><br/>
+        Detalhes<input type="textbox" name="txtDetalhes" id="txtDetalhes" placeholder="Digite os detalhes do produto"><br/>
+        <input type="submit" value="Finalizar cadastro de produto">
+        </form>
+
+    </div>
+    <script src="cadastroProduto.js"></script>
+</body>
+</html>

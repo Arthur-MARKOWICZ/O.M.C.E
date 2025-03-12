@@ -12,6 +12,7 @@ const txtTel = document.getElementById("txtTel");
 const end_Logradouro = document.getElementById("end_logradouro");
 const NomeUser = document.getElementById("txtNU");
 const txtSenha = document.getElementById("txtSenha");
+const txtSenhaConfirmar = document.getElementById("txtSenhaConfirmar");
 
 function btnSendOnClick() {
   if (txtName.value === "") {
@@ -66,6 +67,11 @@ function btnSendOnClick() {
   if (txtSenha.value === "") {
     alert("Preenchimento obrigatório: Senha");
     txtSenha.focus();
+    return false;
+  }
+  if(txtSenha.value === txtSenhaConfirmar.value){
+    alert("Senha diferente em confirmar senha");
+    txtSenhaConfirmar.focus();
     return false;
   }
   if (!isCPF(txtCPF)) {
@@ -128,7 +134,6 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
         senha: txtSenha.value
     };
 
-    console.log(JSON.stringify(usuario, null, 2));
     const response = await fetch("http://localhost:8080/auth/cadastro", {
         method: "POST",
         headers: {
