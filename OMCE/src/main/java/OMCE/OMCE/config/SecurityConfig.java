@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/cadastro").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-//                        .requestMatchers(HttpMethod.POST, "/auth/cadastroProduto").permitAll()
+
                         .anyRequest().authenticated())
                 .cors(withDefaults())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

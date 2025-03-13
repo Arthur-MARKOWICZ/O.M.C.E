@@ -27,8 +27,9 @@ public class AuthenticationController {
     public ResponseEntity login(@RequestBody AuthenticationDTO data){
         var usermanePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         var auth = this.authenticationManager.authenticate(usermanePassword);
+        var id = ((User) auth.getPrincipal()).getId();
         var token = tokenService.generateToken((User) auth.getPrincipal());
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        return ResponseEntity.ok(new LoginResponseDTO(token, id));
     }
     @PostMapping("/cadastro")
     public ResponseEntity cadastro(@RequestBody DadosCadastroUser dados){
@@ -41,6 +42,7 @@ public class AuthenticationController {
     @PostMapping("/cadastroProduto")
     public  ResponseEntity cadastroProduto(@RequestBody DadosCadastroProduto dados){
         Produto newproduto = new Produto(dados);
+        System.out.println(newproduto);
         this.produtoRepository.save(newproduto);
         return ResponseEntity.ok().build();
     }

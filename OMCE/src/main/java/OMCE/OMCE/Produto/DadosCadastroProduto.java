@@ -1,4 +1,6 @@
 package OMCE.OMCE.Produto;
 
-public record DadosCadastroProduto(String nome,double preco,String detalhes) {
+import com.fasterxml.jackson.annotation.JsonAlias;
+
+public record DadosCadastroProduto(String nome, double preco, String detalhes , @JsonAlias("id_usuario") long id_user) {
 }

@@ -12,9 +12,11 @@ public class Produto {
     private String nome;
     private Double preco;
     private String detalhes;
+    private long id_user;
     public Produto(DadosCadastroProduto dados){
         this.nome = dados.nome();
         this.preco = dados.preco();
         this.detalhes = dados.detalhes();
+        this.id_user = dados.id_user();
     }
 }
