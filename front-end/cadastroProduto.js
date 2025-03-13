@@ -1,6 +1,8 @@
 const nome = document.getElementById("txtName");
 const preco = document.getElementById("txtPreco");
 const detalhes = document.getElementById("txtDetalhes");
+const id_usuario = localStorage.getItem("id_usuario");
+const id = Number(id_usuario);
 function btnSendOnClickProduto(){
     if (nome.value === "") {
         alert("Preenchimento obrigatório: Nome");
@@ -22,11 +24,14 @@ function btnSendOnClickProduto(){
 document.getElementById("form_cadastroProduto").addEventListener("submit", async function(event)  {
     event.preventDefault();
     const token = localStorage.getItem("jwt");
+
     const produto = {
         nome : nome.value,
-        preco : preco.value,
-        detalhes : detalhes.value
+        preco : parseFloat(preco.value),
+        detalhes : detalhes.value,
+        id_usuario: id
     };
+    console.log(produto);
     const response = await fetch("http://localhost:8080/auth/cadastroProduto", {
         method: "POST",
         headers: {
@@ -34,6 +39,8 @@ document.getElementById("form_cadastroProduto").addEventListener("submit", async
             "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify(produto)
+       
+        
 
     });
 

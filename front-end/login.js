@@ -24,19 +24,20 @@ document.addEventListener("DOMContentLoaded", function() {
                 return;
             }
 
-   
             const data = await response.json();
-
-            if (data.token) {
-                localStorage.setItem("jwt", data.token); 
+            console.log(data);
+            if (data.token && data.id) { 
+                localStorage.setItem("id_usuario", data.id); 
+                localStorage.setItem("jwt", data.token);
                 alert("Login bem-sucedido!");
                 window.location.href = "/home.html"; 
             } else {
-                alert("Erro: Nenhum token recebido!");
+                alert("Erro: Nenhum token ou ID de usuário recebido!");
+                console.error("Resposta do servidor:", data); 
             }
         } catch (error) {
-            console.error("Erro ao conectar com o servidor:", error);
-            alert("Erro na comunicação com o servidor.");
+            alert("Erro ao conectar com o servidor.");
+            console.error("Erro:", error);
         }
     });
 });
