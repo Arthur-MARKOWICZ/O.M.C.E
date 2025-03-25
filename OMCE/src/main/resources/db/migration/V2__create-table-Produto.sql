@@ -5,7 +5,7 @@ create table produto(
     detalhes TEXT not null,
     id_usuario bigint NOT NULL,
 
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id),
+    FOREIGN KEY (id_usuario) REFERENCES user(id),
 
     primary key(id)
 );
