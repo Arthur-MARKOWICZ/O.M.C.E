@@ -69,7 +69,7 @@ function btnSendOnClick() {
     txtSenha.focus();
     return false;
   }
-  if(txtSenha.value === txtSenhaConfirmar.value){
+  if(txtSenha.value !== txtSenhaConfirmar.value){
     alert("Senha diferente em confirmar senha");
     txtSenhaConfirmar.focus();
     return false;
