@@ -30,10 +30,8 @@ public class User  implements UserDetails {
     @Column(name = "nome_user")
     private String nomeUser;
     private String senha;
-    private UserRole role;
 
     public User(DadosCadastroUser dados){
-        this.role = UserRole.USER;
         this.nome = dados.nome();
         this.enderco = new Enderco(dados.endereco());
         this.cpf = dados.cpf();
@@ -120,11 +118,6 @@ public class User  implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == UserRole.ADMIN)
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"),
-                    new SimpleGrantedAuthority("ROLE_VENDEDOR"),
-                    new SimpleGrantedAuthority("ROLE_USER"));
-        else
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 

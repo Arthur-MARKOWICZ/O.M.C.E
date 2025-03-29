@@ -31,7 +31,7 @@ document.getElementById("form_cadastroProduto").addEventListener("submit", async
         detalhes : detalhes.value,
         id_usuario: id
     };
-    console.log(produto);
+    console.log(produto); 
     const response = await fetch("http://localhost:8080/auth/cadastroProduto", {
         method: "POST",
         headers: {
