@@ -12,7 +12,7 @@ body {
     height: 280px;
     background-color: #f0f0f0;
   }
-  
+
   .loginBox {
     background-color: #d3d3d3;
     padding: 20px;
@@ -57,7 +57,9 @@ body {
   .botao:hover {
     background-color: #0056b3;
   }
-  
+  .h1{
+    color: paleturquoise;
+  }
   .loginBox {
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
