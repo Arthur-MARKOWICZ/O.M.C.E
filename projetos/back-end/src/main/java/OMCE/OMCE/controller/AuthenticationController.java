@@ -5,12 +5,17 @@ import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.ProdutoRepository;
 import OMCE.OMCE.User.*;
 import OMCE.OMCE.config.TokenService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("auth")
@@ -31,6 +36,7 @@ public class AuthenticationController {
         var token = tokenService.generateToken((User) auth.getPrincipal());
         return ResponseEntity.ok(new LoginResponseDTO(token, id));
     }
+
     @PostMapping("/cadastro")
     public ResponseEntity cadastro(@RequestBody DadosCadastroUser dados){
         String encryptedPassword = new BCryptPasswordEncoder().encode(dados.senha());
@@ -45,5 +51,23 @@ public class AuthenticationController {
         System.out.println(newproduto);
         this.produtoRepository.save(newproduto);
         return ResponseEntity.ok().build();
+    }
+    @GetMapping(value = "/visualizarDetalhesProduto/{id}", produces = "application/json")
+    public ResponseEntity mostraDetalhesProdutos(@PathVariable Long id){
+        System.out.println("ID recebido: " + id);
+        Optional<Produto> produto = produtoRepository.findById(id);
+
+        if(produto.isPresent()){
+            try {
+                String json = new ObjectMapper().writeValueAsString(produto.get());
+                return ResponseEntity.ok(json);
+            } catch (JsonProcessingException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao converter JSON");
+            }
+
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
