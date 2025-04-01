@@ -28,8 +28,9 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private TokenService tokenService;
+
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody AuthenticationDTO data){
+    public ResponseEntity login(@RequestBody AuthenticationDTO data) {
         var usermanePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         var auth = this.authenticationManager.authenticate(usermanePassword);
         var id = ((User) auth.getPrincipal()).getId();
@@ -38,36 +39,19 @@ public class AuthenticationController {
     }
 
     @PostMapping("/cadastro")
-    public ResponseEntity cadastro(@RequestBody DadosCadastroUser dados){
+    public ResponseEntity cadastro(@RequestBody DadosCadastroUser dados) {
         String encryptedPassword = new BCryptPasswordEncoder().encode(dados.senha());
         User newUser = new User(dados);
         newUser.setSenha(encryptedPassword);
         this.userRepository.save(newUser);
         return ResponseEntity.ok().build();
     }
+
     @PostMapping("/cadastroProduto")
-    public  ResponseEntity cadastroProduto(@RequestBody DadosCadastroProduto dados){
+    public ResponseEntity cadastroProduto(@RequestBody DadosCadastroProduto dados) {
         Produto newproduto = new Produto(dados);
         System.out.println(newproduto);
         this.produtoRepository.save(newproduto);
         return ResponseEntity.ok().build();
-    }
-    @GetMapping(value = "/visualizarDetalhesProduto/{id}", produces = "application/json")
-    public ResponseEntity mostraDetalhesProdutos(@PathVariable Long id){
-        System.out.println("ID recebido: " + id);
-        Optional<Produto> produto = produtoRepository.findById(id);
-
-        if(produto.isPresent()){
-            try {
-                String json = new ObjectMapper().writeValueAsString(produto.get());
-                return ResponseEntity.ok(json);
-            } catch (JsonProcessingException e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao converter JSON");
-            }
-
-        }
-        else {
-            return ResponseEntity.notFound().build();
-        }
     }
 }

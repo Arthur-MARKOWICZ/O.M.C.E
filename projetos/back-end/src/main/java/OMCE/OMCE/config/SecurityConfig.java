@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/cadastro").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/auth/visualizarDetalhesProduto/1").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/produto/visualizarDetalhesProduto/{id}").permitAll()
 
                         .anyRequest().authenticated())
                 .cors(withDefaults())
