@@ -12,19 +12,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
-    private UserRepository userRepository;
 
-    @PostMapping
-    @Transactional
-
-    public ResponseEntity<String>  cadastrarUser(@RequestBody  DadosCadastroUser dados){
-        System.out.println("Recebido: " + dados);
-        var user = new User(dados);
-       userRepository.save(user);
-        System.out.println("Usuário salvo no banco!");
-       return ResponseEntity.ok("Usuário cadastrado com sucesso!");
-
-    }
 
 }

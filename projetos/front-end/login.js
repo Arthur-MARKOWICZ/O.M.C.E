@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 localStorage.setItem("id_usuario", data.id); 
                 localStorage.setItem("jwt", data.token);
                 alert("Login bem-sucedido!");
-                window.location.href = "/home.html"; 
+                window.location.href = "/projetos/front-end/home.html"; 
             } else {
                 alert("Erro: Nenhum token ou ID de usuário recebido!");
                 console.error("Resposta do servidor:", data); 

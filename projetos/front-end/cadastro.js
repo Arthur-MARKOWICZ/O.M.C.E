@@ -69,7 +69,7 @@ function btnSendOnClick() {
     txtSenha.focus();
     return false;
   }
-  if(txtSenha.value === txtSenhaConfirmar.value){
+  if(txtSenha.value !== txtSenhaConfirmar.value){
     alert("Senha diferente em confirmar senha");
     txtSenhaConfirmar.focus();
     return false;
@@ -145,6 +145,7 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
 
     if (response.ok) {
         alert("Usuário cadastrado com sucesso!");
+        window.location.href = "/projetos/front-end/login.html"; 
     } else {
         alert("Erro no cadastro.");
     }
