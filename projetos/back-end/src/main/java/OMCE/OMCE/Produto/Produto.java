@@ -2,6 +2,8 @@ package OMCE.OMCE.Produto;
 
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
+import java.util.Base64;
+
 
 @NoArgsConstructor
 @Entity
@@ -13,11 +15,18 @@ public class Produto {
     private Double preco;
     private String detalhes;
     private long id_usuario;
+    @Lob
+    private byte[] imagem;
+    @Column(name = "imagem_tipo")
+    private String imageTipo;
+
     public Produto(DadosCadastroProduto dados){
         this.nome = dados.nome();
         this.preco = dados.preco();
         this.detalhes = dados.detalhes();
         this.id_usuario = dados.id_usuario();
+        this.imagem = Base64.getDecoder().decode(dados.imagem());
+        this.imageTipo = dados.imagem_tipo();
     }
     @Override
     public String toString() {

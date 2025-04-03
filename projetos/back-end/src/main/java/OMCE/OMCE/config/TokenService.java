@@ -13,7 +13,7 @@ import java.time.ZoneOffset;
 
 @Service
 public class TokenService {
-    //por em uma variavel de abiente
+    //por em uma variavel de ambiente
     private String secret = "test";
     public String generateToken(User user){
         try{
