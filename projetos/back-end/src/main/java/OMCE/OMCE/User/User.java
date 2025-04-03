@@ -30,8 +30,10 @@ public class User  implements UserDetails {
     @Column(name = "nome_user")
     private String nomeUser;
     private String senha;
+    private boolean ativo;
 
     public User(DadosCadastroUser dados){
+        this.ativo = true;
         this.nome = dados.nome();
         this.enderco = new Enderco(dados.endereco());
         this.cpf = dados.cpf();

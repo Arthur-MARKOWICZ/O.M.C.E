@@ -15,12 +15,14 @@ public class Produto {
     private Double preco;
     private String detalhes;
     private long id_usuario;
+    private boolean vendido;
     @Lob
     private byte[] imagem;
     @Column(name = "imagem_tipo")
     private String imageTipo;
 
     public Produto(DadosCadastroProduto dados){
+        this.vendido = false;
         this.nome = dados.nome();
         this.preco = dados.preco();
         this.detalhes = dados.detalhes();
