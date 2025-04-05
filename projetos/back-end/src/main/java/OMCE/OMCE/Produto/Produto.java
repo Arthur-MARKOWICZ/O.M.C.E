@@ -74,4 +74,28 @@ public class Produto {
     public void setId_usuario(long id_usuario) {
         this.id_usuario = id_usuario;
     }
+
+    public boolean isVendido() {
+        return vendido;
+    }
+
+    public void setVendido(boolean vendido) {
+        this.vendido = vendido;
+    }
+
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
+    }
+
+    public String getImageTipo() {
+        return imageTipo;
+    }
+
+    public void setImageTipo(String imageTipo) {
+        this.imageTipo = imageTipo;
+    }
 }
