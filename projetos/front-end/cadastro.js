@@ -2,6 +2,7 @@
   const txtCPF = document.getElementById("txtCPF");
   const dataNasc = document.getElementById("txtNasc");
   const txtEmail = document.getElementById("txtEmail");
+  const txtCep = document.getElementById("end_cep");
   const end_pais = document.getElementById("end_pais");
   const end_estado = document.getElementById("end_estado");
   const end_cidade = document.getElementById("end_cidade");
@@ -10,6 +11,7 @@
   const NomeUser = document.getElementById("txtNU");
   const txtSenha = document.getElementById("txtSenha");
   const txtSenhaConfirmar = document.getElementById("txtSenhaConfirmar");
+ 
 
 
   document.getElementById("form_cadastro").addEventListener("submit", async function(event) {
@@ -26,6 +28,7 @@
           dataNasc: dataNasc.value,
           sexo: sexo.value,
           endereco: {
+              cep: end_cep.value,
               pais: end_pais.value,
               estado: end_estado.value,
               cidade: end_cidade.value,
@@ -120,4 +123,29 @@
     const re = /^\d{4}-\d{2}-\d{2}$/;
     return re.test(data);
   }
+  function isCep(cep) {
+    const re = /^\d{5}-\d{3}$/;
+    return re.test(cep);
+  }
+  function mostrarDados(dados) {
+    if (dados.erro) {
+      alert("CEP não encontrado!");
+      return;
+    }
+    end_logradouro.value = dados.logradouro;
+    end_estado.value = dados.uf;
+    end_cidade.value = dados.localidade;
+  }
 
+txtCep.addEventListener("blur", (e)=>{
+  let buscaCep = txtCep.value.replace("-", "");
+  const opcoes={
+    method: 'GET',
+    mode: 'cors',
+    cache: 'default'
+  }
+  fetch(`https://viacep.com.br/ws/${buscaCep}/json/`, opcoes)
+  .then(response => response.json())
+  .then(dados => mostrarDados(dados))
+  .catch(erro => console.log("Erro ao buscar o CEP: " + erro.message));
+})
