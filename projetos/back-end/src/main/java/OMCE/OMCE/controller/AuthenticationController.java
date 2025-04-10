@@ -31,11 +31,14 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody AuthenticationDTO data) {
-        var usermanePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
-        var auth = this.authenticationManager.authenticate(usermanePassword);
-        var id = ((User) auth.getPrincipal()).getId();
-        var token = tokenService.generateToken((User) auth.getPrincipal());
-        return ResponseEntity.ok(new LoginResponseDTO(token, id));
+        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
+        var authentication = authenticationManager.authenticate(usernamePassword);
+        var user = (User) authentication.getPrincipal();
+       if(!user.isAtivo()){
+           return ResponseEntity.badRequest().build();
+       }
+        var token = tokenService.generateToken(user);
+        return ResponseEntity.ok(new LoginResponseDTO(token, user.getId()));
     }
 
     @PostMapping("/cadastro")

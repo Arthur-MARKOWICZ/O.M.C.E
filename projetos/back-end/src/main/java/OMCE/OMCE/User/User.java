@@ -44,7 +44,17 @@ public class User  implements UserDetails {
         this.nomeUser = dados.nomeUser();
     }
 
+    public void alterarDados(DadosAlterarDadosUser dados){
 
+        this.nome = dados.nome();
+        this.enderco = new Enderco(dados.endereco());
+        this.cpf = dados.cpf();
+        this.dataNasc = dados.dataNasc();
+        this.sexo = dados.sexo();
+        this.email = dados.email();
+        this.telefone = dados.telefone();
+        this.nomeUser = dados.nomeUser();
+    }
 
     public long getId() {
         return id;
@@ -118,6 +128,14 @@ public class User  implements UserDetails {
         this.senha = senha;
     }
 
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
@@ -153,5 +171,9 @@ public class User  implements UserDetails {
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
+    }
+
+    public void excluir() {
+        this.ativo = false;
     }
 }
