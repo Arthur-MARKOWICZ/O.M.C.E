@@ -43,12 +43,11 @@
         </div><br />
         E-mail <input type="text" name="txtEmail" id="txtEmail" placeholder="Insira o seu e-mail"/><br />
         CEP <input type="text" name="end_cep" id="end_cep" placeholder="Insira o CEP da sua residência"/><br />
-        País <input type="text" name="end_pais" id="end_pais" placeholder="Insira o país que você mora"/><br />
-        
-        Logradouro<input type="text" name="end_logradouro" id="end_logradouro" placeholder="Insira logradouro de onde  você mora"/><br />
+        <a href="https://buscacepinter.correios.com.br/app/endereco/index.php">Não sabe seu CEP? Clique aqui</a> <br>
+        Logradouro<input type="text" name="end_logradouro" id="end_logradouro" placeholder="" disabled/><br />
         <label for="estado">Estado</label>
-        <select id="end_estado" name="end_estado" required>
-          <option value="0" disabled selected>Selecione o estado:</option>
+        <select id="end_estado" name="end_estado" required disabled>
+          <option value="0" disabled selected></option>
           <option value="AC">AC</option>
           <option value="AL">AL</option>
           <option value="AM">AM</option>
@@ -77,7 +76,7 @@
           <option value="SP">SP</option>
           <option value="TO">TO</option></select
         ><br />
-        Cidade <input type="text" name="end_cidade" id="end_cidade" placeholder="Insira a cidade que você mora" /><br />
+        Cidade<input type="text" name="end_cidade" id="end_cidade" placeholder="" disabled /><br /><br />
         Telefone <input type="text" name="txtTel" id="txtTel" placeholder="Insira o seu telefone (Apenas números)" /><br />
         Nome de usuário <input type="text" name="txtNU" id="txtNU" placeholder="Insira o nome que será exibido para os outros usuários" /><br />
         Senha <input type="password" name="txtSenha" id="txtSenha" placeholder="Insira sua senha" /><br />
