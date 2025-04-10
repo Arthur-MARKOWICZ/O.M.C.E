@@ -23,6 +23,7 @@
                     <p><strong>Preco:</strong> R$ ${p.preco.toFixed(2)}</p>
                     <p><strong>Detalhes:</strong> ${p.detalhes}</p>
                     <p><strong>Vendedor:</strong> ${p.nome_usuario}</p>
+                    <button onclick="adicionarProduto">Adicionar ao Carrinho</button>
                 `;
 
                 container.appendChild(card);
