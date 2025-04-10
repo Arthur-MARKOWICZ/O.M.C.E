@@ -1,5 +1,4 @@
 package OMCE.OMCE.controller;
-
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.ProdutoRepository;
 import OMCE.OMCE.User.User;
@@ -13,10 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+
+import java.util.*;
 
 @RestController
 @RequestMapping("/produto")
@@ -49,7 +46,28 @@ public class ProdutoController {
         else {
             return ResponseEntity.notFound().build();
         }
+    }@GetMapping("/todos")
+    public ResponseEntity<List<Map<String, Object>>> listarTodosProdutos() {
+        List<Produto> produtos = produtoRepository.findAll();
+        List<Map<String, Object>> listaProdutos = new ArrayList<>();
+
+        for (Produto p : produtos) {
+            Optional<User> usuario = userRepository.findById(p.getId_usuario());
+
+            if (usuario.isPresent()) {
+                Map<String, Object> json = new HashMap<>();
+                json.put("id", p.getId());
+                json.put("nome", p.getNome());
+                json.put("preco", p.getPreco());
+                json.put("detalhes", p.getDetalhes());
+                json.put("imagem", Base64.getEncoder().encodeToString(p.getImagem()));
+                json.put("imagem_tipo", p.getImageTipo());
+                json.put("nome_usuario", usuario.get().getNome());
+                listaProdutos.add(json);
+            }
+        }
+
+        return ResponseEntity.ok(listaProdutos);
     }
 
 }
-
