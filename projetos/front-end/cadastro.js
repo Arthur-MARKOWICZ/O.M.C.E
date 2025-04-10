@@ -29,7 +29,7 @@
           sexo: sexo.value,
           endereco: {
               cep: end_cep.value,
-              pais: end_pais.value,
+              pais: "Brasil",
               estado: end_estado.value,
               cidade: end_cidade.value,
               logradouro: end_Logradouro.value
