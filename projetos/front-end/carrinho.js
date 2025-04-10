@@ -33,7 +33,7 @@ function atualizarCarrinho() {
 function limparCarrinho() {
   carrinho = [];
   localStorage.removeItem('');
-  updateCartDisplay();
+  atualizarCarrinho();
 }
 
 function salvarCarrinho() {
