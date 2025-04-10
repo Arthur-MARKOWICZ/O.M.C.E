@@ -1,6 +1,7 @@
 package OMCE.OMCE.controller;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.ProdutoRepository;
+import OMCE.OMCE.User.DadosAlterarDadosUser;
 import OMCE.OMCE.User.User;
 import OMCE.OMCE.User.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -8,10 +9,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import OMCE.OMCE.Produto.DadosAlterarDadosProduto;
 
 import java.util.*;
 
@@ -74,6 +78,14 @@ public class ProdutoController {
         }
 
         return ResponseEntity.ok(listaProdutos);
+    }
+
+    @PutMapping ("/alterarDadosProduto")
+    @Transactional
+    public ResponseEntity alterardados(DadosAlterarDadosProduto dados){
+        var produto =  produtoRepository.getReferenceById(dados.id());
+        produto.alterarDados(dados);
+        return ResponseEntity.ok().build();
     }
 
 }

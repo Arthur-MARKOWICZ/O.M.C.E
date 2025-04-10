@@ -3,6 +3,7 @@ package OMCE.OMCE.Produto;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import java.util.Base64;
+import OMCE.OMCE.Produto.DadosAlterarDadosProduto;
 
 
 @NoArgsConstructor
@@ -97,5 +98,13 @@ public class Produto {
 
     public void setImageTipo(String imageTipo) {
         this.imageTipo = imageTipo;
+    }
+
+    public void alterarDados(DadosAlterarDadosProduto dados) {
+        this.nome = dados.nome();
+        this.preco = dados.preco();
+        this.detalhes = dados.detalhes();
+        this.imagem = Base64.getDecoder().decode(dados.imagem());
+        this.imageTipo = dados.imagem_tipo();
     }
 }
