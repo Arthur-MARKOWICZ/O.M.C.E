@@ -7,12 +7,13 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class Enderco {
-
+    private String cep;
     private String pais;
     private String estado;
     private String cidade;
     private String logradouro;
     public Enderco(DadosEnderco dados){
+        this.cep = dados.cep();
         this.pais = dados.pais();
         this.estado = dados.estado();
         this.cidade = dados.cidade();
