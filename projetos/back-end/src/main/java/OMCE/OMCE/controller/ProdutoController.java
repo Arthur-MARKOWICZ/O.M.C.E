@@ -60,7 +60,13 @@ public class ProdutoController {
                 json.put("nome", p.getNome());
                 json.put("preco", p.getPreco());
                 json.put("detalhes", p.getDetalhes());
-                json.put("imagem", Base64.getEncoder().encodeToString(p.getImagem()));
+                if (p.getImagem() != null) {
+                    json.put("imagem", Base64.getEncoder().encodeToString(p.getImagem()));
+                    json.put("imagem_tipo", p.getImageTipo());
+                } else {
+                    json.put("imagem", null);
+                    json.put("imagem_tipo", null);
+                }
                 json.put("imagem_tipo", p.getImageTipo());
                 json.put("nome_usuario", usuario.get().getNome());
                 listaProdutos.add(json);
