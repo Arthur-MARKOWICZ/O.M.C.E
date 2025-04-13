@@ -4,6 +4,7 @@ import OMCE.OMCE.Produto.DadosCadastroProduto;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.ProdutoRepository;
 import OMCE.OMCE.User.*;
+import OMCE.OMCE.Validacao.ValidacaoUser;
 import OMCE.OMCE.config.TokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +29,8 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private ValidacaoUser validar;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody AuthenticationDTO data) {
@@ -43,6 +46,7 @@ public class AuthenticationController {
 
     @PostMapping("/cadastro")
     public ResponseEntity cadastro(@RequestBody DadosCadastroUser dados) {
+        validar.validarCadastroUsuario(dados);
         String encryptedPassword = new BCryptPasswordEncoder().encode(dados.senha());
         User newUser = new User(dados);
         newUser.setSenha(encryptedPassword);
