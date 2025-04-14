@@ -24,7 +24,7 @@ async function carregarFeed() {
                 <p><strong>Preço:</strong> R$ ${p.preco.toFixed(2)}</p>
                 <p><strong>Detalhes:</strong> ${p.detalhes}</p>
                 <p><strong>Vendedor:</strong> ${p.nome_usuario}</p>
-                <button onclick="adicionarProduto('${p.nome}', ${p.preco}, ${p.id})">Adicionar ao Carrinho</button>
+                <button onclick="adicionarProduto('${p.nome}', ${p.preco}, ${p.id},'${p.imagem}' ,'${p.imagem_tipo  }')">Adicionar ao Carrinho</button>
             `;
 
             container.appendChild(card);

@@ -1,12 +1,9 @@
-let carrinho = [];
-
 window.onload = function() {
 
   criarCarrinho();
 
-  const salvarCarrinho = localStorage.getItem('Carrinho');
+  const salvarCarrinho = localStorage.getItem('carrinho');
   if (salvarCarrinho) {
-    carrinho = JSON.parse(salvarCarrinho);
     atualizarCarrinho();
   }
 };
@@ -21,43 +18,71 @@ function criarCarrinho() {
     <button onclick="limparCarrinho()">Limpar Carrinho</button>
   `;
   
-  document.body.appendChild(carrinhoDiv);  // Pode ser ajustado para outro local
+  document.body.appendChild(carrinhoDiv); 
 }
 
-function adicionarProduto(nome, preco, id) {
-  carrinho.push({ nome: nome, preco: preco, id: id });
-  salvarCarrinho();
+function adicionarProduto(nome, preco, id, imagem, imagem_tipo) {
+  const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+  const produto = { 
+    nome, 
+    preco, 
+    id, 
+    imagem, 
+    imagem_tipo
+  };
+
+  carrinho.push(produto);
+
+  localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
   atualizarCarrinho();
 }
 
-function atualizarCarrinho() {
+async function atualizarCarrinho() {
   const itensCarrinho = document.getElementById('itens-carrinho');
   const valorTotal = document.getElementById('valor-total');
   
   if (!itensCarrinho || !valorTotal) {
-    console.error("Erro: Elementos do carrinho nao foram  encontrados");
+    console.error("Erro: Elementos do carrinho não foram encontrados");
     return;
   }
 
   itensCarrinho.innerHTML = ''; 
 
   let total = 0;
-  carrinho.forEach(item => {
-    const li = document.createElement('li');
-    li.textContent = `${item.nome} - R$ ${item.preco.toFixed(2)}`;
-    itensCarrinho.appendChild(li);
-    total += item.preco;
-  });
+  const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+  for (let produto of carrinho) {
+    const card = document.createElement("div");
+    card.classList.add("produto-card");
+
+    let imgSrc = `data:${produto.imagem_tipo};base64,${produto.imagem}` // Usar imagem padrão caso falte
+
+    card.innerHTML = `
+      <h2>${produto.nome}</h2>
+      <img src="${imgSrc}" alt="${produto.nome}" width="200">
+      <p><strong>Preço:</strong> R$ ${produto.preco.toFixed(2)}</p>
+      <button onclick="removerProduto(${produto.id})">Remover do Carrinho</button>
+    `;
+
+    itensCarrinho.appendChild(card);
+    total += produto.preco;
+  }
 
   valorTotal.textContent = `R$ ${total.toFixed(2)}`;
 }
 
-function limparCarrinho() {
-  carrinho = [];
-  localStorage.removeItem('Carrinho');
+function removerProduto(id) {
+  let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+  carrinho = carrinho.filter(produto => produto.id !== id);
+
+  localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
   atualizarCarrinho();
 }
 
-function salvarCarrinho() {
-  localStorage.setItem('Carrinho', JSON.stringify(carrinho));
+function limparCarrinho() {
+  localStorage.removeItem('carrinho');
+  atualizarCarrinho();
 }
