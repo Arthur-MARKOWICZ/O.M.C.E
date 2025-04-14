@@ -70,7 +70,7 @@ async function atualizarCarrinho() {
     total += produto.preco;
   }
 
-  valorTotal.textContent = `R$ ${total.toFixed(2)}`;
+  valorTotal.textContent = ` ${total.toFixed(2)}`;
 }
 
 function removerProduto(id) {
