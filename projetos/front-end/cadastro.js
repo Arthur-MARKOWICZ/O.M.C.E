@@ -3,19 +3,20 @@
   const dataNasc = document.getElementById("txtNasc");
   const txtEmail = document.getElementById("txtEmail");
   const txtCep = document.getElementById("end_cep");
-  const end_pais = document.getElementById("end_pais");
   const end_estado = document.getElementById("end_estado");
   const end_cidade = document.getElementById("end_cidade");
   const txtTel = document.getElementById("txtTel");
-  const end_Logradouro = document.getElementById("end_logradouro");
+  const end_logradouro = document.getElementById("end_logradouro");
   const NomeUser = document.getElementById("txtNU");
   const txtSenha = document.getElementById("txtSenha");
   const txtSenhaConfirmar = document.getElementById("txtSenhaConfirmar");
+  console.log(dataNasc.value);
  
 
 
   document.getElementById("form_cadastro").addEventListener("submit", async function(event) {
       event.preventDefault(); 
+      console.log(dataNasc.value);
       if (!validarCadastro()) {
         return false;
     }
@@ -32,7 +33,7 @@
               pais: "Brasil",
               estado: end_estado.value,
               cidade: end_cidade.value,
-              logradouro: end_Logradouro.value
+              logradouro: end_logradouro.value
           },
           email: txtEmail.value,
           telefone: txtTel.value,
@@ -77,9 +78,7 @@
       if (!txtEmail.value || !isEmail(txtEmail.value)){
         return exibirErro("E-mail", txtEmail);
       }
-      if (!end_pais.value) {
-        return exibirErro("País", end_pais);
-      }
+
       if (end_estado.value === "0") {
         return exibirErro("Estado", end_estado);
       }
@@ -122,15 +121,16 @@
   function isData(data) {
     const re = /^\d{4}-\d{2}-\d{2}$/;
     return re.test(data);
+    
   }
   function isCep(cep) {
-    const re = /^\d{5}-\d{3}$/;
+    const re = /^\d{5}\d{3}$/;
     return re.test(cep);
   }
   function mostrarDados(dados) {
     if (dados.erro) {
       alert("CEP não encontrado!");
-      return;
+      return false;
     }
     end_logradouro.value = dados.logradouro;
     end_estado.value = dados.uf;
