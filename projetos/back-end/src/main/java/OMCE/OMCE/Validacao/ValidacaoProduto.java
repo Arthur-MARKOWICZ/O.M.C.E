@@ -2,7 +2,9 @@ package OMCE.OMCE.Validacao;
 
 import OMCE.OMCE.Produto.DadosAlterarDadosProduto;
 import OMCE.OMCE.Produto.DadosCadastroProduto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ValidacaoProduto {
     public void ValidarCadastroProduto(DadosCadastroProduto dados){
         if(dados.nome() == null){

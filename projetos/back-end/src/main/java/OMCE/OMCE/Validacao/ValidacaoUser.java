@@ -2,7 +2,9 @@ package OMCE.OMCE.Validacao;
 
 import OMCE.OMCE.User.DadosAlterarDadosUser;
 import OMCE.OMCE.User.DadosCadastroUser;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ValidacaoUser {
     public void validarCadastroUsuario(DadosCadastroUser dados){
         if(dados.email() == null){
