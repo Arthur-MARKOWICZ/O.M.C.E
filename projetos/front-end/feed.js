@@ -1,40 +1,40 @@
-    async function carregarFeed() {
-        try {
-            const token = localStorage.getItem("jwt");
+async function carregarFeed() {
+    try {
+        const token = localStorage.getItem("jwt");
 
-    const resposta = await fetch("http://localhost:8080/produto/todos", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    });
-            const produtos = await resposta.json();
+        const resposta = await fetch("http://localhost:8080/produto/todos", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
 
-            const container = document.getElementById("feed-container");
-            console.log(produtos);
-            produtos.forEach(p => {
-                const card = document.createElement("div");
-                card.classList.add("produto-card");
+        const produtos = await resposta.json();
 
-                card.innerHTML = `
-                    <h2>${p.nome}</h2>
-                    <img src="data:${p.imagem_tipo};base64,${p.imagem}" alt="${p.nome}" width="200">
-                    <p><strong>Preco:</strong> R$ ${p.preco.toFixed(2)}</p>
-                    <p><strong>Detalhes:</strong> ${p.detalhes}</p>
-                    <p><strong>Vendedor:</strong> ${p.nome_usuario}</p>
-                    <button onclick="adicionarProduto()">Adicionar ao Carrinho</button>
-                `;
+        const container = document.getElementById("feed-container");
+        console.log(produtos);
+        produtos.forEach(p => {
+            const card = document.createElement("div");
+            card.classList.add("produto-card");
 
-                container.appendChild(card);
-            });
+            card.innerHTML = `
+                <h2>${p.nome}</h2>
+                <img src="data:${p.imagem_tipo};base64,${p.imagem}" alt="${p.nome}" width="200">
+                <p><strong>Preço:</strong> R$ ${p.preco.toFixed(2)}</p>
+                <p><strong>Detalhes:</strong> ${p.detalhes}</p>
+                <p><strong>Vendedor:</strong> ${p.nome_usuario}</p>
+                <button onclick="adicionarProduto('${p.nome}', ${p.preco}, ${p.id})">Adicionar ao Carrinho</button>
+            `;
 
-        } catch (erro) {
-            console.error("Erro ao carregar o feed:", erro);
-        }
+            container.appendChild(card);
+        });
+
+    } catch (erro) {
+        console.error("Erro ao carregar o feed:", erro);
     }
+}
 
-    document.addEventListener("DOMContentLoaded", () => {
-        carregarFeed();
-    });
-    
+document.addEventListener("DOMContentLoaded", () => {
+    carregarFeed();
+});
