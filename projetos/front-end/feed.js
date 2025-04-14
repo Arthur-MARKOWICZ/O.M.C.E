@@ -27,6 +27,12 @@ async function carregarFeed() {
                 <button onclick="adicionarProduto('${p.nome}', ${p.preco}, ${p.id})">Adicionar ao Carrinho</button>
             `;
 
+            card.addEventListener("click", (e) => {
+                if (e.target.tagName !== "BUTTON") {
+                    window.location.href = `visualizarProduto.html?id=${p.id}`;
+                }
+            });
+
             container.appendChild(card);
         });
 
