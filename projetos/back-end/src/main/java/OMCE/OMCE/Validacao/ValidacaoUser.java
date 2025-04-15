@@ -60,8 +60,5 @@ public class ValidacaoUser {
         if (dados.telefone() == null){
             throw  new RuntimeException("o campo de telefone esta em branco");
         }
-        if(dados.sexo() == null){
-            throw  new RuntimeException("o campo de sexo esta em branco");
-        }
     }
 }

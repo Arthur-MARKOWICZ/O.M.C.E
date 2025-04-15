@@ -26,7 +26,8 @@ public class UserController {
 
     @PutMapping("/alterardados")
     @Transactional
-    public ResponseEntity alterardados(DadosAlterarDadosUser dados){
+    public ResponseEntity alterardados(@RequestBody DadosAlterarDadosUser dados){
+        System.out.println(dados);
         validar.validarAlterarUsuario(dados);
         var user =  userRepository.getReferenceById(dados.id());
         user.alterarDados(dados);

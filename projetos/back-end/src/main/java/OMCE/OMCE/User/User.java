@@ -50,7 +50,6 @@ public class User  implements UserDetails {
         this.endereco = new Endereco(dados.endereco());
         this.cpf = dados.cpf();
         this.dataNasc = dados.dataNasc();
-        this.sexo = dados.sexo();
         this.email = dados.email();
         this.telefone = dados.telefone();
         this.nomeUser = dados.nomeUser();
