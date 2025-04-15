@@ -65,7 +65,11 @@ async function atualizarCarrinho() {
       <p><strong>Preço:</strong> R$ ${produto.preco.toFixed(2)}</p>
       <button onclick="removerProduto(${produto.id})">Remover do Carrinho</button>
     `;
-
+    card.addEventListener("click", (e) => {
+      if (e.target.tagName !== "BUTTON") {
+          window.location.href = `visualizarProduto.html?id=${produto.id}`;
+      }
+  });
     itensCarrinho.appendChild(card);
     total += produto.preco;
   }

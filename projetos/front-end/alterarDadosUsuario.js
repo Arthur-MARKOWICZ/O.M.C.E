@@ -125,8 +125,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function carregarDados() {
-    console.log(userId);
-    console.log(token);
     try {
         const response = await fetch(`http://localhost:8080/user/${userId}`,{
             method: "GET",
