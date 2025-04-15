@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 @Embeddable
 
 @NoArgsConstructor
-public class Enderco {
+public class Endereco {
     private String cep;
     private String pais;
     private String estado;
     private String cidade;
     private String logradouro;
-    public Enderco(DadosEnderco dados){
+    public Endereco(DadosEndereco dados){
         this.cep = dados.cep();
         this.pais = dados.pais();
         this.estado = dados.estado();

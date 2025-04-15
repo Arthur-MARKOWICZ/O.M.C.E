@@ -1,6 +1,6 @@
 package OMCE.OMCE.User;
 
-import OMCE.OMCE.Enderco.Enderco;
+import OMCE.OMCE.Enderco.Endereco;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,7 +20,7 @@ public class User  implements UserDetails {
     private long id;
     private String nome;
     @Embedded
-    private Enderco enderco;
+    private Endereco endereco;
     private String cpf;
 
     private String dataNasc;
@@ -35,7 +35,7 @@ public class User  implements UserDetails {
     public User(DadosCadastroUser dados){
         this.ativo = true;
         this.nome = dados.nome();
-        this.enderco = new Enderco(dados.endereco());
+        this.endereco = new Endereco(dados.endereco());
         this.cpf = dados.cpf();
         this.dataNasc = dados.dataNasc();
         this.sexo = dados.sexo();
@@ -47,7 +47,7 @@ public class User  implements UserDetails {
     public void alterarDados(DadosAlterarDadosUser dados){
 
         this.nome = dados.nome();
-        this.enderco = new Enderco(dados.endereco());
+        this.endereco = new Endereco(dados.endereco());
         this.cpf = dados.cpf();
         this.dataNasc = dados.dataNasc();
         this.sexo = dados.sexo();
@@ -68,8 +68,8 @@ public class User  implements UserDetails {
         return nome;
     }
 
-    public Enderco getEnderco() {
-        return enderco;
+    public Endereco getEndereco() {
+        return endereco;
     }
 
     public void setNome(String nome) {

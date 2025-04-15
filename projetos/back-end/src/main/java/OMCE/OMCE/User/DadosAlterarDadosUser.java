@@ -1,8 +1,8 @@
 package OMCE.OMCE.User;
 
-import OMCE.OMCE.Enderco.DadosEnderco;
+import OMCE.OMCE.Enderco.DadosEndereco;
 
-public record DadosAlterarDadosUser (Long id ,String nome, String cpf, String dataNasc, String sexo,
-                                     DadosEnderco endereco, String email, String telefone, String nomeUser,
+public record DadosAlterarDadosUser (Long id , String nome, String cpf, String dataNasc, String sexo,
+                                     DadosEndereco endereco, String email, String telefone, String nomeUser,
                                      String senha){
 }
