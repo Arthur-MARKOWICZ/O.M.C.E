@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -102,6 +103,29 @@ public class ProdutoController {
     
         produtoRepository.deleteById(id);
         return ResponseEntity.ok("Produto deletado com sucesso.");
+    }
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<?> editarProduto(
+        @PathVariable Long id,
+        @RequestHeader("Authorization") String authHeader,
+        @RequestBody Produto dadosEditados) {
+        String token = authHeader.replace("Bearer ", "");
+        String emailUsuario = TokenService.validateToken(token);
+        Optional<Produto> produtoOptional = produtoRepository.findById(id);
+        User usuario = userRepository.findByEmail(emailUsuario); // corrigido
+        if (produtoOptional.isEmpty() || usuario == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto ou usuário não encontrado.");
+        }
+        Produto produto = produtoOptional.get();
+
+        if (produto.getId_usuario() != usuario.getId()) { // corrigido
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Você não tem permissão para editar este produto.");
+        }
+        produto.setNome(dadosEditados.getNome());
+        produto.setPreco(dadosEditados.getPreco());
+        produto.setDetalhes(dadosEditados.getDetalhes());
+        produtoRepository.save(produto);
+            return ResponseEntity.ok("Produto atualizado com sucesso.");
     }
     @PutMapping ("/alterarDadosProduto")
     @Transactional
