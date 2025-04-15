@@ -1,0 +1,52 @@
+#carrinho {
+    padding: 30px;
+    max-width: 800px;
+    background-color: #ececec;
+    border-radius: 0px;
+    font-family: Arial, sans-serif;
+    align-items: center;
+    margin-left: 18%;
+    
+  }
+  
+  #carrinho h3 {
+    font-size: 24px;
+  }
+  
+  .produto-card {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .produto-card img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .produto-card button {
+    background-color: red;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+  }
+    
+  #valor-total {
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  #carrinho button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    border-radius: 4px;
+  }
+  
