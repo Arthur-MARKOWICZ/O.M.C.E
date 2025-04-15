@@ -54,11 +54,5 @@ public class AuthenticationController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/cadastroProduto")
-    public ResponseEntity cadastroProduto(@RequestBody DadosCadastroProduto dados) {
-        Produto newproduto = new Produto(dados);
-        System.out.println(newproduto);
-        this.produtoRepository.save(newproduto);
-        return ResponseEntity.ok().build();
-    }
+
 }

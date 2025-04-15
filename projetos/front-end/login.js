@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (data.token && data.id) { 
                 localStorage.setItem("id_usuario", data.id); 
                 localStorage.setItem("jwt", data.token);
+                const token = localStorage.getItem("jwt");
                 alert("Login bem-sucedido!");
                 window.location.href = "/front-end/home.html"; 
             } else {

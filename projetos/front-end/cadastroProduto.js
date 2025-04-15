@@ -48,7 +48,7 @@ document.getElementById("form_cadastroProduto").addEventListener("submit", async
         const token = localStorage.getItem("jwt");
         const file = imagem.files[0];
         const base64 = await toBase64(file);
-
+        console.log(token)
         const produto = {
             nome: nome.value,
             preco: parseFloat(preco.value),
@@ -60,15 +60,14 @@ document.getElementById("form_cadastroProduto").addEventListener("submit", async
 
         console.log(produto);
 
-        const response = await fetch("http://localhost:8080/auth/cadastroProduto", {
+        const response = await fetch("http://localhost:8080/produto/cadastroProduto", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(produto)
-        });
-
+        }); 
         if (response.ok) {
             alert("Produto cadastrado com sucesso!");
         } else {

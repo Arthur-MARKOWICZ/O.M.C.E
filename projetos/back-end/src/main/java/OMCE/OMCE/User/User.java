@@ -68,6 +68,10 @@ public class User  implements UserDetails {
         return nome;
     }
 
+    public Enderco getEnderco() {
+        return enderco;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }

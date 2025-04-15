@@ -1,4 +1,4 @@
-/*
+
 const txtName = document.getElementById("txtName");
 const txtCPF = document.getElementById("txtCPF");
 const dataNasc = document.getElementById("txtNasc");
@@ -13,7 +13,8 @@ const NomeUser = document.getElementById("txtNU");
 const txtSenha = document.getElementById("txtSenha");
 const txtSenhaConfirmar = document.getElementById("txtSenhaConfirmar");
 
-const userId = localStorage.getItem("userId");
+const userId = localStorage.getItem("id_usuario");
+const token = localStorage.getItem("jwt");
 
 document.getElementById("form_cadastro").addEventListener("submit", async function(event) {
     event.preventDefault(); 
@@ -41,7 +42,7 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
     };
 
     try {
-        const response = await fetch(`http://localhost:8080/user/${id}`, {
+        const response = await fetch(`http://localhost:8080/user/${userId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -123,8 +124,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function carregarDados() {
+    console.log(userId);
+    console.log(token);
     try {
-        const response = await fetch(`http://localhost:8080/user/${id}`);
+        const response = await fetch(`http://localhost:8080/user/${userId}`,{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+        });
         if (!response.ok) throw new Error("Usuário não encontrado");
         const dados = await response.json();
 
@@ -132,22 +141,23 @@ async function carregarDados() {
         txtCPF.value = dados.cpf;
         dataNasc.value = dados.dataNasc;
         txtEmail.value = dados.email;
-        txtCep.value = dados.endereco.cep;
-        end_Logradouro.value = dados.endereco.logradouro;
-        end_estado.value = dados.endereco.estado;
-        end_cidade.value = dados.endereco.cidade;
-        end_pais.value = dados.endereco.pais;
         txtTel.value = dados.telefone;
         NomeUser.value = dados.nomeUser;
-
+        
         if (dados.sexo === "masculino") {
             document.getElementById("masculino").checked = true;
         } else if (dados.sexo === "feminino") {
             document.getElementById("feminino").checked = true;
         }
+        txtCep.value = dados.endereco.cep;
+        end_Logradouro.value = dados.endereco.logradouro;
+        end_estado.value = dados.endereco.estado;
+        end_cidade.value = dados.endereco.cidade;
+        end_pais.value = dados.endereco.pais;
+
+
     } catch (error) {
         console.error("Erro ao carregar os dados do usuário:", error);
         alert("Não foi possível carregar os dados do usuário.");
     }
 }
-*/

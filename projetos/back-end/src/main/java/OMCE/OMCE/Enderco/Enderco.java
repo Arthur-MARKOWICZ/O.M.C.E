@@ -19,4 +19,24 @@ public class Enderco {
         this.cidade = dados.cidade();
         this.logradouro = dados.logradouro();
     }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public String getLogradouro() {
+        return logradouro;
+    }
 }

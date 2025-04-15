@@ -18,6 +18,11 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private ValidacaoUser validar;
+    @GetMapping("/{id}")
+    public  ResponseEntity pegarUsuario(@PathVariable Long id){
+        var user  = userRepository.findById(id);
+        return ResponseEntity.ok(user.get());
+    }
 
     @PutMapping("/alterardados")
     @Transactional
@@ -27,7 +32,7 @@ public class UserController {
         user.alterarDados(dados);
         return ResponseEntity.ok().build();
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("deletar/{id}")
     @Transactional
     public ResponseEntity excluir(@PathVariable Long id) {
         var user = userRepository.getReferenceById(id);
