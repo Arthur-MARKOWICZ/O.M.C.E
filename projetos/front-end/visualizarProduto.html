@@ -1,16 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="visualizarProduto.css" />
+    <link rel="stylesheet" href="carrinho.css" />
+    <script src="navbar.js"></script>
+    <script src="carrinho.js"></script>
+    <title>Visualizar Produto</title>
 </head>
 <body>
-    <div id="produto-container">
-        <p><strong>Nome:</strong> <span id="produto-nome"></span></p>
-        <p><strong>Descrição:</strong> <span id="produto-detalhes"></span></p>
-        <p><strong>Preço:</strong> R$ <span id="produto-preco"></span></p>
-      </div>
-<script src="visualizarProduto.js"></script>    
+    <div id="navbar-container"></div>
+    <div class="container">
+        <div class="product-card">
+            <div class="product-image" id="product-image-container">
+
+            </div>
+            <div class="product-info">
+                <h1 id="produto-nome" class="product-title"></h1>
+                <p class="product-description">
+                    <span id="produto-detalhes"></span>
+                </p>
+                <div class="product-price">
+                    R$ <span id="produto-preco"></span>
+                </div>
+                <button id="botaocarrinho" class="botaocarrinho">Adicionar ao Carrinho</button>
+            </div>
+        </div>
+    </div>
+    <script src="visualizarProduto.js"></script>    
 </body>
 </html>
