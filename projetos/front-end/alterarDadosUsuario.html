@@ -5,7 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="cadastro.css" />
+
     <title>AlterarDadosUsuario</title>
+    <script defer src="navbar.js"></script>
   </head>
 
   <div vw class="enabled">
@@ -20,7 +22,8 @@
   </script>
 
   <br><br><br>
-
+  <body>
+    <div id="navbar-container"></div><br><br><br><br>
     <h1>Alterar Dados</h1>
     <div class="conteiner">
 
@@ -32,17 +35,10 @@
         Nome: <input type="text" name="txtName" id="txtName" placeholder="Insira seu nome" /><br />
         CPF <input type="text" name="txtCPF" id="txtCPF" placeholder="Insira seu CPF (Apenas números)" /><br />
         Data de nascimento <input type="date" name="txtNasc" id="txtNasc" placeholder="(AAAA-MM-DD)"><br />
-        Sexo:
         <div style="display: flex; gap: 10px;">
-          <label>
-            <input type="radio" name="optGender" value="feminino" id="feminino"/> Feminino
-          </label>
-          <label>
-            <input type="radio" name="optGender" value="masculino" id="masculino" /> Masculino
-          </label>
         </div><br />
         E-mail <input type="text" name="txtEmail" id="txtEmail" placeholder="Insira o seu e-mail"/><br />
-        CEP <input type="text" name="end_cep" id="end_cep" placeholder="Insira o CEP da sua residência"/><br />
+        CEP <input type="text" name="end_cep" id="txtCep" placeholder="Insira o CEP da sua residência"/><br />
         <a href="https://buscacepinter.correios.com.br/app/endereco/index.php">Não sabe seu CEP? Clique aqui</a> <br>
         Logradouro<input type="text" name="end_logradouro" id="end_logradouro" placeholder="" /><br />
         <label for="estado">Estado</label>

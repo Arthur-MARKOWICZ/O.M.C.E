@@ -3,34 +3,31 @@ const txtName = document.getElementById("txtName");
 const txtCPF = document.getElementById("txtCPF");
 const dataNasc = document.getElementById("txtNasc");
 const txtEmail = document.getElementById("txtEmail");
-const txtCep = document.getElementById("end_cep");
-const end_pais = document.getElementById("end_pais");
 const end_estado = document.getElementById("end_estado");
 const end_cidade = document.getElementById("end_cidade");
 const txtTel = document.getElementById("txtTel");
 const end_Logradouro = document.getElementById("end_logradouro");
 const NomeUser = document.getElementById("txtNU");
 const txtSenha = document.getElementById("txtSenha");
+const cep = document.getElementById("txtCep");
 const txtSenhaConfirmar = document.getElementById("txtSenhaConfirmar");
+
 
 const userId = localStorage.getItem("id_usuario");
 const token = localStorage.getItem("jwt");
-
+console.log(token);
 document.getElementById("form_cadastro").addEventListener("submit", async function(event) {
     event.preventDefault(); 
     if (!validarCadastro()) return false;
-
-    const sexo = document.querySelector('input[name="optGender"]:checked');
-
-    const usuario = {
-        id: userId,
+    const userId = localStorage.getItem("id_usuario");
+    const json = {
+        id: parseInt(userId),
         nome: txtName.value,
         cpf: txtCPF.value,
         dataNasc: dataNasc.value,
-        sexo: sexo.value,
         endereco: {
-            cep: txtCep.value,
-            pais: end_pais.value,
+            cep: cep.value,
+            pais: "Brasil",
             estado: end_estado.value,
             cidade: end_cidade.value,
             logradouro: end_Logradouro.value
@@ -40,17 +37,17 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
         nomeUser: NomeUser.value,
         senha: txtSenha.value
     };
-
+    
     try {
-        const response = await fetch(`http://localhost:8080/user/${userId}`, {
+        const response = await fetch(`http://localhost:8080/user/alterardados`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
-            body: JSON.stringify(usuario)
+            body: JSON.stringify(json)
         });
-
+        console.log(json);
         if (response.ok) {
             alert("Seus dados foram atualizados com sucesso!");
             event.target.reset();
@@ -67,9 +64,7 @@ function validarCadastro() {
     if (!txtName.value) return exibirErro("Nome", txtName);
     if (!txtCPF.value || !isCPF(txtCPF.value)) return exibirErro("CPF", txtCPF);
     if (!dataNasc.value || !isData(dataNasc.value)) return exibirErro("Data de nascimento", dataNasc);
-    if (!document.querySelector('input[name="optGender"]:checked')) return exibirErro("Sexo");
     if (!txtEmail.value || !isEmail(txtEmail.value)) return exibirErro("E-mail", txtEmail);
-    if (!end_pais.value) return exibirErro("País", end_pais);
     if (end_estado.value === "0") return exibirErro("Estado", end_estado);
     if (!end_cidade.value) return exibirErro("Cidade", end_cidade);
     if (!txtTel.value) return exibirErro("Telefone", txtTel);
@@ -112,8 +107,8 @@ function mostrarDados(dados) {
     end_cidade.value = dados.localidade;
 }
 
-txtCep.addEventListener("blur", () => {
-    const buscaCep = txtCep.value.replace("-", "");
+cep.addEventListener("blur", () => {
+    const buscaCep = cep.value.replace("-", ""); 
     fetch(`https://viacep.com.br/ws/${buscaCep}/json/`)
         .then(response => response.json())
         .then(dados => mostrarDados(dados))
@@ -121,8 +116,10 @@ txtCep.addEventListener("blur", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+
     carregarDados();
 });
+
 
 async function carregarDados() {
     try {
@@ -135,7 +132,10 @@ async function carregarDados() {
         });
         if (!response.ok) throw new Error("Usuário não encontrado");
         const dados = await response.json();
-        const endereco = dados.enderco;
+        console.log(dados); 
+        const endereco = dados.endereco;
+        console.log(endereco.cep);
+        cep.value = endereco.cep;
         txtName.value = dados.nome;
         txtCPF.value = dados.cpf;
         dataNasc.value = dados.dataNasc;
@@ -144,20 +144,13 @@ async function carregarDados() {
         NomeUser.value = dados.nomeUser;
         end_estado.value = endereco.estado;
         end_Logradouro.value = endereco.logradouro;
-
         end_cidade.value = endereco.cidade;
-        end_pais.value = endereco.pais;
-        if (dados.sexo === "masculino") {
-            document.getElementById("masculino").checked = true;
-        } else if (dados.sexo === "feminino") {
-            document.getElementById("feminino").checked = true;
-        }
-        txtCep.value = endereco.cep;
+
+
 
 
 
     } catch (error) {
         console.error("Erro ao carregar os dados do usuário:", error);
-        alert("Não foi possível carregar os dados do usuário.");
     }
 }
