@@ -1,4 +1,3 @@
-
 const txtName = document.getElementById("txtName");
 const txtCPF = document.getElementById("txtCPF");
 const dataNasc = document.getElementById("txtNasc");
@@ -11,7 +10,11 @@ const NomeUser = document.getElementById("txtNU");
 const txtSenha = document.getElementById("txtSenha");
 const cep = document.getElementById("txtCep");
 const txtSenhaConfirmar = document.getElementById("txtSenhaConfirmar");
-
+document.querySelector("#form_cadastro").addEventListener("submit", function (e) {
+    document.getElementById("end_logradouro").disabled = false;
+    document.getElementById("end_estado").disabled = false;
+    document.getElementById("end_cidade").disabled = false;
+  });
 
 const userId = localStorage.getItem("id_usuario");
 const token = localStorage.getItem("jwt");
