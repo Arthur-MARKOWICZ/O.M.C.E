@@ -50,7 +50,40 @@ async function carregarProdutos() {
                     window.location.href = `alterarDadosProduto.html?id=${produto.id}`; 
                 }
             });
+            const botaoDeletar = document.createElement("button");
+botaoDeletar.textContent = "Deletar";
+botaoDeletar.addEventListener("click", async (e) => {
+    e.stopPropagation(); // evita redirecionar ao clicar no botão
+
+    const confirmacao = confirm(`Tem certeza que deseja deletar o produto "${produto.nome}"?`);
+    if (!confirmacao) return;
+
+    try {
+        const token = localStorage.getItem("jwt");
+        const response = await fetch(`http://localhost:8080/produto/deletar/${produto.id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
         });
+
+        if (response.ok) {
+            alert("Produto deletado com sucesso!");
+            carregarProdutos(); // recarrega a lista
+        } else {
+            const erro = await response.text();
+            alert("Erro ao deletar: " + erro);
+        }
+    } catch (error) {
+        console.error("Erro ao deletar produto:", error);
+        alert("Erro ao deletar produto.");
+    }
+});
+
+infoContainer.appendChild(botaoDeletar);
+
+        });
+        
 
 
 
