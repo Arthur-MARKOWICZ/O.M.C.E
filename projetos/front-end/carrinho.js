@@ -1,10 +1,10 @@
-window.onload = function() {
-
-  criarCarrinho();
-
-  const salvarCarrinho = localStorage.getItem('carrinho');
-  if (salvarCarrinho) {
-    atualizarCarrinho();
+window.onload = function () {
+  if (window.location.pathname.includes("carrinho.html")) {
+    criarCarrinho();
+    const salvarCarrinho = localStorage.getItem('carrinho');
+    if (salvarCarrinho) {
+      atualizarCarrinho();
+    }
   }
 };
 
@@ -24,18 +24,23 @@ function criarCarrinho() {
 function adicionarProduto(nome, preco, id, imagem, imagem_tipo) {
   const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
-  const produto = { 
-    nome, 
-    preco, 
-    id, 
-    imagem, 
+  const jaExiste = carrinho.some(produto => produto.id === id);
+
+  if (jaExiste) {
+    alert("Este produto já está no carrinho.");
+    return;
+  }
+
+  const produto = {
+    nome,
+    preco,
+    id,
+    imagem,
     imagem_tipo
   };
 
   carrinho.push(produto);
-
   localStorage.setItem('carrinho', JSON.stringify(carrinho));
-
   atualizarCarrinho();
 }
 
