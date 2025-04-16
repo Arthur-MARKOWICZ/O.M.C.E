@@ -104,7 +104,10 @@ public class Produto {
         this.nome = dados.nome();
         this.preco = dados.preco();
         this.detalhes = dados.detalhes();
-        this.imagem = Base64.getDecoder().decode(dados.imagem());
-        this.imageTipo = dados.imagem_tipo();
+        if(dados.imagem() != null){
+            this.imagem = Base64.getDecoder().decode(dados.imagem());
+            this.imageTipo = dados.imagem_tipo();
+        }
+
     }
 }

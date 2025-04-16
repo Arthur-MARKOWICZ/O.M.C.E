@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" href="cadastroProduto.css">
+    <script  defer src="navbar.js" ></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="navbar-container"></div>
+    <main>
+        <h1>alterar dados Do Produto</h1>
+        <h2>Lembrando que o site cobra 8% sobre o valor da venda do produto</h2>
+        <form id="form_alteraDadosProduto" method="post" enctype="multipart/form-data">
+            Nome: <input type="text" name="txtName" id="txtName" placeholder="Insira o nome do produto" /><br />
+            Preço: <input type="text" name="txtPreco" id="txtPreco" placeholder="Insira o valor de venda do produto"><br/>
+            Detalhes:
+            <textarea name="txtDetalhes" id="txtDetalhes" placeholder="Digite os detalhes do produto" rows="4" cols="50"></textarea><br/>
+            <div id="previewContainer"></div>
+
+            Imagem: <input type="file" name="imagem" id="productImage" accept="image/*"  /><br>
+            <input type="submit" value="Finalizar cadastro de produto">
+        </form>
+    </main>
+</body>
+<script src="alterarDadosProduto.js"></script>
+</html>

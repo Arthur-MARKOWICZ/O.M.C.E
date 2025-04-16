@@ -99,11 +99,38 @@ public class ProdutoController {
 
     @PutMapping ("/alterarDadosProduto")
     @Transactional
-    public ResponseEntity alterardados(DadosAlterarDadosProduto dados){
+    public ResponseEntity alterardados(@RequestBody DadosAlterarDadosProduto dados){
         validar.ValidarAlterarProduto(dados);
         var produto =  produtoRepository.getReferenceById(dados.id());
         produto.alterarDados(dados);
         return ResponseEntity.ok().build();
     }
+    @GetMapping("/todosProdutosUsuario")
+    public ResponseEntity pegarProdutosUsuario(@RequestHeader("Id-Usuario") Long id_usuario) {
+        List<Produto> produtos = produtoRepository.pegarProdutosUsuario(id_usuario);
+        List<Map<String, Object>> listaProdutos = new ArrayList<>();
 
+        for (Produto p : produtos) {
+            Optional<User> usuario = userRepository.findById(p.getId_usuario());
+
+            if (usuario.isPresent()) {
+                Map<String, Object> json = new HashMap<>();
+                json.put("id", p.getId());
+                json.put("nome", p.getNome());
+                json.put("preco", p.getPreco());
+                json.put("detalhes", p.getDetalhes());
+                if (p.getImagem() != null) {
+                    json.put("imagem", Base64.getEncoder().encodeToString(p.getImagem()));
+                    json.put("imagem_tipo", p.getImageTipo());
+                } else {
+                    json.put("imagem", null);
+                    json.put("imagem_tipo", null);
+                }
+                json.put("imagem_tipo", p.getImageTipo());
+                json.put("nome_usuario", usuario.get().getNome());
+                listaProdutos.add(json);
+            }
+        }
+        return ResponseEntity.ok(listaProdutos);
+    }
 }
