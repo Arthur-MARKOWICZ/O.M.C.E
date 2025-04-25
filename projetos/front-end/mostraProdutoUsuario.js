@@ -51,6 +51,7 @@ async function carregarProdutos() {
                 }
             });
             const botaoDeletar = document.createElement("button");
+            botaoDeletar.classList.add("delete-button");
 botaoDeletar.textContent = "Deletar";
 botaoDeletar.addEventListener("click", async (e) => {
     e.stopPropagation(); // evita redirecionar ao clicar no botão
