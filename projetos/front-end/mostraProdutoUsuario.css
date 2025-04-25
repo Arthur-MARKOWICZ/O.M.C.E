@@ -11,5 +11,11 @@ img{
     border-radius: 4px;
 }
 .delete-button:hover{
-    background-color: darkred
+    background-color: darkred;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
