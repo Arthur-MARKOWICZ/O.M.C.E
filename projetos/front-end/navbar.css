@@ -65,29 +65,4 @@ nav{
     background-color: white;
     transition: 0.3s;
 }
-/*
-@media (max-width: 999px){
-    body{
-        overflow: hidden;
-    }
-    .navlist{
-        position: absolute;
-        padding: 5px 20px;
-        top:8vh;
-        right:0;
-        width: 50vw;
-        height: 92vh;
-        background: #23232e;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items : center;
-        transform :translateX(100%);
-    }
-    .mobile-menu{
-        display: block;
-    }
-    .navlist .active{
-        transform: translateX(0);
-    }
 
-}*/

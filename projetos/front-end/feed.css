@@ -1,11 +1,12 @@
 body {
     font-family: Arial, sans-serif;
-    padding: 20px;
+
     background: #f0f0f0;
 }
 
 #feed-container {
     display: flex;
+    padding: 20px;
     flex-wrap: wrap;
     gap: 20px;
 }
