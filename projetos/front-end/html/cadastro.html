@@ -3,10 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="cadastro.css" />
-
-    <title>AlterarDadosUsuario</title>
-    <script defer src="navbar.js"></script>
+    <link rel="stylesheet" href="../css/cadastro.css" />
+    <title>Cadastro</title>
   </head>
 
   <div vw class="enabled">
@@ -19,11 +17,13 @@
   <script>
     new window.VLibras.Widget('https://vlibras.gov.br/app');
   </script>
-  <body>
-    <div id="navbar-container"></div><br><br><br><br>
-    <h1>Alterar Dados</h1>
+
+  <br><br><br>
+<body>
+    <h1>Cadastro</h1>
     <div class="conteiner">
 
+      
       <form
         id="form_cadastro"
         method="post"
@@ -32,15 +32,22 @@
         Nome: <input type="text" name="txtName" id="txtName" placeholder="Insira seu nome" /><br />
         CPF <input type="text" name="txtCPF" id="txtCPF" placeholder="Insira seu CPF (Apenas números)" /><br />
         Data de nascimento <input type="date" name="txtNasc" id="txtNasc" placeholder="(AAAA-MM-DD)"><br />
+        Sexo:
         <div style="display: flex; gap: 10px;">
+          <label>
+            <input type="radio" name="optGender" value="feminino" id="feminino"/> Feminino
+          </label>
+          <label>
+            <input type="radio" name="optGender" value="masculino" id="masculino" /> Masculino
+          </label>
         </div><br />
         E-mail <input type="text" name="txtEmail" id="txtEmail" placeholder="Insira o seu e-mail"/><br />
-        CEP <input type="text" name="end_cep" id="txtCep" placeholder="Insira o CEP da sua residência"/><br />
+        CEP <input type="text" name="end_cep" id="end_cep" placeholder="Insira o CEP da sua residência"/><br />
         <a href="https://buscacepinter.correios.com.br/app/endereco/index.php">Não sabe seu CEP? Clique aqui</a> <br>
-        Logradouro<input type="text" name="end_logradouro" id="end_logradouro" placeholder="" disabled /><br />
+        Logradouro<input type="text" name="end_logradouro" id="end_logradouro" placeholder="" disabled/><br />
         <label for="estado">Estado</label>
-        <select id="end_estado" name="end_estado" required disabled >
-          <option value="0"  selected></option>
+        <select id="end_estado" name="end_estado" required disabled>
+          <option value="0" readonly selected></option>
           <option value="AC">AC</option>
           <option value="AL">AL</option>
           <option value="AM">AM</option>
@@ -69,22 +76,21 @@
           <option value="SP">SP</option>
           <option value="TO">TO</option></select
         ><br />
-        Cidade<input type="text" name="end_cidade" id="end_cidade" placeholder="" disabled /><br /><br />
+        Cidade<input type="text" name="end_cidade" id="end_cidade" placeholder="" disabled/><br /><br />
         Telefone <input type="text" name="txtTel" id="txtTel" placeholder="Insira o seu telefone (Apenas números)" /><br />
         Nome de usuário <input type="text" name="txtNU" id="txtNU" placeholder="Insira o nome que será exibido para os outros usuários" /><br />
         Senha <input type="password" name="txtSenha" id="txtSenha" placeholder="Insira sua senha" /><br />
         Confirmar sua senha <input type="password" id="txtSenhaConfirmar" placeholder="Confirme sua senha">
-        
-        <input type="submit" value="Salvar" />
+        <br>
+        <input type="submit" value="Enviar" />
         <input type="reset" value="Limpar" />
       </form>
     </div>
-    
     <footer>
       <br>
-      <p>O.M.C.E 2024 - Todos os direitos reservados</p>
+      <p>O.M.C.E 2025 - Todos os direitos reservados</p>
       
     </footer>
   </body>
-  <script src="alterarDadosUsuario.js"></script>
+  <script src="../js/cadastro.js"></script>
 </html>

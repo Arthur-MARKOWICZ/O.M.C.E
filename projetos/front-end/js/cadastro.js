@@ -57,7 +57,7 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
         if (response.ok) {
             alert("Usuário cadastrado com sucesso!");
             event.target.reset();
-            window.location.href = "/front-end/login.html";
+            window.location.href = "../html/login.html";
         } else {
             alert("Erro no cadastro.");
         }

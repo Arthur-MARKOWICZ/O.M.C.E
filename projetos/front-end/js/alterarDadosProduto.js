@@ -134,7 +134,7 @@ document.getElementById("form_alteraDadosProduto").addEventListener("submit", as
 
         if (response.ok) {
             alert("Produto alterado com sucesso!");
-            window.location.href = "feed.html"; // Redireciona para a página feed.html
+            window.location.href = "../html/feed.html"; // Redireciona para a página feed.html
         } else {
             alert("Erro na alteração.");
         }

@@ -47,7 +47,7 @@ async function carregarProdutos() {
             listaProdutos.appendChild(card);
             card.addEventListener("click", (e) => {
                 if (e.target.tagName !== "BUTTON") {
-                    window.location.href = `alterarDadosProduto.html?id=${produto.id}`; 
+                    window.location.href = `../html/alterarDadosProduto.html?id=${produto.id}`; 
                 }
             });
             const botaoDeletar = document.createElement("button");

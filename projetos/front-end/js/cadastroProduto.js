@@ -70,7 +70,7 @@ document.getElementById("form_cadastroProduto").addEventListener("submit", async
         }); 
         if (response.ok) {
             alert("Produto cadastrado com sucesso!");
-            window.location.href = "feed.html";
+            window.location.href = "../html/feed.html";
         } else {
             alert("Erro no cadastro.");
         }

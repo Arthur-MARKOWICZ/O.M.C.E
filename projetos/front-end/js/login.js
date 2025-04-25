@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 localStorage.setItem("jwt", data.token);
                 const token = localStorage.getItem("jwt");
                 alert("Login bem-sucedido!");
-                window.location.href = "/front-end/home.html"; 
+                window.location.href = "../html/home.html"; 
             } else {
                 alert("Erro: Nenhum token ou ID de usuário recebido!");
                 console.error("Resposta do servidor:", data); 

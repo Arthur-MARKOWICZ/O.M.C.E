@@ -54,7 +54,7 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
         if (response.ok) {
             alert("Seus dados foram atualizados com sucesso!");
             event.target.reset();
-            window.location.href = "/front-end/home.html";
+            window.location.href = "../html/home.html";
         } else {
             alert("Erro ao atualizar os dados.");
         }
