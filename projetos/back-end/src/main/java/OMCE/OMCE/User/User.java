@@ -1,6 +1,7 @@
 package OMCE.OMCE.User;
 
 import OMCE.OMCE.Enderco.Endereco;
+import OMCE.OMCE.Produto.Produto;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,8 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-
-@NoArgsConstructor
 @Entity
 @Table(name = "user")
 public class User  implements UserDetails {
@@ -22,7 +21,8 @@ public class User  implements UserDetails {
     @Embedded
     private Endereco endereco;
     private String cpf;
-
+    @OneToMany(mappedBy = "usuario")
+    private List<Produto> produtos;
     private String dataNasc;
     private String sexo;
     private String email;
@@ -31,7 +31,7 @@ public class User  implements UserDetails {
     private String nomeUser;
     private String senha;
     private boolean ativo;
-
+    public User(){}
     public User(DadosCadastroUser dados){
         this.ativo = true;
         this.nome = dados.nome();
@@ -129,6 +129,18 @@ public class User  implements UserDetails {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
     }
 
     public boolean isAtivo() {

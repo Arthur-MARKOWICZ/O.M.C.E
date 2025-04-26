@@ -1,7 +1,5 @@
 package OMCE.OMCE.controller;
-import OMCE.OMCE.Produto.DadosCadastroProduto;
-import OMCE.OMCE.Produto.Produto;
-import OMCE.OMCE.Produto.ProdutoRepository;
+import OMCE.OMCE.Produto.*;
 import OMCE.OMCE.User.DadosAlterarDadosUser;
 import OMCE.OMCE.User.User;
 import OMCE.OMCE.Validacao.ValidacaoProduto;
@@ -10,11 +8,13 @@ import OMCE.OMCE.User.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import OMCE.OMCE.Produto.DadosAlterarDadosProduto;
 
 import java.util.*;
 
@@ -30,7 +30,9 @@ public class ProdutoController {
     @PostMapping("/cadastroProduto")
     public ResponseEntity cadastroProduto(@RequestBody DadosCadastroProduto dados) {
         validar.ValidarCadastroProduto(dados);
+        User user = userRepository.getReferenceById(dados.id_usuario());
         Produto newproduto = new Produto(dados);
+        newproduto.setUsuario(user);
         this.produtoRepository.save(newproduto);
         return ResponseEntity.ok().build();
     }
@@ -38,7 +40,7 @@ public class ProdutoController {
     public ResponseEntity mostraDetalhesProdutos(@PathVariable Long id){
 
         Optional<Produto> produto = produtoRepository.findById(id);
-        Optional<User> user = userRepository.findById(produto.get().getId_usuario());
+        Optional<User> user = userRepository.findById(produto.get().getUsuario().getId());
 
         if(produto.isPresent()) {
             User usuario = user.get();
@@ -51,7 +53,7 @@ public class ProdutoController {
             json.put("Imagem", imagem);
             json.put("Imagem_tipo", produto.get().getImageTipo());
             json.put("detalhes", produto.get().getDetalhes());
-            json.put("nome do usuario", usuario.getNome());
+                json.put("nome_do_usuario", usuario.getNome());
 
             return ResponseEntity.ok(json);
         }
@@ -59,33 +61,12 @@ public class ProdutoController {
             return ResponseEntity.notFound().build();
         }
     }@GetMapping("/todos")
-    public ResponseEntity<List<Map<String, Object>>> listarTodosProdutos() {
-        List<Produto> produtos = produtoRepository.findAll();
-        List<Map<String, Object>> listaProdutos = new ArrayList<>();
+    public ResponseEntity<Page<ProdutoRespostaDTO>> listarTodosProdutos(@PageableDefault(size=10) Pageable pageable) {
+        var produtos = produtoRepository.findAll(pageable);
+        var produtoDTO = produtos.map(ProdutoRespostaDTO::new);
 
-        for (Produto p : produtos) {
-            Optional<User> usuario = userRepository.findById(p.getId_usuario());
 
-            if (usuario.isPresent()) {
-                Map<String, Object> json = new HashMap<>();
-                json.put("id", p.getId());
-                json.put("nome", p.getNome());
-                json.put("preco", p.getPreco());
-                json.put("detalhes", p.getDetalhes());
-                if (p.getImagem() != null) {
-                    json.put("imagem", Base64.getEncoder().encodeToString(p.getImagem()));
-                    json.put("imagem_tipo", p.getImageTipo());
-                } else {
-                    json.put("imagem", null);
-                    json.put("imagem_tipo", null);
-                }
-                json.put("imagem_tipo", p.getImageTipo());
-                json.put("nome_usuario", usuario.get().getNome());
-                listaProdutos.add(json);
-            }
-        }
-
-        return ResponseEntity.ok(listaProdutos);
+        return ResponseEntity.ok(produtoDTO);
     }
     @DeleteMapping("/deletar/{id}")
     @Transactional
@@ -112,7 +93,7 @@ public class ProdutoController {
         List<Map<String, Object>> listaProdutos = new ArrayList<>();
 
         for (Produto p : produtos) {
-            Optional<User> usuario = userRepository.findById(p.getId_usuario());
+            Optional<User> usuario = userRepository.findById(p.getUsuario().getId());
 
             if (usuario.isPresent()) {
                 Map<String, Object> json = new HashMap<>();

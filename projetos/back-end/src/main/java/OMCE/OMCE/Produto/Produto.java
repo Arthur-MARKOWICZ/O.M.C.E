@@ -1,5 +1,6 @@
 package OMCE.OMCE.Produto;
 
+import OMCE.OMCE.User.User;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import java.util.Base64;
@@ -15,7 +16,9 @@ public class Produto {
     private String nome;
     private Double preco;
     private String detalhes;
-    private long id_usuario;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario")
+    private User usuario;
     private boolean vendido;
     @Lob
     private byte[] imagem;
@@ -27,13 +30,21 @@ public class Produto {
         this.nome = dados.nome();
         this.preco = dados.preco();
         this.detalhes = dados.detalhes();
-        this.id_usuario = dados.id_usuario();
+        this.usuario = new User();
         this.imagem = Base64.getDecoder().decode(dados.imagem());
         this.imageTipo = dados.imagem_tipo();
     }
     @Override
     public String toString() {
         return "Produto{id=" + id + ", nome=" + nome + ", preco=" + preco + "}";
+    }
+
+    public User getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(User usuario) {
+        this.usuario = usuario;
     }
 
     public long getId() {
@@ -68,13 +79,7 @@ public class Produto {
         this.detalhes = detalhes;
     }
 
-    public long getId_usuario() {
-        return id_usuario;
-    }
 
-    public void setId_usuario(long id_usuario) {
-        this.id_usuario = id_usuario;
-    }
 
     public boolean isVendido() {
         return vendido;

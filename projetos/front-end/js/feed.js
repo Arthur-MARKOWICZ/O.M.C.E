@@ -1,8 +1,9 @@
+let numeroPaginaAtual  = 0;
 async function carregarFeed() {
     try {
         const token = localStorage.getItem("jwt");
 
-        const resposta = await fetch("http://localhost:8080/produto/todos", {
+        const resposta = await fetch(`http://localhost:8080/produto/todos?page=${numeroPaginaAtual}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -10,10 +11,17 @@ async function carregarFeed() {
             }
         });
 
-        const produtos = await resposta.json();
-
-        const container = document.getElementById("feed-container");
+        const dados = await resposta.json();
+        console.log(dados);
+        const produtos  = dados.content;
         console.log(produtos);
+        const numTotalPaginas = dados.totalPages;
+        const container = document.getElementById("feed-container");
+        const paginacaoDiv = document.getElementById('numero-pagina');
+        const botaoAnterior = document.getElementById('anterior');
+        const botaoProximo = document.getElementById('proximo');
+        container.innerHTML = "";
+        paginacaoDiv.innerText = `Página ${numeroPaginaAtual + 1} de ${numTotalPaginas}`;
         produtos.forEach(p => {
             const card = document.createElement("div");
             card.classList.add("produto-card");
@@ -23,7 +31,7 @@ async function carregarFeed() {
                 <img src="data:${p.imagem_tipo};base64,${p.imagem}" alt="${p.nome}" width="200">
                 <p><strong>Preço:</strong> R$ ${p.preco.toFixed(2)}</p>
                 <p><strong>Detalhes:</strong> ${p.detalhes}</p>
-                <p><strong>Vendedor:</strong> ${p.nome_usuario}</p>
+                <p><strong>Vendedor:</strong> ${p.nomeUsuario}</p>
                 <button onclick="adicionarProduto('${p.nome}', ${p.preco}, ${p.id},'${p.imagem}' ,'${p.imagem_tipo}' ,'${p.id_usuario}')">Adicionar ao Carrinho</button>
             `;
 
@@ -35,12 +43,24 @@ async function carregarFeed() {
 
             container.appendChild(card);
         });
+        botaoAnterior.disabled = numeroPaginaAtual === 0; 
+        botaoProximo.disabled = numeroPaginaAtual === (numTotalPaginas-1); 
 
     } catch (erro) {
         console.error("Erro ao carregar o feed:", erro);
     }
 }
+document.getElementById('anterior').addEventListener('click', () => {
+    if (numeroPaginaAtual > 0) {
+        numeroPaginaAtual--;
+        carregarFeed();
+    }
+});
 
+document.getElementById('proximo').addEventListener('click', () => {
+    numeroPaginaAtual++;
+    carregarFeed();
+});
 document.addEventListener("DOMContentLoaded", () => {
     carregarFeed();
 });
