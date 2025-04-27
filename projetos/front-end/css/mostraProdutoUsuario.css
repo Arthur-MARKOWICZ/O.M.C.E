@@ -67,3 +67,21 @@ img{
     font-weight: bold;
     margin: 0;
 }
+#paginacao{
+    display: flex;
+    display: center;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    
+}
+#paginacao button{
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease;
+    border: none;
+    width: 100%;
+    max-width: 80px;
+    border-radius: 3px;
+}
