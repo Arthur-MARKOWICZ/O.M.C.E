@@ -2,6 +2,7 @@ package OMCE.OMCE.User;
 
 import OMCE.OMCE.Enderco.Endereco;
 import OMCE.OMCE.Produto.Produto;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,6 +23,7 @@ public class User  implements UserDetails {
     private Endereco endereco;
     private String cpf;
     @OneToMany(mappedBy = "usuario")
+    @JsonManagedReference
     private List<Produto> produtos;
     private String dataNasc;
     private String sexo;

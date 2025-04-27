@@ -1,12 +1,8 @@
 package OMCE.OMCE.controller;
 import OMCE.OMCE.Produto.*;
-import OMCE.OMCE.User.DadosAlterarDadosUser;
 import OMCE.OMCE.User.User;
 import OMCE.OMCE.Validacao.ValidacaoProduto;
-import OMCE.OMCE.config.TokenService;
 import OMCE.OMCE.User.UserRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +23,11 @@ public class ProdutoController {
     private ProdutoRepository produtoRepository;
     @Autowired
     ValidacaoProduto validar;
+    public ProdutoController(ProdutoRepository produtoRepository,
+                             UserRepository userRepository) {
+        this.produtoRepository = produtoRepository;
+        this.userRepository = userRepository;
+    }
     @PostMapping("/cadastroProduto")
     public ResponseEntity cadastroProduto(@RequestBody DadosCadastroProduto dados) {
         validar.ValidarCadastroProduto(dados);
@@ -62,7 +63,7 @@ public class ProdutoController {
         }
     }@GetMapping("/todos")
     public ResponseEntity<Page<ProdutoRespostaDTO>> listarTodosProdutos(@PageableDefault(size=10) Pageable pageable) {
-        var produtos = produtoRepository.findAll(pageable);
+        Page<Produto> produtos = produtoRepository.findAll(pageable);
         var produtoDTO = produtos.map(ProdutoRespostaDTO::new);
 
 
@@ -88,31 +89,9 @@ public class ProdutoController {
         return ResponseEntity.ok().build();
     }
     @GetMapping("/todosProdutosUsuario")
-    public ResponseEntity pegarProdutosUsuario(@RequestHeader("Id-Usuario") Long id_usuario) {
-        List<Produto> produtos = produtoRepository.pegarProdutosUsuario(id_usuario);
-        List<Map<String, Object>> listaProdutos = new ArrayList<>();
-
-        for (Produto p : produtos) {
-            Optional<User> usuario = userRepository.findById(p.getUsuario().getId());
-
-            if (usuario.isPresent()) {
-                Map<String, Object> json = new HashMap<>();
-                json.put("id", p.getId());
-                json.put("nome", p.getNome());
-                json.put("preco", p.getPreco());
-                json.put("detalhes", p.getDetalhes());
-                if (p.getImagem() != null) {
-                    json.put("imagem", Base64.getEncoder().encodeToString(p.getImagem()));
-                    json.put("imagem_tipo", p.getImageTipo());
-                } else {
-                    json.put("imagem", null);
-                    json.put("imagem_tipo", null);
-                }
-                json.put("imagem_tipo", p.getImageTipo());
-                json.put("nome_usuario", usuario.get().getNome());
-                listaProdutos.add(json);
-            }
-        }
-        return ResponseEntity.ok(listaProdutos);
+    public ResponseEntity<Page<ProdutoRespostaDTO>> pegarProdutosUsuario(@PageableDefault(size=10)Pageable pageable, @RequestHeader("Id-Usuario") Long id_usuario) {
+        Page<Produto> produtos = produtoRepository.pegarProdutosUsuario(id_usuario,pageable );
+       var produtoDTO = produtos.map(ProdutoRespostaDTO::new);
+       return ResponseEntity.ok(produtoDTO);
     }
 }

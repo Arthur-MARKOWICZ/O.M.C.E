@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Query("SELECT p FROM Produto p WHERE p.usuario.id = :id_usuario")
-    List<Produto> pegarProdutosUsuario(Long id_usuario);
+    Page<Produto> pegarProdutosUsuario(Long id_usuario, Pageable pageable);
     Page<Produto> findAll(Pageable pageable);
 }

@@ -1,6 +1,7 @@
 package OMCE.OMCE.Produto;
 
 import OMCE.OMCE.User.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import java.util.Base64;
@@ -18,6 +19,7 @@ public class Produto {
     private String detalhes;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario")
+    @JsonBackReference
     private User usuario;
     private boolean vendido;
     @Lob
