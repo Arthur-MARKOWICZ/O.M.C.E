@@ -5,12 +5,12 @@ services:
     container_name: mysql_container
     environment:
       MYSQL_ROOT_PASSWORD: senha_root
-      MYSQL_DATABASE: omce
-      MYSQL_USER: usuario
-      MYSQL_PASSWORD: senha
+      MYSQL_DATABASE: omce_test
+      MYSQL_USER: usuario_test
+      MYSQL_PASSWORD: senha_test
     command: --max_allowed_packet=16M
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql  
 volumes:

@@ -90,7 +90,7 @@ public class ProdutoController {
     }
     @GetMapping("/todosProdutosUsuario")
     public ResponseEntity<Page<ProdutoRespostaDTO>> pegarProdutosUsuario(@PageableDefault(size=10)Pageable pageable, @RequestHeader("Id-Usuario") Long id_usuario) {
-        Page<Produto> produtos = produtoRepository.pegarProdutosUsuario(id_usuario,pageable );
+        Page<Produto> produtos = produtoRepository.pegarProdutosUsuario(id_usuario,pageable);
        var produtoDTO = produtos.map(ProdutoRespostaDTO::new);
        return ResponseEntity.ok(produtoDTO);
     }

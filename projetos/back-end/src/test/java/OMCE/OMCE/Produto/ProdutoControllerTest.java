@@ -76,6 +76,7 @@ public class ProdutoControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].nome").value("Arduino"))
                 .andExpect(jsonPath("$.totalElements").value(1));
+        System.out.println(produtosPage);
     }
 
 }
