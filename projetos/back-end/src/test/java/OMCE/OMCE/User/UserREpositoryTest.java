@@ -11,7 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
-public class UserREpositoryTest {
+public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
     @Test

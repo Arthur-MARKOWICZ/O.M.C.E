@@ -2,7 +2,7 @@ version: '3.8'
 services:
   mysql_db:
     image: mysql:8.0
-    container_name: mysql_container
+    container_name: mysql_container_teste
     environment:
       MYSQL_ROOT_PASSWORD: senha_root
       MYSQL_DATABASE: omce_test
