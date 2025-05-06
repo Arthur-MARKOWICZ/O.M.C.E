@@ -6,5 +6,5 @@ O objetivo principal é oferecer um ambiente **confiável**, **intuitivo** e **a
 
 ### 🔧 Funcionalidades em destaque
 - 📦 Cadastro e gerenciamento de produtos eletrônicos com imagens.
-- 🔗 API REST desenvolvida com Java Spring Boot e front-end com Angular.
-- 💾 Armazenamento de dados e imagens no banco de dados relacional.
+- 🔗 API REST desenvolvida com Java Spring Boot e front-end com html,css,javaScript vanila.
+- 💾 Armazenamento de dados e imagens no banco de dados relacional MySql.
