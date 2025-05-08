@@ -2,7 +2,7 @@ package OMCE.OMCE.Produto;
 
 public record ProdutoRespostaDTO(Long id, String nome, Double preco,String detalhes,
                                  byte[] imagem,String image_tipo,
-                                 String nomeUsuario) {
+                                 String nomeUsuario, Condicao condicao) {
     public ProdutoRespostaDTO(Produto produto){
         this(produto.getId(),
                 produto.getNome(),
@@ -10,6 +10,10 @@ public record ProdutoRespostaDTO(Long id, String nome, Double preco,String detal
                 produto.getDetalhes(),
                 produto.getImagem(),
                 produto.getImageTipo(),
-                produto.getUsuario().getNome());
+                produto.getUsuario().getNome(),
+                produto.getCondicao())
+        ;
     }
+
+
 }

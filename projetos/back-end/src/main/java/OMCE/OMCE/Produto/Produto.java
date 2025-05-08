@@ -26,6 +26,10 @@ public class Produto {
     private byte[] imagem;
     @Column(name = "imagem_tipo")
     private String imageTipo;
+    @Enumerated(EnumType.STRING)
+    private Condicao condicao;
+    @Enumerated(EnumType.STRING)
+    private Categoria categoria;
 
     public Produto(DadosCadastroProduto dados){
         this.vendido = false;
@@ -35,7 +39,10 @@ public class Produto {
         this.usuario = new User();
         this.imagem = Base64.getDecoder().decode(dados.imagem());
         this.imageTipo = dados.imagem_tipo();
+        this.condicao = dados.condicao();
+        this.categoria = dados.categoria();
     }
+
     @Override
     public String toString() {
         return "Produto{id=" + id + ", nome=" + nome + ", preco=" + preco + "}";
@@ -105,6 +112,22 @@ public class Produto {
 
     public void setImageTipo(String imageTipo) {
         this.imageTipo = imageTipo;
+    }
+
+    public Condicao getCondicao() {
+        return condicao;
+    }
+
+    public void setCondicao(Condicao condicao) {
+        this.condicao = condicao;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     public void alterarDados(DadosAlterarDadosProduto dados) {

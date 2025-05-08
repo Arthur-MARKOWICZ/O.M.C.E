@@ -3,6 +3,7 @@ const preco = document.getElementById("txtPreco");
 const detalhes = document.getElementById("txtDetalhes");
 const imagem = document.getElementById("productImage");
 const id_usuario = localStorage.getItem("id_usuario");
+
 const id = Number(id_usuario);
 
 function btnSendOnClickProduto() {
@@ -45,6 +46,7 @@ document.getElementById("form_cadastroProduto").addEventListener("submit", async
     if (!btnSendOnClickProduto()) return; 
 
     try {
+        const condicao = document.querySelector('input[name="Condicao"]:checked');
         const token = localStorage.getItem("jwt");
         const file = imagem.files[0];
         const base64 = await toBase64(file);
@@ -53,6 +55,7 @@ document.getElementById("form_cadastroProduto").addEventListener("submit", async
             nome: nome.value,
             preco: parseFloat(preco.value),
             detalhes: detalhes.value,
+            condicao: condicao.value,
             id_usuario: id,
             imagem: base64.split(",")[1], 
             imagem_tipo: file.type 

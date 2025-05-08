@@ -31,6 +31,7 @@ async function carregarFeed() {
                 <img src="data:${p.imagem_tipo};base64,${p.imagem}" alt="${p.nome}" width="200">
                 <p><strong>Preço:</strong> R$ ${p.preco.toFixed(2)}</p>
                 <p><strong>Detalhes:</strong> ${p.detalhes}</p>
+                <p><strong>Condicao:</strong> ${p.condicao}</p>
                 <p><strong>Vendedor:</strong> ${p.nomeUsuario}</p>
                 <button onclick="adicionarProduto('${p.nome}', ${p.preco}, ${p.id},'${p.imagem}' ,'${p.imagem_tipo}' ,'${p.id_usuario}')">Adicionar ao Carrinho</button>
             `;

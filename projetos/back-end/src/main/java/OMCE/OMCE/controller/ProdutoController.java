@@ -34,6 +34,7 @@ public class ProdutoController {
         User user = userRepository.getReferenceById(dados.id_usuario());
         Produto newproduto = new Produto(dados);
         newproduto.setUsuario(user);
+
         this.produtoRepository.save(newproduto);
         return ResponseEntity.ok().build();
     }
@@ -53,6 +54,7 @@ public class ProdutoController {
             json.put("preco", produto.get().getPreco());
             json.put("Imagem", imagem);
             json.put("Imagem_tipo", produto.get().getImageTipo());
+            json.put("condicao", produto.get().getCondicao());
             json.put("detalhes", produto.get().getDetalhes());
                 json.put("nome_do_usuario", usuario.getNome());
 
@@ -65,8 +67,6 @@ public class ProdutoController {
     public ResponseEntity<Page<ProdutoRespostaDTO>> listarTodosProdutos(@PageableDefault(size=10) Pageable pageable) {
         Page<Produto> produtos = produtoRepository.findAll(pageable);
         var produtoDTO = produtos.map(ProdutoRespostaDTO::new);
-
-
         return ResponseEntity.ok(produtoDTO);
     }
     @DeleteMapping("/deletar/{id}")
