@@ -47,6 +47,7 @@ document.getElementById("form_cadastroProduto").addEventListener("submit", async
 
     try {
         const condicao = document.querySelector('input[name="Condicao"]:checked');
+        const categoria = document.querySelector('input[name="categoria"]:checked');
         const token = localStorage.getItem("jwt");
         const file = imagem.files[0];
         const base64 = await toBase64(file);
@@ -56,6 +57,7 @@ document.getElementById("form_cadastroProduto").addEventListener("submit", async
             preco: parseFloat(preco.value),
             detalhes: detalhes.value,
             condicao: condicao.value,
+            categoria: categoria.value,
             id_usuario: id,
             imagem: base64.split(",")[1], 
             imagem_tipo: file.type 
