@@ -15,7 +15,9 @@ function criarCarrinho() {
     <h3>Itens no Carrinho</h3>
     <ul id="itens-carrinho"></ul>
     <p><strong>Total: </strong> R$ <span id="valor-total">0.00</span></p>
-    <button onclick="limparCarrinho()">Limpar Carrinho</button>
+    <button class="limpar" onclick="limparCarrinho()">Limpar Carrinho</button>
+    <br>
+    <button class="irPagamento" onclick="irPagamento()">Ir para pagamento</button>
   `;
   
   document.body.appendChild(carrinhoDiv); 
@@ -94,4 +96,8 @@ function removerProduto(id) {
 function limparCarrinho() {
   sessionStorage.removeItem('carrinho');
   atualizarCarrinho();
+}
+
+function irPagamento() {
+  window.location.href="pagamento.html"
 }
