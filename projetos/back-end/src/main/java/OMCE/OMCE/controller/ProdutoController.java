@@ -66,7 +66,7 @@ public class ProdutoController {
     }@GetMapping("/todos")
     public ResponseEntity<Page<ProdutoRespostaDTO>> listarTodosProdutos(@PageableDefault(size=10) Pageable pageable) {
         Page<Produto> produtos = produtoRepository.findAll(pageable);
-        var produtoDTO = produtos.map(ProdutoRespostaDTO::new);
+        Page<ProdutoRespostaDTO> produtoDTO = produtos.map(ProdutoRespostaDTO::new);
         return ResponseEntity.ok(produtoDTO);
     }
     @DeleteMapping("/deletar/{id}")

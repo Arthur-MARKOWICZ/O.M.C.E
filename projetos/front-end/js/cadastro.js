@@ -60,10 +60,11 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
           json = {};
         }
        if(!response.ok) {
+
             mostrarErro(json.mensagem || "Erro desconhecido");
           return;
         }
-            alert("Usuário cadastrado com sucesso!");
+        alert("usuario cadastrado com sucesso");
             event.target.reset();
             window.location.href = "../html/login.html";
     
@@ -78,6 +79,7 @@ function validarCadastro() {
     }
     if (!dataNasc.value || !isData(dataNasc.value)){
       return exibirErro("Data de nascimento", dataNasc);
+         
     }
     if (!document.querySelector('input[name="optGender"]:checked')) {
       return exibirErro("Preenchimento obrigatório: Sexo");
