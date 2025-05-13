@@ -18,7 +18,7 @@ main {
 }
 
 h1 {
-  color: rgb(12, 66, 7);
+  color: black;
   font-size: 30px;
   text-align: center;
 }
@@ -39,8 +39,8 @@ form {
   padding: 30px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #007bff;
+  box-shadow: 0 4px 8px rgba(72, 113, 189, 0.445);
+  background-color: white;
 }
 
 form input[type="text"],
@@ -51,7 +51,7 @@ form input[type="file"] {
   padding: 10px;
   font-size: 14px;
   border-radius: 4px;
-  border: 1px solid #000000;
+  border: 1px solid #007bff;
   box-sizing: border-box;
 }
 
@@ -62,7 +62,7 @@ form input[type="submit"] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  background-color: #000000;
+  background-color: #007bff;
   color: white;
   transition: background-color 0.3s;
   margin-top: 10px;

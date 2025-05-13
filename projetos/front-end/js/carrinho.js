@@ -8,6 +8,24 @@ window.onload = function () {
   }
 };
 
+<<<<<<< Updated upstream
+=======
+function getUsuarioId() {
+  const id = localStorage.getItem("id_usuario");
+  return id;
+}
+
+function getCarrinho() {
+  const id = getUsuarioId();
+  return JSON.parse(localStorage.getItem(`carrinho_${id}`)) || [];
+}
+
+function salvarCarrinho(carrinho) {
+  const id = getUsuarioId();
+  localStorage.setItem(`carrinho_${id}`, JSON.stringify(carrinho));
+}
+
+>>>>>>> Stashed changes
 function criarCarrinho() {
   const carrinhoDiv = document.createElement('div');
   carrinhoDiv.id = 'carrinho';
