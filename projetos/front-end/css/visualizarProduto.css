@@ -1,8 +1,6 @@
-
-
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -97,7 +95,7 @@ body {
 
 @media (max-width: 768px) {
     .container {
-        margin-top: 80px; /* Ajuste para telas menores */
+        margin-top: 80px;
     }
 
     .product-card {
