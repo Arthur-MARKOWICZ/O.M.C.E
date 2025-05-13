@@ -45,7 +45,6 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
         senha: txtSenha.value
     };
 
-    try {
         const response = await fetch("http://localhost:8080/auth/cadastro", {
             method: "POST",
             headers: {
@@ -53,17 +52,21 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
             },
             body: JSON.stringify(usuario)
         });
-
-        if (response.ok) {
+        const text = await response.text();
+        let json;
+        try {
+          json = text ? JSON.parse(text) : {};
+        } catch {
+          json = {};
+        }
+       if(!response.ok) {
+            mostrarErro(json.mensagem || "Erro desconhecido");
+          return;
+        }
             alert("Usuário cadastrado com sucesso!");
             event.target.reset();
             window.location.href = "../html/login.html";
-        } else {
-            alert("Erro no cadastro.");
-        }
-    } catch (error) {
-        alert("Erro de conexão.");
-    }
+    
 });
 
 function validarCadastro() {
@@ -131,7 +134,11 @@ function isCPF(cpf) {
   return true
 }
 
-
+function mostrarErro(msg) {
+  const alerta = document.getElementById('alerta');
+  alerta.textContent = msg;
+  alerta.classList.add('alerta-erro');
+}
 function isEmail(email) {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return re.test(email);
