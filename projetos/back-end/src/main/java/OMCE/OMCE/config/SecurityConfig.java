@@ -45,6 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/v3/api-docs/**","/swagger-ui.html","swagger-ui/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/produto/visualizarDetalhesProduto/*").permitAll()
                         .requestMatchers(HttpMethod.GET,"/produto/todos/*").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/produto/produtosCategoria").permitAll()
                         .anyRequest().authenticated())
                 .cors(withDefaults())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

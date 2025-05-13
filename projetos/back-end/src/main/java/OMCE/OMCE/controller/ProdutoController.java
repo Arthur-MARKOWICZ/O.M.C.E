@@ -89,9 +89,17 @@ public class ProdutoController {
         return ResponseEntity.ok().build();
     }
     @GetMapping("/todosProdutosUsuario")
-    public ResponseEntity<Page<ProdutoRespostaDTO>> pegarProdutosUsuario(@PageableDefault(size=10)Pageable pageable, @RequestHeader("Id-Usuario") Long id_usuario) {
+    public ResponseEntity<Page<ProdutoRespostaDTO>> pegarProdutosUsuario(@PageableDefault(size=10)Pageable pageable,
+                                                                         @RequestHeader("Id-Usuario") Long id_usuario) {
         Page<Produto> produtos = produtoRepository.pegarProdutosUsuario(id_usuario,pageable);
        var produtoDTO = produtos.map(ProdutoRespostaDTO::new);
        return ResponseEntity.ok(produtoDTO);
+    }
+    @GetMapping("/produtosCategoria")
+    public  ResponseEntity<Page<ProdutoRespostaDTO>> pegarProdutosPorCategoria(@PageableDefault(size=10)Pageable pageable
+            ,@RequestHeader("Categoria") Categoria categoria){
+        Page<Produto> produtos = produtoRepository.pegarTodosProdutosCategoria(categoria,pageable);
+        var produtoDTO = produtos.map(ProdutoRespostaDTO::new);
+        return ResponseEntity.ok(produtoDTO);
     }
 }

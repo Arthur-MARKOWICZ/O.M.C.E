@@ -11,4 +11,6 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Query("SELECT p FROM Produto p WHERE p.usuario.id = :id_usuario")
     Page<Produto> pegarProdutosUsuario(Long id_usuario, Pageable pageable);
     Page<Produto> findAll(Pageable pageable);
+    @Query("SELECT p FROM Produto p WHERE p.categoria = :categoria")
+    Page<Produto> pegarTodosProdutosCategoria(Categoria categoria,Pageable pageable);
 }
