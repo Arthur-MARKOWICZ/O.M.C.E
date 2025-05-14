@@ -26,4 +26,6 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
                                     @Param("precoMin") Double precoMin,
                                     @Param("precoMax") Double precoMax,
                                     Pageable pageable);
+    @Query("SELECT p FROM Produto p WHERE p.usuario.id = :id_usuario AND p.vendido = true")
+    Page<Produto> pegarVendas(@Param("id_usuario")  Long id_usuario, Pageable pageable);
 }
