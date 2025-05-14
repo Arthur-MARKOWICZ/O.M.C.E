@@ -63,11 +63,25 @@ public class ProdutoController {
         else {
             return ResponseEntity.notFound().build();
         }
-    }@GetMapping("/todos")
-    public ResponseEntity<Page<ProdutoRespostaDTO>> listarTodosProdutos(@PageableDefault(size=10) Pageable pageable) {
-        Page<Produto> produtos = produtoRepository.findAll(pageable);
-        var produtoDTO = produtos.map(ProdutoRespostaDTO::new);
-        return ResponseEntity.ok(produtoDTO);
+    }@GetMapping("/filtro")
+    public ResponseEntity<Page<ProdutoRespostaDTO>> filtrarProdutos(
+            @RequestParam(required = false) String nome,
+            @RequestParam(required = false) String categoria,
+            @RequestParam(required = false) Double precoMin,
+            @RequestParam(required = false) Double precoMax,
+            @PageableDefault(size = 10) Pageable pageable
+    ) {
+        Categoria catEnum = null;
+        if (categoria != null && !categoria.isBlank()) {
+            try {
+                catEnum = Categoria.valueOf(categoria.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.badRequest().body(Page.empty());
+            }
+        }
+        Page<Produto> produtos = produtoRepository.filtrarProdutos(nome, catEnum, precoMin, precoMax, pageable);
+        Page<ProdutoRespostaDTO> produtosDTO = produtos.map(ProdutoRespostaDTO::new);
+        return ResponseEntity.ok(produtosDTO);
     }
     @DeleteMapping("/deletar/{id}")
     @Transactional
@@ -97,9 +111,10 @@ public class ProdutoController {
     }
     @GetMapping("/produtosCategoria")
     public  ResponseEntity<Page<ProdutoRespostaDTO>> pegarProdutosPorCategoria(@PageableDefault(size=10)Pageable pageable
-            ,@RequestHeader("Categoria") Categoria categoria){
-        Page<Produto> produtos = produtoRepository.pegarTodosProdutosCategoria(categoria,pageable);
-        var produtoDTO = produtos.map(ProdutoRespostaDTO::new);
+            ,@RequestParam  String categoria){
+        Categoria categoriaProduto = Categoria.valueOf(categoria.toUpperCase());
+        Page<Produto> produtos = produtoRepository.pegarTodosProdutosCategoria(categoriaProduto, pageable);
+        Page<ProdutoRespostaDTO> produtoDTO = produtos.map(ProdutoRespostaDTO::new);
         return ResponseEntity.ok(produtoDTO);
     }
 }

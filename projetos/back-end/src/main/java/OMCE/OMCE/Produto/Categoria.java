@@ -7,7 +7,7 @@ public enum Categoria {
     SENSORES,
     BATERIA,
     CABOS,
-        MOTORES,
+    MOTORES,
     CONECTORES,
     OUTRO
 }

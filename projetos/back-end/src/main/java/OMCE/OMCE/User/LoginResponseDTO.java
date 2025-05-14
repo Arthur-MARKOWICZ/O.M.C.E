@@ -1,4 +1,6 @@
 package OMCE.OMCE.User;
 
-public record LoginResponseDTO(String token, long id) {
+import jakarta.validation.constraints.NotNull;
+
+public record LoginResponseDTO(@NotNull String token,@NotNull long id) {
 }
