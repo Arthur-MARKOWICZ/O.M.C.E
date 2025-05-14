@@ -1,7 +1,7 @@
 window.onload = function () {
   if (window.location.pathname.includes("carrinho.html")) {
     criarCarrinho();
-    const salvarCarrinho = sessionStorage.getItem('carrinho');
+    const salvarCarrinho = localStorage.getItem('carrinho');
     if (salvarCarrinho) {
       atualizarCarrinho();
     }
@@ -42,7 +42,7 @@ function criarCarrinho() {
 }
 
 function adicionarProduto(nome, preco, id, imagem, imagem_tipo) {
-  const carrinho = JSON.parse(sessionStorage.getItem('carrinho')) || [];
+  const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
   const jaExiste = carrinho.some(produto => produto.id === id);
 
@@ -62,7 +62,7 @@ function adicionarProduto(nome, preco, id, imagem, imagem_tipo) {
   };
 
   carrinho.push(produto);
-  sessionStorage.setItem('carrinho', JSON.stringify(carrinho));
+  localStorage.setItem('carrinho', JSON.stringify(carrinho));
   atualizarCarrinho();
 }
 
@@ -78,7 +78,7 @@ async function atualizarCarrinho() {
   itensCarrinho.innerHTML = ''; 
 
   let total = 0;
-  const carrinho = JSON.parse(sessionStorage.getItem('carrinho')) || [];
+  const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
   for (let produto of carrinho) {
     const card = document.createElement("div");
@@ -105,16 +105,16 @@ async function atualizarCarrinho() {
 }
 
 function removerProduto(id) {
-  let carrinho = JSON.parse(sessionStorage.getItem('carrinho')) || [];
+  let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
   carrinho = carrinho.filter(produto => produto.id !== id);
 
-  sessionStorage.setItem('carrinho', JSON.stringify(carrinho));
+  localStorage.setItem('carrinho', JSON.stringify(carrinho));
 
   atualizarCarrinho();
 }
 
 function limparCarrinho() {
-  sessionStorage.removeItem('carrinho');
+  localStorage.removeItem('carrinho');
   atualizarCarrinho();
 }
 
