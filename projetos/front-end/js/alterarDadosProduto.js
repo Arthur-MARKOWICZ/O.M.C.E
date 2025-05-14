@@ -1,4 +1,4 @@
-let produtoAtualizado = { imagem: "", imagem_tipo: "", id: null }; // Moved to global scope
+let produtoAtualizado = { imagem: "", imagem_tipo: "", id: null };
 
 document.addEventListener("DOMContentLoaded", async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -28,14 +28,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         const produto = await response.json();
         console.log(produto);
 
-        // Atribuindo dados à variável produtoAtualizado
         produtoAtualizado = {
             imagem: produto.Imagem, 
             imagem_tipo: produto.Imagem_tipo,
             id: produto.id 
         };
 
-        // Preenchendo os campos do formulário com as informações do produto
         document.getElementById("txtName").value = produto.nome;
         document.getElementById("txtPreco").value = produto.preco;
         document.getElementById("txtDetalhes").value = produto.detalhes || "";
@@ -98,7 +96,6 @@ document.getElementById("form_alteraDadosProduto").addEventListener("submit", as
         const token = localStorage.getItem("jwt");
         const file = imagem.files[0];
 
-        // Usando produtoAtualizado corretamente ao invés de produto
         let produtoalterar = {
             id: produtoAtualizado.id,
             nome: nome.value,
@@ -114,7 +111,6 @@ document.getElementById("form_alteraDadosProduto").addEventListener("submit", as
             produtoDepois.imagem = base64.split(",")[1]; 
             produtoDepois.imagem_tipo = file.type;
 
-            // Atualizando os valores de produtoalterar com os dados da imagem
             produtoalterar.imagem = produtoDepois.imagem;
             produtoalterar.imagem_tipo = produtoDepois.imagem_tipo;
         }
@@ -122,7 +118,6 @@ document.getElementById("form_alteraDadosProduto").addEventListener("submit", as
         console.log(token);
         console.log(produtoalterar);
 
-        // Enviando os dados para a API
         const response = await fetch("http://localhost:8080/produto/alterarDadosProduto", {
             method: "PUT",
             headers: {
