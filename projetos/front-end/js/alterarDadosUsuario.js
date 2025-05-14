@@ -52,14 +52,19 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
         });
         console.log(json);
         if (response.ok) {
-            alert("Seus dados foram atualizados com sucesso!");
+            Swal.fire({
+                title:"Seus dados foram atualizados com sucesso!",
+                icon:'success'});
             event.target.reset();
             window.location.href = "../html/home.html";
         } else {
             alert("Erro ao atualizar os dados.");
         }
     } catch (error) {
-        alert("Erro de conexão.");
+        Swal.fire({
+            title:"Algo deu errado:(",
+            text:"Erro de conexão com o servidor",
+            icon:'warning'});
     }
 });
 
