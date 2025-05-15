@@ -1,5 +1,6 @@
 package OMCE.OMCE.Historico;
 
+import OMCE.OMCE.Pedido.PedidoRepository;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.ProdutoRepository;
 import OMCE.OMCE.Produto.ProdutoRespostaDTO;
@@ -15,12 +16,19 @@ public class HistoricoService {
     private ProdutoRepository produtoRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PedidoRepository pedidoRepository;
 
-    public Page<ProdutoRespostaDTO> pegarHistoricoDevenda(Long id_usuario,Pageable pageable){
+    public Page<ProdutoRespostaDTO> pegarHistoricoDeVenda(Long id_usuario, Pageable pageable){
 
         Page<Produto> historicoVenda = produtoRepository.pegarVendas(id_usuario, pageable);
-        Page<ProdutoRespostaDTO> dtos = historicoVenda.map(ProdutoRespostaDTO::new);
-        return dtos;
+        Page<ProdutoRespostaDTO> dtosVenda = historicoVenda.map(ProdutoRespostaDTO::new);
+        return dtosVenda;
+    }
+    public Page<ProdutoRespostaDTO> pegarHistoricoDeCompra(Long id_usuario,Pageable pageable){
+        Page<Produto> historicoCompra = pedidoRepository.pegarProdutoCompradoUsuario(id_usuario, pageable);
+        Page<ProdutoRespostaDTO> dtosCompra = historicoCompra.map(ProdutoRespostaDTO::new);
+        return dtosCompra;
     }
 
 }

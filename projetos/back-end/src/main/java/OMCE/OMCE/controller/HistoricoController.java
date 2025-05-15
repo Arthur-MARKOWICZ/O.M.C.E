@@ -17,9 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class HistoricoController {
     @Autowired
     private HistoricoService historicoService;
-    @GetMapping
+    @GetMapping("/Vendas")
     public ResponseEntity<Page<ProdutoRespostaDTO>> historicoVendas(@PageableDefault(size=10) Pageable pageable, @RequestHeader("Id-Usuario") Long id_usuario){
-        Page<ProdutoRespostaDTO> produtos = historicoService.pegarHistoricoDevenda(id_usuario,pageable);
+        Page<ProdutoRespostaDTO> produtos = historicoService.pegarHistoricoDeVenda(id_usuario,pageable);
+        return ResponseEntity.ok(produtos);
+    }
+    @GetMapping("/compra")
+    public ResponseEntity<Page<ProdutoRespostaDTO>> historicoCompra(@PageableDefault(size=10) Pageable pageable, @RequestHeader("Id-Usuario") Long id_usuario){
+        Page<ProdutoRespostaDTO> produtos = historicoService.pegarHistoricoDeCompra(id_usuario,pageable);
         return ResponseEntity.ok(produtos);
     }
 }
