@@ -3,22 +3,36 @@ const preco = document.getElementById("txtPreco");
 const detalhes = document.getElementById("txtDetalhes");
 const imagem = document.getElementById("productImage");
 const id_usuario = localStorage.getItem("id_usuario");
-
+    const notyf = new Notyf();
 const id = Number(id_usuario);
 
 function btnSendOnClickProduto() {
     if (nome.value === "") {
-        alert("Preenchimento obrigatório: Nome");
-        nome.focus();
+ notyf.open({
+        type: 'error',
+        message: 'O campo nome é obrigatório!',
+        duration: 3000,
+        position: { x: 'center', y: 'center' } 
+    });
         return false;
     }
     if (preco.value === "") {
-        alert("Preenchimento obrigatório: Preço");
+ notyf.open({
+        type: 'error',
+        message: 'O campo preco é obrigatório!',
+        duration: 3000,
+        position: { x: 'center', y: 'center' } 
+    });
         preco.focus();
         return false;
     }
     if (detalhes.value === "") {
-        alert("Preenchimento obrigatório: Detalhes");
+ notyf.open({
+        type: 'error',
+        message: 'O campo detalhes é obrigatório!',
+        duration: 3000,
+        position: { x: 'center', y: 'center' } 
+    });
         detalhes.focus();
         return false;
     }
