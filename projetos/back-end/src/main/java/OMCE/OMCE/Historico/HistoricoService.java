@@ -1,5 +1,6 @@
 package OMCE.OMCE.Historico;
 
+import OMCE.OMCE.Pedido.ItemPedidoRepository;
 import OMCE.OMCE.Pedido.Pedido;
 import OMCE.OMCE.Pedido.PedidoRepository;
 import OMCE.OMCE.Produto.Produto;
@@ -23,6 +24,8 @@ public class HistoricoService {
     private UserRepository userRepository;
     @Autowired
     private PedidoRepository pedidoRepository;
+    @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
 
     public Page<ProdutoRespostaDTO> pegarHistoricoDeVenda(Long id_usuario, Pageable pageable){
 
@@ -30,13 +33,11 @@ public class HistoricoService {
         Page<ProdutoRespostaDTO> dtosVenda = historicoVenda.map(ProdutoRespostaDTO::new);
         return dtosVenda;
     }
-    public Page<ProdutoRespostaDTO> pegarHistoricoDeCompra(Long id_usuario,Pageable pageable){
-            Page<Pedido> pedidos = pedidoRepository.pegarPedidoCompradoUsuario(id_usuario, pageable);
-        List<Produto> produtos = new ArrayList<>();
-        List<ProdutoRespostaDTO> dtosCompra = produtos.stream()
-                .map(ProdutoRespostaDTO::new)
-                .collect(Collectors.toList());
-            return (Page<ProdutoRespostaDTO>) dtosCompra;
+    public Page<ProdutoRespostaDTO> pegarHistoricoDeCompra(Long idUsuario, Pageable pageable) {
+        Page<Produto> produtos = itemPedidoRepository.pegarProdutosDoUsuario(idUsuario, pageable);
+
+        return produtos.map(ProdutoRespostaDTO::new); // conversão automática com map
     }
+
 
 }

@@ -12,6 +12,7 @@ import java.util.List;
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pedido_id")
     private Long id;
     private Long compradorId;
     private double valor;
