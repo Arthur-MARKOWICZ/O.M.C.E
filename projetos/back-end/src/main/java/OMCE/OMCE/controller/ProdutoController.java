@@ -109,12 +109,4 @@ public class ProdutoController {
        var produtoDTO = produtos.map(ProdutoRespostaDTO::new);
        return ResponseEntity.ok(produtoDTO);
     }
-    @GetMapping("/produtosCategoria")
-    public  ResponseEntity<Page<ProdutoRespostaDTO>> pegarProdutosPorCategoria(@PageableDefault(size=10)Pageable pageable
-            ,@RequestParam  String categoria){
-        Categoria categoriaProduto = Categoria.valueOf(categoria.toUpperCase());
-        Page<Produto> produtos = produtoRepository.pegarTodosProdutosCategoria(categoriaProduto, pageable);
-        Page<ProdutoRespostaDTO> produtoDTO = produtos.map(ProdutoRespostaDTO::new);
-        return ResponseEntity.ok(produtoDTO);
-    }
 }

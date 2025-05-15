@@ -14,7 +14,7 @@ public class ValidacaoProduto {
             throw  new RuntimeException("O detalhes do produto esta em branco");
         }
         if(dados.imagem() == null){
-            throw  new RuntimeException("O produto esta sem imagem");
+            throw   new RuntimeException("O produto esta sem imagem");
         }
         if(dados.imagem_tipo() == null){
             throw  new RuntimeException("O produto esta sem imagem");

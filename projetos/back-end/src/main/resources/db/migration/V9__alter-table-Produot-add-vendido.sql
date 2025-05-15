@@ -1,2 +1,0 @@
-ALTER TABLE produto
-ADD COLUMN vendido BOOLEAN DEFAULT false;
