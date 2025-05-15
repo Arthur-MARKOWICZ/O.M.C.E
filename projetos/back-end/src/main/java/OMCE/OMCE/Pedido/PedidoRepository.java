@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface PedidoRepository extends JpaRepository<Pedido,Long> {
 
-    @Query("SELECT p FROM Pedido p WHERE p.idComprador = :idComprador")
-    Page<Pedido> pegarProdutoIdCompradoUsuario(@Param("idComprador") Long idComprador, Pageable pageable);
+    @Query("SELECT p FROM Pedido p WHERE p.compradorId = :compradorId")
+    Page<Pedido> pegarPedidoCompradoUsuario(@Param("compradorId") Long compradorId, Pageable pageable);
 
 
 

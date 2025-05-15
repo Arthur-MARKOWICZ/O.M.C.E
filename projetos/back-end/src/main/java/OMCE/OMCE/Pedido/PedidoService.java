@@ -2,10 +2,9 @@ package OMCE.OMCE.Pedido;
 
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.ProdutoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 public class PedidoService {
@@ -14,17 +13,18 @@ public class PedidoService {
     private PedidoRepository pedidoRepository;
     @Autowired
     private ProdutoRepository produtoRepository;
+    @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
 
-    public void CadastroCompra(PedidoCadastroDTO dto){
-        ArrayList<Produto> produtos = new ArrayList<>();
-        ArrayList<Long> idsProdutos = dto.id_produtos();
-        for (Long idsProduto : idsProdutos) {
-            produtoRepository.produtoVendido(idsProduto);
-            Produto produto = produtoRepository.getReferenceById(idsProduto);
-            produtos.add(produto);
+@Transactional
+    public void CadastroCompra(PedidoCadastroDTO dto) {
+        Pedido pedido = pedidoRepository.save(new Pedido(dto));
+
+        for (Long idProduto : dto.id_produtos()) {
+            produtoRepository.produtoVendido(idProduto);
+            Produto produto = produtoRepository.getReferenceById(idProduto);
+            ItemPedido item = new ItemPedido(pedido, produto);
+            itemPedidoRepository.save(item);
         }
-        Pedido pedido = new Pedido(dto,produtoRepository);
-        pedidoRepository.save(pedido);
     }
-
 }

@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,17 +31,12 @@ public class HistoricoService {
         return dtosVenda;
     }
     public Page<ProdutoRespostaDTO> pegarHistoricoDeCompra(Long id_usuario,Pageable pageable){
-            Page<Pedido> pedidos = pedidoRepository.pegarProdutoIdCompradoUsuario(id_usuario, pageable);
-            List<Produto> produtos = new ArrayList<>();
-        for (Pedido pedido : pedidos.getContent()) {
-            List<Long> idsProdutos = pedido.getId_produtos();
-            for (Long id : idsProdutos) {
-                produtoRepository.findById(id).ifPresent(produtos::add);
-            }
-        }
-        Page<Produto> historicoCompra = null;
-        Page<ProdutoRespostaDTO> dtosCompra = historicoCompra.map(ProdutoRespostaDTO::new);
-            return dtosCompra;
+            Page<Pedido> pedidos = pedidoRepository.pegarPedidoCompradoUsuario(id_usuario, pageable);
+        List<Produto> produtos = new ArrayList<>();
+        List<ProdutoRespostaDTO> dtosCompra = produtos.stream()
+                .map(ProdutoRespostaDTO::new)
+                .collect(Collectors.toList());
+            return (Page<ProdutoRespostaDTO>) dtosCompra;
     }
 
 }
