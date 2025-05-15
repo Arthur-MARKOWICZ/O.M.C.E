@@ -1,5 +1,6 @@
 package OMCE.OMCE.Historico;
 
+import OMCE.OMCE.Pedido.Pedido;
 import OMCE.OMCE.Pedido.PedidoRepository;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.ProdutoRepository;
@@ -9,6 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HistoricoService {
@@ -26,9 +32,17 @@ public class HistoricoService {
         return dtosVenda;
     }
     public Page<ProdutoRespostaDTO> pegarHistoricoDeCompra(Long id_usuario,Pageable pageable){
-        Page<Produto> historicoCompra = pedidoRepository.pegarProdutoCompradoUsuario(id_usuario, pageable);
+            Page<Pedido> pedidos = pedidoRepository.pegarProdutoIdCompradoUsuario(id_usuario, pageable);
+            List<Produto> produtos = new ArrayList<>();
+        for (Pedido pedido : pedidos.getContent()) {
+            List<Long> idsProdutos = pedido.getId_produtos();
+            for (Long id : idsProdutos) {
+                produtoRepository.findById(id).ifPresent(produtos::add);
+            }
+        }
+        Page<Produto> historicoCompra = null;
         Page<ProdutoRespostaDTO> dtosCompra = historicoCompra.map(ProdutoRespostaDTO::new);
-        return dtosCompra;
+            return dtosCompra;
     }
 
 }

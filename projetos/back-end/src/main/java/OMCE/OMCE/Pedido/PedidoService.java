@@ -23,7 +23,7 @@ public class PedidoService {
             Produto produto = produtoRepository.getReferenceById(idsProduto);
             produtos.add(produto);
         }
-        Pedido pedido = new Pedido(dto);
+        Pedido pedido = new Pedido(dto,produtoRepository);
         pedidoRepository.save(pedido);
     }
 

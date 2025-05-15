@@ -1,18 +1,25 @@
 package OMCE.OMCE.Pedido;
 
 import OMCE.OMCE.Enderco.Endereco;
+import OMCE.OMCE.Produto.Produto;
+import OMCE.OMCE.Produto.ProdutoRepository;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Entity
+@Table(name = "pedido")
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long idVendedor;
     private Long idComprador;
-    @ElementCollection
+
+
     private ArrayList<Long> id_produtos = new ArrayList<>();
     private double valor;
     @Embedded
@@ -20,7 +27,7 @@ public class Pedido {
 
     public Pedido() {
     }
-    public Pedido(PedidoCadastroDTO dados){
+    public Pedido(PedidoCadastroDTO dados, ProdutoRepository produtoRepository){
         this.idComprador = dados.id_comprador();
         this.id_produtos = dados.id_produtos();
         this.idVendedor = dados.id_vendedor();

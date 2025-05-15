@@ -6,7 +6,7 @@ async function carregarProdutos() {
     try {
         const token = localStorage.getItem("jwt");
         const userId = localStorage.getItem("id_usuario");
-        const response = await fetch(`http://localhost:8080/produto/todosProdutosUsuario?page=${numeroPaginaAtual}`, {
+        const response = await fetch(`http://localhost:8080/historico/vendas?page=${numeroPaginaAtual}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -18,7 +18,8 @@ async function carregarProdutos() {
         if (!response.ok) throw new Error("Usuário ou produtos não encontrado");
         
         const dados = await response.json();
-        const produtos = dados.content.filter(produto => produto.vendido === true);
+        const produtos = dados.content
+        console.log(produtos);
         const numTotalPaginas = dados.totalPages;
         const container = document.getElementById("product-list");
         const paginacaoDiv = document.getElementById('numero-pagina');
@@ -64,46 +65,13 @@ async function carregarProdutos() {
                     window.location.href = `../html/alterarDadosProduto.html?id=${produto.id}`; 
                 }
             });
-
-            const botaoDeletar = document.createElement("button");
-            botaoDeletar.classList.add("delete-button");
-            botaoDeletar.textContent = "Deletar";
-            botaoDeletar.addEventListener("click", async (e) => {
-                e.stopPropagation();
-
-                const confirmacao = confirm(`Tem certeza que deseja deletar o produto "${produto.nome}"?`);
-                if (!confirmacao) return;
-
-                try {
-                    const token = localStorage.getItem("jwt");
-                    const response = await fetch(`http://localhost:8080/produto/deletar/${produto.id}`, {
-                        method: "DELETE",
-                        headers: {
-                            "Authorization": `Bearer ${token}`
-                        }
-                    });
-
-                    if (response.ok) {
-                        alert("Produto deletado com sucesso!");
-                        carregarProdutos();
-                    } else {
-                        const erro = await response.text();
-                        alert("Erro ao deletar: " + erro);
-                    }
-                } catch (error) {
-                    console.error("Erro ao deletar produto:", error);
-                    alert("Erro ao deletar produto.");
-                }
-            });
-
-            infoContainer.appendChild(botaoDeletar);
+        
         });
-    } catch (error) {
-        console.error("Erro ao carregar produtos:", error);
-        alert("Erro ao carregar produtos. Por favor, tente novamente.");
+    }
+    catch(e){
+
     }
 }
-
 document.getElementById('anterior').addEventListener('click', () => {
     if (numeroPaginaAtual > 0) {
         numeroPaginaAtual--;
