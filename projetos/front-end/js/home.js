@@ -4,7 +4,7 @@ async function carregarProdutosHome() {
     try {
         const token = localStorage.getItem("jwt");
 
-        const resposta = await fetch(`http://localhost:8080/produto/todos?page=${numeroPaginaAtual}`, {
+        const resposta = await fetch(`http://localhost:8080/produto/filtro?page=${numeroPaginaAtual}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -28,16 +28,14 @@ async function carregarProdutosHome() {
             card.classList.add("produto-card");
 
             card.innerHTML = `
-    <div class="imagem-container">
-        <img src="data:${p.imagem_tipo};base64,${p.imagem}" alt="${p.nome}" width="200">
-        <div class="nome-sobreposto">${p.nome}</div>
-    </div>
-    <p><strong>Preço:</strong> R$ ${p.preco.toFixed(2)}</p>
-    <p><strong>Detalhes:</strong> ${p.detalhes}</p>
-    <p><strong>Condicao:</strong> ${p.condicao}</p>
-    <p><strong>Vendedor:</strong> ${p.nomeUsuario}</p>
-    <button onclick="adicionarProduto('${p.nome}', ${p.preco}, ${p.id},'${p.imagem}' ,'${p.imagem_tipo}' ,'${p.id_usuario}')">Adicionar ao Carrinho</button>
-`;
+        <div class="imagem-container">
+            <img src="data:${p.imagem_tipo};base64,${p.imagem}" alt="${p.nome}" width="200">
+            <div class="nome-sobreposto">${p.nome}</div>
+            </div>
+                <p><strong>Preço:</strong> R$ ${p.preco.toFixed(2)}</p>
+                <p><strong>Condicao:</strong> ${p.condicao}</p>
+                <p><strong>Vendedor:</strong> ${p.nomeUsuario}</p>
+        `;
 
             card.addEventListener("click", (e) => {
                 if (e.target.tagName !== "BUTTON") {
