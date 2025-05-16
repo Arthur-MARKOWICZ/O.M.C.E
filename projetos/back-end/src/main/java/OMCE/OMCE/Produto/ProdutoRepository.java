@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Query("SELECT p FROM Produto p WHERE p.usuario.id = :id_usuario")
     Page<Produto> pegarProdutosUsuario(Long id_usuario, Pageable pageable);
@@ -31,5 +29,5 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     Page<Produto> pegarVendas(@Param("id_usuario")  Long id_usuario, Pageable pageable);
     @Modifying
     @Query("UPDATE Produto p SET p.vendido = true WHERE p.id = :id")
-   Produto produtoVendido(Long id);
+    void produtoVendido(Long id);
 }

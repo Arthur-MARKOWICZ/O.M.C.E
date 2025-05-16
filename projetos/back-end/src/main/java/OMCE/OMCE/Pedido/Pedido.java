@@ -1,19 +1,20 @@
 package OMCE.OMCE.Pedido;
 
 import OMCE.OMCE.Enderco.Endereco;
+import OMCE.OMCE.Produto.Produto;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "pedido")
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pedido_id")
     private Long id;
-    private Long idVendedor;
-    private Long idComprador;
-    @ElementCollection
-    private ArrayList<Long> id_produtos = new ArrayList<>();
+    private Long compradorId;
     private double valor;
     @Embedded
     private Endereco enderecoEntrega;
@@ -21,12 +22,11 @@ public class Pedido {
     public Pedido() {
     }
     public Pedido(PedidoCadastroDTO dados){
-        this.idComprador = dados.id_comprador();
-        this.id_produtos = dados.id_produtos();
-        this.idVendedor = dados.id_vendedor();
+        this.compradorId = dados.id_comprador();
         this.valor = dados.valor();
         this.enderecoEntrega = new Endereco(dados.endereco());
     }
+
 
     public Long getId() {
         return id;
@@ -36,28 +36,13 @@ public class Pedido {
         this.id = id;
     }
 
-    public Long getIdVendedor() {
-        return idVendedor;
+
+    public Long getCompradorId() {
+        return compradorId;
     }
 
-    public void setIdVendedor(Long idVendedor) {
-        this.idVendedor = idVendedor;
-    }
-
-    public ArrayList<Long> getId_produtos() {
-        return id_produtos;
-    }
-
-    public void setId_produtos(ArrayList<Long> id_produtos) {
-        this.id_produtos = id_produtos;
-    }
-
-    public Long getIdComprador() {
-        return idComprador;
-    }
-
-    public void setIdComprador(Long idComprador) {
-        this.idComprador = idComprador;
+    public void setCompradorId(Long compradorId) {
+        this.compradorId = compradorId;
     }
 
     public double getValor() {
