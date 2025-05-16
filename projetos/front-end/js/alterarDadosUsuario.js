@@ -52,14 +52,19 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
         });
         console.log(json);
         if (response.ok) {
-            alert("Seus dados foram atualizados com sucesso!");
+            Swal.fire({
+                title:"Seus dados foram atualizados com sucesso!",
+                icon:'success'});
             event.target.reset();
             window.location.href = "../html/home.html";
         } else {
-            alert("Erro ao atualizar os dados.");
+            Swal.fire("Erro ao atualizar os dados.");
         }
     } catch (error) {
-        alert("Erro de conexão.");
+        Swal.fire({
+            title:"Algo deu errado:(",
+            text:"Erro de conexão com o servidor",
+            icon:'warning'});
     }
 });
 
@@ -79,7 +84,11 @@ function validarCadastro() {
 }
 
 function exibirErro(mensagem, campo) {
-    alert("Erro no/a: " + mensagem);
+    Swal.fire({
+      title: "Não foi possível realizar seu cadastro",
+      text:"Erro no/a: " + mensagem,
+      icon:'warning',
+      confirmButtonText: 'OK'});("Erro no/a: " + mensagem);
     if (campo) campo.focus();
     return false;
 }
@@ -102,7 +111,7 @@ function isCep(cep) {
 
 function mostrarDados(dados) {
     if (dados.erro) {
-        alert("CEP não encontrado!");
+        Swal.fire("CEP não encontrado!");
         return;
     }
     end_Logradouro.value = dados.logradouro;

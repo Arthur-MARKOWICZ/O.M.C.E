@@ -83,15 +83,17 @@ async function carregarProdutos() {
                     });
 
                     if (response.ok) {
-                        alert("Produto deletado com sucesso!");
+                        Swal.fire({
+                            title:"Produto deletado com sucesso",
+                            icon: 'success'});
                         carregarProdutos();
                     } else {
                         const erro = await response.text();
-                        alert("Erro ao deletar: " + erro);
+                        Swal.fire("Erro ao deletar: " + erro);
                     }
                 } catch (error) {
                     console.error("Erro ao deletar produto:", error);
-                    alert("Erro ao deletar produto.");
+                    Swal.fire("Erro ao deletar produto.");
                 }
             });
 
@@ -99,7 +101,7 @@ async function carregarProdutos() {
         });
     } catch (error) {
         console.error("Erro ao carregar produtos:", error);
-        alert("Erro ao carregar produtos. Por favor, tente novamente.");
+        Swal.fire("Erro ao carregar produtos. Por favor, tente novamente.");
     }
 }
 

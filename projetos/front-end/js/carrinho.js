@@ -27,7 +27,9 @@ function adicionarProduto(nome, preco, id, imagem, imagem_tipo) {
   const jaExiste = carrinho.some(produto => produto.id === id);
 
   if (jaExiste) {
-    alert("Este produto já está no carrinho.");
+    Swal.fire({
+      title:"Este produto já está no seu carrinho.",
+      icon:'info'});
     return;
   }
 

@@ -64,7 +64,10 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
             mostrarErro(json.mensagem || "Erro desconhecido");
           return;
         }
-        alert("usuario cadastrado com sucesso");
+        Swal.fire({
+              title:"Seu cadastro foi concluído com sucesso!",
+              text: "Seja bem-vindo ao O.M.C.E",
+              icon: 'success'});
             event.target.reset();
             window.location.href = "../html/login.html";
     
@@ -111,7 +114,11 @@ function validarCadastro() {
 }
 
 function exibirErro(mensagem, campo) {
-    alert("Erro no/a: " + mensagem);
+    Swal.fire({
+      title: "Não foi possível realizar seu cadastro",
+      text:"Erro no/a: " + mensagem,
+      icon:'warning',
+      confirmButtonText: 'OK'});("Erro no/a: " + mensagem);
     campo.focus();
     return false;
 }   
@@ -157,7 +164,7 @@ function isCep(cep) {
 }
 function mostrarDados(dados) {
   if (dados.erro) {
-    alert("CEP não encontrado!");
+    Swal.fire("CEP não encontrado!");
     return false;
   }
   end_logradouro.value = dados.logradouro;
