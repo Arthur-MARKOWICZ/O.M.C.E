@@ -39,6 +39,7 @@ function criarCarrinho() {
     <ul id="itens-carrinho"></ul>
     <p><strong>Total: </strong> R$ <span id="valor-total">0.00</span></p>
     <button onclick="limparCarrinho()">Limpar Carrinho</button>
+    <button onclick="finalizarCompra()">Finalizar Compra</button>
     <button onclick="logout()">Sair</button>
   `;
   document.body.appendChild(carrinhoDiv);
@@ -119,4 +120,17 @@ function logout() {
   localStorage.removeItem("id_usuario");
   localStorage.removeItem("jwt");
   window.location.href = "../html/login.html";
+}
+
+function finalizarCompra() {
+  const carrinho = getCarrinho();
+  if (carrinho.length === 0) {
+    alert("Seu carrinho está vazio!");
+    return;
+  }
+  
+  localStorage.setItem('carrinho_pedido', JSON.stringify(carrinho));
+  
+
+  window.location.href = '../html/pedido.html';
 }
