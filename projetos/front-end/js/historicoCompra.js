@@ -62,7 +62,7 @@ async function carregarProdutos() {
 
             card.addEventListener("click", (e) => {
                 if (e.target.tagName !== "BUTTON") {
-                    window.location.href = `../html/alterarDadosProduto.html?id=${produto.id}`; 
+                    window.location.href = `../html/visualizarProduto.html?id=${produto.id}`; 
                 }
             });
         
