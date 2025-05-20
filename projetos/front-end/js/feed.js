@@ -88,5 +88,5 @@ document.getElementById('form-filtro').addEventListener('submit', (e) => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    carregarFeed(); // sem filtros no início
+    carregarFeed(); 
 });

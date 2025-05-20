@@ -11,10 +11,10 @@ public interface ItemPedidoRepository extends JpaRepository<ItemPedido,Long> {
     @Query("SELECT i.produto FROM ItemPedido i WHERE i.pedido.id = :pedido_id")
     Page<Produto> pegarProdutosDoPedido(@Param("pedido_id") Long pedidoId, Pageable pageable);
     @Query("""
-        SELECT i.produto 
-        FROM ItemPedido i 
-        JOIN i.pedido p 
+        SELECT i.produto
+        FROM ItemPedido i
+        JOIN i.pedido p
         WHERE p.compradorId = :id_usuario
     """)
-    Page<Produto> pegarProdutosDoUsuario(@Param("id_usuario")Long idUsuario, Pageable pageable);
+    Page<Produto>pegarProdutosDoUsuario(@Param("id_usuario")Long idUsuario, Pageable pageable);
 }
