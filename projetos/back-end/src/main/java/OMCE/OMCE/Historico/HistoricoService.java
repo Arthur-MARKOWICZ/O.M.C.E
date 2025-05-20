@@ -35,8 +35,7 @@ public class HistoricoService {
     }
     public Page<ProdutoRespostaDTO> pegarHistoricoDeCompra(Long idUsuario, Pageable pageable) {
         Page<Produto> produtos = itemPedidoRepository.pegarProdutosDoUsuario(idUsuario, pageable);
-
-        return produtos.map(ProdutoRespostaDTO::new); // conversão automática com map
+        return produtos.map(ProdutoRespostaDTO::new);
     }
 
 
