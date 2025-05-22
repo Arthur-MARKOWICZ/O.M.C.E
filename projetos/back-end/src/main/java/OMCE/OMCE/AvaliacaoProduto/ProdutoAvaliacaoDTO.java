@@ -1,4 +1,3 @@
 package OMCE.OMCE.AvaliacaoProduto;
 
-public record ProdutoAvaliacaoDTO(int score,String comment, Long id_produto) {
-}
+public record ProdutoAvaliacaoDTO(int score, String comment, Long id_produto) {}

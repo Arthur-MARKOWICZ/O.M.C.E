@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Getter
@@ -27,9 +26,4 @@ public class ProductReview {
     private Produto product;
 
     private LocalDateTime createdAt = LocalDateTime.now();
-    public ProductReview(ProdutoAvaliacaoDTO dto){
-        this.comment = dto.comment();
-        this.score = dto.score();
-
-    }
 }
