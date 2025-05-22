@@ -27,4 +27,9 @@ public class ProductReview {
     private Produto product;
 
     private LocalDateTime createdAt = LocalDateTime.now();
+    public ProductReview(ProdutoAvaliacaoDTO dto){
+        this.comment = dto.comment();
+        this.score = dto.score();
+
+    }
 }
