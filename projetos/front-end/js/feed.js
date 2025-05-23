@@ -31,12 +31,25 @@ async function carregarFeed(filtros = {}) {
             const card = document.createElement("div");
             card.classList.add("produto-card");
 
+            // Constrói estrelas com base na nota média
+            let estrelasHtml = "";
+            if (p.notaMedia !== null && p.notaMedia !== undefined) {
+                const nota = Math.round(p.notaMedia);
+                for (let i = 1; i <= 5; i++) {
+                    estrelasHtml += i <= nota ? "★" : "☆";
+                }
+            }
+
             card.innerHTML = `
                 <h2>${p.nome}</h2>
                 <img src="data:${p.imagem_tipo};base64,${p.imagem}" alt="${p.nome}" width="200">
                 <p><strong>Preço:</strong> R$ ${p.preco.toFixed(2)}</p>
-                <p><strong>Condicao:</strong> ${p.condicao}</p>
+                <p><strong>Condição:</strong> ${p.condicao}</p>
                 <p><strong>Vendedor:</strong> ${p.nomeUsuario}</p>
+                ${p.notaMedia != null ? `
+                    <p><strong>Avaliação:</strong> ${p.notaMedia.toFixed(1)} / 5</p>
+                    <p style="font-size: 1.2em; color: #f5c518;">${estrelasHtml}</p>
+                ` : ''}
                 <button onclick="adicionarProduto('${p.nome}', ${p.preco}, ${p.id}, '${p.imagem}', '${p.imagem_tipo}', '${p.id_usuario}')">Adicionar ao Carrinho</button>
             `;
 
@@ -88,5 +101,5 @@ document.getElementById('form-filtro').addEventListener('submit', (e) => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    carregarFeed(); 
+    carregarFeed();
 });
