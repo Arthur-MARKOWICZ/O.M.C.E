@@ -2,6 +2,7 @@ package OMCE.OMCE.controller;
 
 import OMCE.OMCE.User.DadosAlterarDadosUser;
 import OMCE.OMCE.User.DadosCadastroUser;
+import OMCE.OMCE.User.DadosRedefinirSenha;
 import OMCE.OMCE.User.User;
 import OMCE.OMCE.User.UserRepository;
 import OMCE.OMCE.Validacao.ValidacaoUser;
@@ -41,4 +42,14 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/redefinir-senha")
+    public ResponseEntity<?> redefinirSenha(@RequestBody DadosRedefinirSenha dados) {
+    var usuario = userRepository.findByEmail(dados.email());
+    if (usuario == null) {
+        return ResponseEntity.badRequest().body("Email não encontrado.");
+    }
+    // Teste provisorio
+    System.out.println("Simulando envio de e-mail de redefinição de senha para: " + dados.email());
+        return ResponseEntity.ok("Se o email estiver cadastrado, enviaremos um link para redefinir sua senha.");
+    }
 }
