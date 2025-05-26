@@ -31,26 +31,15 @@ async function carregarFeed(filtros = {}) {
             const card = document.createElement("div");
             card.classList.add("produto-card");
 
-            // Constrói estrelas com base na nota média
-            let estrelasHtml = "";
-            if (p.notaMedia !== null && p.notaMedia !== undefined) {
-                const nota = Math.round(p.notaMedia);
-                for (let i = 1; i <= 5; i++) {
-                    estrelasHtml += i <= nota ? "★" : "☆";
-                }
-            }
-
             card.innerHTML = `
                 <h2>${p.nome}</h2>
                 <img src="data:${p.imagem_tipo};base64,${p.imagem}" alt="${p.nome}" width="200">
                 <p><strong>Preço:</strong> R$ ${p.preco.toFixed(2)}</p>
-                <p><strong>Condição:</strong> ${p.condicao}</p>
+                <p><strong>Condicao:</strong> ${p.condicao}</p>
                 <p><strong>Vendedor:</strong> ${p.nomeUsuario}</p>
-                ${p.notaMedia != null ? `
-                    <p><strong>Avaliação:</strong> ${p.notaMedia.toFixed(1)} / 5</p>
-                    <p style="font-size: 1.2em; color: #f5c518;">${estrelasHtml}</p>
-                ` : ''}
+                <p id="media-avaliacao-${p.id}">Média: -</p>
                 <button onclick="adicionarProduto('${p.nome}', ${p.preco}, ${p.id}, '${p.imagem}', '${p.imagem_tipo}', '${p.id_usuario}')">Adicionar ao Carrinho</button>
+                <button onclick="abrirFormularioAvaliacao(${p.id})">Avaliar Produto</button>
             `;
 
             card.addEventListener("click", (e) => {
@@ -60,6 +49,7 @@ async function carregarFeed(filtros = {}) {
             });
 
             container.appendChild(card);
+            exibirMedia(p.id);
         });
 
         botaoAnterior.disabled = numeroPaginaAtual === 0;
@@ -101,5 +91,55 @@ document.getElementById('form-filtro').addEventListener('submit', (e) => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    carregarFeed();
+    carregarFeed(); 
 });
+
+let produtoIdAtual = null;
+
+function abrirFormularioAvaliacao(idProduto) {
+    produtoIdAtual = idProduto;
+    const formHtml = `
+        <div id="form-avaliacao" style="margin-top: 10px;">
+            <h4>Avaliar Produto</h4>
+            <label>Nota (1-5):</label>
+            <input type="number" id="nota-avaliacao" min="1" max="5"><br>
+            <label>Comentário:</label><br>
+            <textarea id="comentario-avaliacao"></textarea><br>
+            <button onclick="enviarAvaliacao()">Enviar Avaliação</button>
+        </div>`;
+
+    const card = document.querySelector(`#media-avaliacao-${idProduto}`).parentElement;
+    if (!document.getElementById('form-avaliacao')) {
+        card.insertAdjacentHTML('beforeend', formHtml);
+    }
+}
+
+async function enviarAvaliacao() {
+    const score = parseInt(document.getElementById("nota-avaliacao").value);
+    const comment = document.getElementById("comentario-avaliacao").value;
+
+    const resposta = await fetch("http://localhost:8080/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ score, comment, id_produto: produtoIdAtual })
+    });
+
+    if (resposta.ok) {
+        alert("Avaliação enviada!");
+        document.getElementById("form-avaliacao").remove();
+        exibirMedia(produtoIdAtual);
+    } else {
+        alert("Erro ao enviar avaliação.");
+    }
+}
+
+async function exibirMedia(idProduto) {
+    try {
+        const res = await fetch(`http://localhost:8080/reviews/product/${idProduto}/average`);
+        const media = await res.json();
+        const mediaEl = document.getElementById(`media-avaliacao-${idProduto}`);
+        if (mediaEl) mediaEl.innerText = `Média: ${media.toFixed(1)} ⭐`;
+    } catch (e) {
+        console.error("Erro ao carregar média:", e);
+    }
+}
