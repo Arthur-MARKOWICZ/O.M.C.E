@@ -122,7 +122,7 @@ async function enviarAvaliacao() {
     const resposta = await fetch("http://localhost:8080/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ score: nota, comment: comentario, idProduto: idProdutoAtual }) // corrigido para camelCase
+        body: JSON.stringify({ nota: nota, comentario: comentario, idProduto: idProdutoAtual }) 
     });
 
     if (resposta.ok) {
