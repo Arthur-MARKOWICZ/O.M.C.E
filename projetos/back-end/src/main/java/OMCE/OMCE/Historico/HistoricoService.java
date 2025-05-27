@@ -10,6 +10,7 @@ import OMCE.OMCE.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,10 +34,9 @@ public class HistoricoService {
         Page<ProdutoRespostaDTO> dtosVenda = historicoVenda.map(ProdutoRespostaDTO::new);
         return dtosVenda;
     }
-    public Page<ProdutoRespostaDTO> pegarHistoricoDeCompra(Long idUsuario, Pageable pageable) {
+    public Page<ProdutoRespostaDTO>pegarHistoricoDeCompra(Long idUsuario,@PageableDefault(size=10) Pageable pageable) {
         Page<Produto> produtos = itemPedidoRepository.pegarProdutosDoUsuario(idUsuario, pageable);
-
-        return produtos.map(ProdutoRespostaDTO::new); // conversão automática com map
+        return produtos.map(ProdutoRespostaDTO::new);
     }
 
 
