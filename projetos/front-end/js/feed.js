@@ -144,4 +144,3 @@ async function exibirMedia(idProduto) {
         console.error("Erro ao carregar a média de avaliação:", erro);
     }
 }
-
