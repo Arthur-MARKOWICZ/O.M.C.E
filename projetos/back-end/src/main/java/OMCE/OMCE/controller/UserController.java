@@ -6,11 +6,15 @@ import OMCE.OMCE.User.DadosRedefinirSenha;
 import OMCE.OMCE.User.User;
 import OMCE.OMCE.User.UserRepository;
 import OMCE.OMCE.Validacao.ValidacaoUser;
+import OMCE.OMCE.config.EmailService;
+import java.time.LocalDateTime;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import OMCE.OMCE.User.DadosSolicitarRedefinicaoSenha;
 
 @RestController
 @RequestMapping("/user")
@@ -42,14 +46,27 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/redefinir-senha")
-    public ResponseEntity<?> redefinirSenha(@RequestBody DadosRedefinirSenha dados) {
-    var usuario = userRepository.findByEmail(dados.email());
-    if (usuario == null) {
-        return ResponseEntity.badRequest().body("Email não encontrado.");
-    }
-    // Teste provisorio
-    System.out.println("Simulando envio de e-mail de redefinição de senha para: " + dados.email());
+    @Autowired
+    private EmailService emailService;
+    @PostMapping("/redefinirSenha")
+    public ResponseEntity<?> redefinirSenha(@RequestBody DadosSolicitarRedefinicaoSenha dados) {
+        var usuario = userRepository.findByEmail(dados.email());
+        if (usuario == null) {
+            return ResponseEntity.badRequest().body("Email não encontrado.");
+        }
+        String token = UUID.randomUUID().toString();
+        usuario.setTokenRedefinicao(token);
+        usuario.setTokenExpiracao(LocalDateTime.now().plusMinutes(30));
+        userRepository.save(usuario);
+        String link = "http://localhost:3000/redefinirSenha?token=" + token;
+        String assunto = "Redefinição de Senha - OMCE";
+        String corpo = "Olá, " + usuario.getNome() + "!\n\n" +
+                       "Recebemos uma solicitação para redefinir sua senha. " +
+                       "Clique no link abaixo para criar uma nova senha (válido por 30 minutos):\n\n" +
+                       link + "\n\n" +
+                       "Se você não solicitou isso, ignore este e-mail.";
+        emailService.enviarEmail(usuario.getEmail(), assunto, corpo);
         return ResponseEntity.ok("Se o email estiver cadastrado, enviaremos um link para redefinir sua senha.");
     }
+
 }

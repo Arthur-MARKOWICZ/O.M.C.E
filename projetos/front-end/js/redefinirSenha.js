@@ -8,7 +8,7 @@ document.getElementById("resetForm").addEventListener("submit", async (e) => {
     }
 
     try {
-        const response = await fetch("http://localhost:8080/auth/redefinirSenha", {
+        const response = await fetch("http://localhost:8080/user/redefinirSenha", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
