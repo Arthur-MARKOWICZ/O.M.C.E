@@ -28,3 +28,6 @@ fetch(`http://localhost:8080/produto/visualizarDetalhesProduto/${produtoId}`)
             );
         });
     });
+     document.getElementById('botao').addEventListener('click', () => {
+        window.location.href ="../html/AvaliarVendedor.html"
+     });
