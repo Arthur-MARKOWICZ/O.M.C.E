@@ -11,19 +11,20 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @Entity
-public class ProductReview {
+public class AvaliacaoProduto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int score;
+    private int nota;
 
-    private String comment;
+    private String comentario;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private Produto product;
+    @JoinColumn(name = "produto_id")
+    private Produto produto;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime dataCriacao = LocalDateTime.now();
 }
+
