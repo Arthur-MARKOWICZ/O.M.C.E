@@ -1,9 +1,10 @@
-CREATE TABLE product_review (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    score INT CHECK (score BETWEEN 1 AND 5),
-    comment TEXT,
-    product_id BIGINT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES produto(id) ON DELETE CASCADE
+CREATE TABLE avaliacao_produto (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    nota INT CHECK (nota BETWEEN 1 AND 5),
+    comentario TEXT,
+    produtoId BIGINT NOT NULL,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_produto FOREIGN KEY (produtoId) REFERENCES produto(id) ON DELETE CASCADE
 );

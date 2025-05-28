@@ -141,5 +141,7 @@ public class Produto {
         }
 
     }
+
     public interface ProdutoRepository extends JpaRepository<Produto, Long> {}
+
 }

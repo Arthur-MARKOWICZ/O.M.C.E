@@ -48,11 +48,13 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
                     .requestMatchers(HttpMethod.GET, "/produto/visualizarDetalhesProduto/*").permitAll()
                     .requestMatchers(HttpMethod.GET, "/produto/todos/*").permitAll()
                     .requestMatchers(HttpMethod.GET, "/produto/filtro**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/avaliacoes/produto/**/media").permitAll()
                     .anyRequest().authenticated())
             .cors(withDefaults())
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
 }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
