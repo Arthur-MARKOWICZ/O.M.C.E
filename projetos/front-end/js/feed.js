@@ -119,7 +119,9 @@ async function enviarAvaliacao() {
     const nota = parseInt(document.getElementById("nota-avaliacao").value);
     const comentario = document.getElementById("comentario-avaliacao").value;
 
-    const resposta = await fetch("http://localhost:8080/reviews", {
+    
+    const resposta = await fetch("http://localhost:8080/avaliacoes", {
+
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nota: nota, comentario: comentario, id_produto: idProdutoAtual })
@@ -135,11 +137,11 @@ async function enviarAvaliacao() {
     }
 }
 
-async function exibirMedia(idProduto) {
+async function exibirMedia(id_Produto) {
     try {
-        const resposta = await fetch(`http://localhost:8080/reviews/product/${idProduto}/average`);
+        const resposta = await fetch(`http://localhost:8080/reviews/product/${id_Produto}/average`);
         const media = await resposta.json();
-        const elementoMedia = document.getElementById(`media-avaliacao-${idProduto}`);
+        const elementoMedia = document.getElementById(`media-avaliacao-${id_Produto}`);
         if (elementoMedia) elementoMedia.innerText = `Média: ${media.toFixed(1)} ⭐`;
     } catch (erro) {
         console.error("Erro ao carregar a média de avaliação:", erro);
