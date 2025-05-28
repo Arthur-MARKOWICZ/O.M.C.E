@@ -1,0 +1,1 @@
+ALTER TABLE avaliacao_produto CHANGE produtoId produto_id BIGINT NOT NULL;

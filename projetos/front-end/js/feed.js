@@ -122,13 +122,18 @@ async function enviarAvaliacao() {
     const comentario = document.getElementById("comentario-avaliacao").value;
 
     
-    const resposta = await fetch(`http://localhost:8080/avaliacoes/produto/${idProduto}`, {
+    const resposta = await fetch(`http://localhost:8080/avaliacoes/criar`, {
 
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nota: nota, comentario: comentario, idProduto: idProdutoAtual })
 
     });
+    console.log(nota);
+    console.log(comentario);
+    console.log(idProdutoAtual);
+
+
 
     if (resposta.ok) {
         alert("Avaliação enviada com sucesso!");
