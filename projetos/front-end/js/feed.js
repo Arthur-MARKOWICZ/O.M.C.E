@@ -42,10 +42,11 @@ async function carregarFeed(filtros = {}) {
             `;
 
             container.appendChild(card);
+            console.log("Produto:", produto);
             exibirMedia(produto.id);
         });
 
-        // Clique na imagem leva à página de detalhes
+        
         document.querySelectorAll('.produto-imagem').forEach(img => {
             img.addEventListener('click', (evento) => {
                 const id = evento.target.getAttribute('data-id');
@@ -137,7 +138,7 @@ async function enviarAvaliacao() {
     }
 }
 
-async function exibirMedia(id_Produto) {
+async function exibirMedia(idProduto) {
     try {
         const resposta = await fetch(`http://localhost:8080/avaliacoes/produto/${idProduto}/media`);
         const media = await resposta.json();

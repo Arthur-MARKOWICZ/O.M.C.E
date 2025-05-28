@@ -46,6 +46,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/produto/visualizarDetalhesProduto/*").permitAll()
                         .requestMatchers(HttpMethod.GET,"/produto/todos/*").permitAll()
                         .requestMatchers(HttpMethod.GET,"/produto/filtro**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/avaliacoes/produto/**/media").permitAll()
                         .anyRequest().authenticated())
                 .cors(withDefaults())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
