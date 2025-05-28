@@ -6,7 +6,10 @@ document.addEventListener("DOMContentLoaded", function() {
         const senha = document.getElementById("senha").value.trim();
 
         if (!email || !senha) {
-            alert("Preenchimento obrigatório: Email e Senha");
+            Swal.fire({
+                title:"Não foi possível realizar seu login",
+                text:"Preenchimento obrigatório: E-mail e senha",
+                icon:'warning'});
             return;
         }
 
@@ -20,7 +23,10 @@ document.addEventListener("DOMContentLoaded", function() {
             });
 
             if (!response.ok) {
-                alert("Login falhou! Verifique suas credenciais.");
+                Swal.fire({
+                    title:"Não foi possível realizar seu login",
+                    text:"Verifique suas credenciais",
+                    icon:'warning'});
                 return;
             }
 
@@ -30,14 +36,20 @@ document.addEventListener("DOMContentLoaded", function() {
                 localStorage.setItem("id_usuario", data.id); 
                 localStorage.setItem("jwt", data.token);
                 const token = localStorage.getItem("jwt");
-                alert("Login bem-sucedido!");
+                Swal.fire({
+                    Title:"Login bem-sucedido!",
+                    text:"Bem-vindo ao O.M.C.E",
+                    icon:'success'});
                 window.location.href = "../html/home.html"; 
             } else {
-                alert("Erro: Nenhum token ou ID de usuário recebido!");
+                Swal.fire("Erro: Nenhum token ou ID de usuário recebido!");
                 console.error("Resposta do servidor:", data); 
             }
         } catch (error) {
-            alert("Erro ao conectar com o servidor.");
+            Swal.fire({
+            title:"Algo deu errado:(",
+            text:"Erro de conexão com o servidor",
+            icon:'warning'});
             console.error("Erro:", error);
         }
     });
