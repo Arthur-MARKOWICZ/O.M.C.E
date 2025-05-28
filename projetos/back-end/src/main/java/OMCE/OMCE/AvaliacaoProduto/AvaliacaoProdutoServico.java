@@ -19,7 +19,7 @@ public class AvaliacaoProdutoServico {
     private ProdutoRepository produtoRepositorio;
 
     public void criar(AvaliacaoProdutoDTO dto) {
-        Produto produto = produtoRepositorio.findById(dto.idProduto())
+        Produto produto = produtoRepositorio.findById(dto.id_Produto())
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
         AvaliacaoProduto avaliacao = new AvaliacaoProduto();

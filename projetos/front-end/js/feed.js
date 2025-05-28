@@ -122,7 +122,8 @@ async function enviarAvaliacao() {
     const resposta = await fetch("http://localhost:8080/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nota: nota, comentario: comentario, idProduto: idProdutoAtual }) 
+        body: JSON.stringify({ nota: nota, comentario: comentario, id_produto: idProdutoAtual })
+
     });
 
     if (resposta.ok) {
