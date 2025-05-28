@@ -3,7 +3,6 @@ const preco = document.getElementById("txtPreco");
 const detalhes = document.getElementById("txtDetalhes");
 const imagem = document.getElementById("productImage");
 const id_usuario = localStorage.getItem("id_usuario");
-    const notyf = new Notyf();
 const id = Number(id_usuario);
 
 function btnSendOnClickProduto() {
