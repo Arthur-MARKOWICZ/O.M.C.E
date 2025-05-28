@@ -10,7 +10,6 @@ const end_logradouro = document.getElementById("end_logradouro");
 const NomeUser = document.getElementById("txtNU");
 const txtSenha = document.getElementById("txtSenha");
 const txtSenhaConfirmar = document.getElementById("txtSenhaConfirmar");
-const notyf = new Notyf();
 console.log(dataNasc.value);
 
 document.querySelector("#form_cadastro").addEventListener("submit", function (e) {
@@ -76,7 +75,7 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
 
 function validarCadastro() {
     if (!txtName.value){
-      return exibirErroCampoEmBranco("Nome", txtName);
+      return exibirErroEmBranco("Nome", txtName);
     } 
     if (!txtCPF.value || !isCPF(txtCPF.value)){
       return exibirErro("CPF", txtCPF);
@@ -122,7 +121,17 @@ function exibirErro(mensagem, campo) {
       confirmButtonText: 'OK'});("Erro no/a: " + mensagem);
     campo.focus();
     return false;
-}   
+}
+
+function exibirErroEmBranco(mensagem, campo) {
+    Swal.fire({
+        title: "Não foi possível realizar seu cadastro",
+        text:"Preenchimento obrigatório: "+ mensagem,
+        icon:'warning',
+        confirmButtonText: 'OK'});("Erro no/a: " + mensagem);
+       campo.focus();
+       return false;
+    }
 
 function isCPF(cpf) {
   const re = /^\d{11}$/;
