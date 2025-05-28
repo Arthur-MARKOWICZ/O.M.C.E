@@ -76,5 +76,14 @@ body {
     line-height: 100px;
   }
 
+  .link-redefinir {
+    color: paleturquoise;
+    text-decoration: none;
+    font-size: 14px;
+    display: block;
+    margin-top: 5px;
+  }
 
-  
+  .link-redefinir:hover {
+    text-decoration: underline;
+  }

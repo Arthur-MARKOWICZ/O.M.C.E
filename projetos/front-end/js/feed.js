@@ -92,6 +92,7 @@ document.getElementById('form-filtro').addEventListener('submit', (evento) => {
     carregarFeed(filtrosSelecionados);
 });
 
+
 document.addEventListener("DOMContentLoaded", () => {
     carregarFeed();
 });

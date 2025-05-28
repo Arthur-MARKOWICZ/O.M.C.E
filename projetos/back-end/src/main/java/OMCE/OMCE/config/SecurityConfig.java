@@ -34,24 +34,27 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(csrf ->csrf.disable())
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/auth/cadastro").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers("/v3/api-docs/**","/swagger-ui.html","swagger-ui/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/produto/visualizarDetalhesProduto/*").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/produto/todos/*").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/produto/filtro**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/avaliacoes/produto/**/media").permitAll()
-                        .anyRequest().authenticated())
-                .cors(withDefaults())
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
-    }
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    return http
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(session ->
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(authorize -> authorize
+                    .requestMatchers(HttpMethod.POST, "/auth/cadastro").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/user/redefinirSenha").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/user/teste-email").permitAll()
+                    .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "swagger-ui/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/produto/visualizarDetalhesProduto/*").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/produto/todos/*").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/produto/filtro**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/avaliacoes/produto/**/media").permitAll()
+                    .anyRequest().authenticated())
+            .cors(withDefaults())
+            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
+}
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
