@@ -34,7 +34,7 @@ public class SecurityConfig {
     }
 
     @Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session ->
@@ -43,8 +43,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
                     .requestMatchers(HttpMethod.POST, "/auth/cadastro").permitAll()
                     .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                     .requestMatchers(HttpMethod.POST, "/user/redefinirSenha").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/user/teste-email").permitAll()
-                    .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "swagger-ui/**").permitAll()
+                    .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/produto/visualizarDetalhesProduto/*").permitAll()
                     .requestMatchers(HttpMethod.GET, "/produto/todos/*").permitAll()
                     .requestMatchers(HttpMethod.GET, "/produto/filtro**").permitAll()

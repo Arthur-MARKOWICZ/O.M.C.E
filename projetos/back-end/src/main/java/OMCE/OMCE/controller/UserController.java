@@ -58,7 +58,7 @@ public class UserController {
         usuario.setTokenRedefinicao(token);
         usuario.setTokenExpiracao(LocalDateTime.now().plusMinutes(30));
         userRepository.save(usuario);
-        String link = "http://localhost:3000/redefinirSenha?token=" + token;
+        String link = "http://localhost:5500/html/novaSenha.html?token=" + token;
         String assunto = "Redefinição de Senha - OMCE";
         String corpo = "Olá, " + usuario.getNome() + "!\n\n" +
                        "Recebemos uma solicitação para redefinir sua senha. " +
@@ -66,7 +66,7 @@ public class UserController {
                        link + "\n\n" +
                        "Se você não solicitou isso, ignore este e-mail.";
         emailService.enviarEmail(usuario.getEmail(), assunto, corpo);
-        return ResponseEntity.ok("Se o email estiver cadastrado, enviaremos um link para redefinir sua senha.");
+        return ResponseEntity.ok("Enviando email...");
     }
 
 }
