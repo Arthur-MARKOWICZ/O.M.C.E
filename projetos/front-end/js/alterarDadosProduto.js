@@ -1,4 +1,4 @@
-let produtoAtualizado = { imagem: "", imagem_tipo: "", id: null }; // Moved to global scope
+let produtoAtualizado = { imagem: "", imagem_tipo: "", id: null };
 
 document.addEventListener("DOMContentLoaded", async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -28,14 +28,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         const produto = await response.json();
         console.log(produto);
 
-        // Atribuindo dados à variável produtoAtualizado
         produtoAtualizado = {
             imagem: produto.Imagem, 
             imagem_tipo: produto.Imagem_tipo,
             id: produto.id 
         };
 
-        // Preenchendo os campos do formulário com as informações do produto
         document.getElementById("txtName").value = produto.nome;
         document.getElementById("txtPreco").value = produto.preco;
         document.getElementById("txtDetalhes").value = produto.detalhes || "";

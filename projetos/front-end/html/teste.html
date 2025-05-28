@@ -1,0 +1,70 @@
+<!-- Botão de teste (remova depois) -->
+<button onclick="mostrarErro('Falha ao salvar os dados!')">Simular Erro</button>
+
+<!-- Modal de erro -->
+<div id="erroModal" class="modal">
+  <div class="modal-content erro">
+    <span class="close-btn" onclick="fecharErro()">&times;</span>
+    <h2>❌ Erro!</h2>
+    <p id="mensagemErro">Algo deu errado.</p>
+    <button onclick="fecharErro()">Fechar</button>
+  </div>
+</div>
+
+<!-- CSS -->
+<style>
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  width: 300px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  animation: scaleIn 0.2s ease-in-out;
+}
+.modal-content.erro {
+  border-left: 5px solid red;
+}
+.modal-content h2 {
+  margin-top: 0;
+  color: red;
+}
+.close-btn {
+  position: absolute;
+  top: 10px; right: 15px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #888;
+}
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+</style>
+
+<!-- JavaScript -->
+<script>
+function mostrarErro(mensagem) {
+  document.getElementById('mensagemErro').innerText = mensagem;
+  document.getElementById('erroModal').style.display = 'flex';
+}
+
+function fecharErro() {
+  document.getElementById('erroModal').style.display = 'none';
+}
+</script>

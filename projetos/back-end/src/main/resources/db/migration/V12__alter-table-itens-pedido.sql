@@ -1,0 +1,2 @@
+ALTER TABLE itens_pedido
+  MODIFY COLUMN item_pedido_id BIGINT NOT NULL AUTO_INCREMENT;

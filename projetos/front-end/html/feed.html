@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +10,26 @@
 </head>
 <body>
     <div id="navbar-container"></div><br>
+    <form id="form-filtro">
+    <input type="text" id="filtro-nome" placeholder="Buscar por nome">
+    <select id="filtro-categoria">
+        <option value="">Todas Categorias</option>
+        <option value="ARDUINO">ARDUINO</option>
+        <option value="ESP32">ESP-32</option>
+        <option value="REGISTORES">REGISTORES</option>
+        <option value="SENSORES">SENSORES</option>
+        <option value="BATERIA">BATERIA</option>
+        <option value="CABOS">CABOS</option>
+        <option value="MOTORES">MOTORES</option>
+        <option value="CONECTORES">CONECTORES</option>
+        <option value="OUTRO">OUTRO</option>
+
+    </select>
+    <input type="number" id="filtro-preco-min" placeholder="Preço mínimo">
+    <input type="number" id="filtro-preco-max" placeholder="Preço máximo">
+    <button type="submit">Filtrar</button>
+</form>
+
     <div id="feed-container"></div>
     <div id="paginacao">
         <button id="anterior">Anterior</button>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,11 +21,12 @@
             <textarea name="txtDetalhes" id="txtDetalhes" placeholder="Digite os detalhes do produto" rows="4" cols="50"></textarea><br/>
             Condicao:
             <label>
-                <input type="radio" name="Condicao" value="NOVO" id="novo"/> novo
+                <input type="radio" name="Condicao" value="NOVO" id="novo"/> Novo
               </label>
               <label>
-                <input type="radio" name="Condicao" value="USADO" id="usado" /> usado
+                <input type="radio" name="Condicao" value="USADO" id="usado" /> Usado
               </label>
+
             Categoria:
                 <label>
                 <input type="radio" name="categoria" value="ESP32" id="ESP32"/> ESP32
@@ -54,12 +55,14 @@
                 <label>
                     <input type="radio" name="categoria" value="OUTRO" id="OUTRO" /> OUTRO
                 </label>
-            
             Imagem: <input type="file" name="imagem" id="productImage" accept="image/*" required /><br>
             <input type="submit" value="Finalizar cadastro de produto" />
         </form>
     </main>
 
     <script src="../js/cadastroProduto.js"></script>
+
+
+
 </body>             
 </html>

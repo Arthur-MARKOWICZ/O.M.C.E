@@ -10,6 +10,7 @@ const end_logradouro = document.getElementById("end_logradouro");
 const NomeUser = document.getElementById("txtNU");
 const txtSenha = document.getElementById("txtSenha");
 const txtSenhaConfirmar = document.getElementById("txtSenhaConfirmar");
+const notyf = new Notyf();
 console.log(dataNasc.value);
 
 document.querySelector("#form_cadastro").addEventListener("submit", function (e) {
@@ -75,7 +76,7 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
 
 function validarCadastro() {
     if (!txtName.value){
-      return exibirErro("Nome", txtName);
+      return exibirErroCampoEmBranco("Nome", txtName);
     } 
     if (!txtCPF.value || !isCPF(txtCPF.value)){
       return exibirErro("CPF", txtCPF);
