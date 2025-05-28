@@ -30,4 +30,21 @@ document.getElementById('avaliacao-form').addEventListener('submit', function (e
             alert('Erro ao enviar avaliação');
         }
     });
+
+    const nome = document.getElementById('filtro-nome').value;
+    const categoria = document.getElementById('filtro-categoria').value;
+    const precoMin = document.getElementById('filtro-preco-min').value;
+    const precoMax = document.getElementById('filtro-preco-max').value;
+
+    filtrosAtuais = {};
+    if (nome) filtrosAtuais.nome = nome;
+    if (categoria) filtrosAtuais.categoria = categoria;
+    if (precoMin) filtrosAtuais.precoMin = precoMin;
+    if (precoMax) filtrosAtuais.precoMax = precoMax;
+
+    carregarFeed(filtrosAtuais);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    carregarFeed(); 
 });
