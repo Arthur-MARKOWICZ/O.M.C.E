@@ -34,9 +34,9 @@ public class User  implements UserDetails {
     private String nomeUser;
     private String senha;
     private boolean ativo;
-    @Column(name = "tokenRedefinicao")
+    @Column(name = "token_redefinicao")
     private String tokenRedefinicao;
-    @Column(name = "tokenExpiracao")
+    @Column(name = "token_expiracao")
     private LocalDateTime tokenExpiracao;
     public User(){}
     public User(DadosCadastroUser dados){
