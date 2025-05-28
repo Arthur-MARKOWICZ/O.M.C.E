@@ -1,11 +1,16 @@
 package OMCE.OMCE.AvaliacaoProduto;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+
 import java.util.List;
 
-@Repository
 public interface AvaliacaoProdutoRepositorio extends JpaRepository<AvaliacaoProduto, Long> {
-    List<AvaliacaoProduto> findByProdutoId(Long produtoId);
+
+    List<AvaliacaoProduto> findByProdutoId(Long id_produto);
+
+    @Query("SELECT AVG(a.nota) FROM AvaliacaoProduto a WHERE a.produto.id = :idProduto")
+    Double mediaPorProduto(Long idProduto);
 }
+
 
