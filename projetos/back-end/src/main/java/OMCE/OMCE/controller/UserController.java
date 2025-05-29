@@ -58,7 +58,7 @@ public class UserController {
         usuario.setTokenRedefinicao(token);
         usuario.setTokenExpiracao(LocalDateTime.now().plusMinutes(30));
         userRepository.save(usuario);
-        String link = "http://localhost:5500/html/novaSenha.html?token=" + token;
+        String link = "http://localhost:5500/front-end/html/novaSenha.html?token=" + token;
         String assunto = "Redefinição de Senha - OMCE";
         String corpo = "Olá, " + usuario.getNome() + "!\n\n" +
                        "Recebemos uma solicitação para redefinir sua senha. " +
