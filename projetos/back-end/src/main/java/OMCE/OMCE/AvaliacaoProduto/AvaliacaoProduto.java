@@ -5,31 +5,27 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-public class ProductReview {
+public class AvaliacaoProduto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int score;
+    private int nota;
 
-    private String comment;
+
+    private String comentario;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private Produto product;
-
-    private LocalDateTime createdAt = LocalDateTime.now();
-    public ProductReview(ProdutoAvaliacaoDTO dto){
-        this.comment = dto.comment();
-        this.score = dto.score();
-
-    }
+    @JoinColumn(name = "produto_id")
+    private Produto produto;
+    @Column(name = "criado_em")
+    private LocalDateTime dataCriacao = LocalDateTime.now();
 }
+

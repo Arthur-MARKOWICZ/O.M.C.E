@@ -16,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RestController
@@ -54,5 +55,21 @@ public class AuthenticationController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/redefinirSenha")
+    public ResponseEntity<?> redefinirSenha(@RequestBody DadosRedefinirSenha dados) {
+    User user = userRepository.findByTokenRedefinicao(dados.token());
+    if (user == null) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token inválido.");
+    }
+    if (user.getTokenExpiracao() == null || user.getTokenExpiracao().isBefore(LocalDateTime.now())) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token expirado.");
+    }
+    String novaSenhaHash = new BCryptPasswordEncoder().encode(dados.novaSenha());
+    user.setSenha(novaSenhaHash);
+    user.setTokenRedefinicao(null);
+    user.setTokenExpiracao(null);
+    userRepository.save(user);
+    return ResponseEntity.ok("Senha redefinida com sucesso!");
+    }
 
 }
