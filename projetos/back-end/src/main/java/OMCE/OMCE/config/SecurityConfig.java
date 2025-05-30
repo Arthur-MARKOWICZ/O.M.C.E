@@ -34,7 +34,6 @@ public class SecurityConfig {
     }
 
     @Bean
-<<<<<<< HEAD
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf ->csrf.disable())
@@ -53,27 +52,8 @@ public class SecurityConfig {
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-=======
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    return http
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(session ->
-                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers(HttpMethod.POST, "/auth/cadastro").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/user/redefinirSenha").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/user/teste-email").permitAll()
-                    .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "swagger-ui/**").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/produto/visualizarDetalhesProduto/*").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/produto/todos/*").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/produto/filtro**").permitAll()
-                    .anyRequest().authenticated())
-            .cors(withDefaults())
-            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-            .build();
-}
->>>>>>> 83831e530acee925b9fb90bf6742646791971c39
+
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
