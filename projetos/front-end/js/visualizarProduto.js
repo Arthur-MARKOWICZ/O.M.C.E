@@ -37,7 +37,7 @@ fetch(`http://localhost:8080/avaliacaoVendedor/media/${id_vendedor}`)
     .then(media => {
          const elementoMedia = document.getElementById('avaliacao');
         if (elementoMedia) {
-            elementoMedia.innerText = `Média: ${media.toFixed(1)} ⭐`;
+            elementoMedia.innerText = `Média de avaliacao do vendedor: ${media.toFixed(1)} ⭐`;
         }
     });
 
