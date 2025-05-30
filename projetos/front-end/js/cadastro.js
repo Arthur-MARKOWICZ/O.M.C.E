@@ -1,4 +1,5 @@
 const txtName = document.getElementById("txtName");
+
 const txtCPF = document.getElementById("txtCPF");
 const dataNasc = document.getElementById("txtNasc");
 const txtEmail = document.getElementById("txtEmail");
@@ -10,7 +11,6 @@ const end_logradouro = document.getElementById("end_logradouro");
 const NomeUser = document.getElementById("txtNU");
 const txtSenha = document.getElementById("txtSenha");
 const txtSenhaConfirmar = document.getElementById("txtSenhaConfirmar");
-const notyf = new Notyf();
 console.log(dataNasc.value);
 
 document.querySelector("#form_cadastro").addEventListener("submit", function (e) {
@@ -112,25 +112,11 @@ function validarCadastro() {
 }
 
 function exibirErroCampoEmBranco(mensagem, campo) {
-    notyf.open({
-        type: 'error',
-        message: 'Preencimento obrigatorio: ' + campo,
-        duration: 3000,
-        position: { x: 'center', y: 'center' } 
-    });
-    campo.focus();
-    return false;
+
 }   
 
 function exibirErroCampoInvalido(mensagem, campo) {
-    notyf.open({
-        type: 'error',
-        message: '',
-        duration: 3000,
-        position: { x: 'center', y: 'center' } 
-    });
-    campo.focus();
-    return false;
+
 }   
 
 function isCPF(cpf) {

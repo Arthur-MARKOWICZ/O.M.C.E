@@ -19,6 +19,7 @@ public class User  implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private String cor;
     private String nome;
     @Embedded
     private Endereco endereco;
@@ -52,7 +53,6 @@ public class User  implements UserDetails {
     }
 
     public void alterarDados(DadosAlterarDadosUser dados){
-
         this.nome = dados.nome();
         this.endereco = new Endereco(dados.endereco());
         this.cpf = dados.cpf();
@@ -89,6 +89,7 @@ public class User  implements UserDetails {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
+
 
     public String getDataNasc() {
         return dataNasc;

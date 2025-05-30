@@ -26,6 +26,7 @@ public class UserController {
     @GetMapping("/{id}")
     public  ResponseEntity pegarUsuario(@PathVariable Long id){
         var user  = userRepository.findById(id);
+        System.out.println(user);
         return ResponseEntity.ok(user.get());
     }
 
