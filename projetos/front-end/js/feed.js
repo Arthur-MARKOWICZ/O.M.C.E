@@ -121,11 +121,12 @@ async function enviarAvaliacao() {
     const nota = parseInt(document.getElementById("nota-avaliacao").value);
     const comentario = document.getElementById("comentario-avaliacao").value;
 
+
     
     const resposta = await fetch(`http://localhost:8080/avaliacoes/criar`, {
 
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${localStorage.getItem('jwt')}` },
         body: JSON.stringify({ nota: nota, comentario: comentario, idProduto: idProdutoAtual })
 
     });
