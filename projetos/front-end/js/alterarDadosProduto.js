@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const produtoId = urlParams.get("id");
  
     if (!produtoId) {
-        alert("Produto não encontrado");
+        Swal.fire("Produto não encontrado");
         return;
     }
     const token = localStorage.getItem("jwt");
@@ -61,17 +61,17 @@ let produtoDepois = { imagem: "", imagem_tipo: "" };
 
 function btnSendOnClickProduto() {
     if (nome.value === "") {
-        alert("Preenchimento obrigatório: Nome");
+        Swal.fire("Preenchimento obrigatório: Nome");
         nome.focus();
         return false;
     }
     if (preco.value === "") {
-        alert("Preenchimento obrigatório: Preço");
+        Swal.fire("Preenchimento obrigatório: Preço");
         preco.focus();
         return false;
     }
     if (detalhes.value === "") {
-        alert("Preenchimento obrigatório: Detalhes");
+        Swal.fire("Preenchimento obrigatório: Detalhes");
         detalhes.focus();
         return false;
     }
@@ -128,13 +128,15 @@ document.getElementById("form_alteraDadosProduto").addEventListener("submit", as
         });
 
         if (response.ok) {
-            alert("Produto alterado com sucesso!");
+            Swal.fire({
+                title:"Produto alterado com sucesso!",
+                icon:'success'});
             window.location.href = "../html/feed.html";
         } else {
-            alert("Erro na alteração.");
+            Swal.fire("Erro na alteração.");
         }
     } catch (error) {
         console.error("Erro ao alterar produto:", error);
-        alert("Falha na alteração.");
+        Swal.fire("Falha na alteração.");
     }
 });

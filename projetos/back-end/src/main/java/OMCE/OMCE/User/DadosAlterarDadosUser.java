@@ -12,5 +12,6 @@ public record DadosAlterarDadosUser(@JsonProperty("id") Long id,
                                          @JsonProperty("email") String email,
                                          @JsonProperty("telefone") String telefone,
                                          @JsonProperty("nomeUser") String nomeUser,
-                                         @JsonProperty("senha") String senha){
+                                         @JsonProperty("senha") String senha,
+                                         @JsonProperty("novaSenha") String novaSenha   ){
 }

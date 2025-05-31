@@ -8,27 +8,28 @@ const id = Number(id_usuario);
 
 function btnSendOnClickProduto() {
 
+    if (nome.value === "") {
+        Swal.fire("Preenchimento obrigatório: Nome");
 
-    if(nome.value == ""){
-        alert("O campo nome é obrigatório!");
         nome.focus();
         return false;
     }
     if (preco.value === "") {
-        alert("O campo preço é obrigatório!");
+
+        Swal.fire("Preenchimento obrigatório: Preço");
+
         preco.focus();
         return false;
     }
     if (detalhes.value === "") {
 
-
-        alert("O campo detalhes é obrigatório!");
+        Swal.fire("Preenchimento obrigatório: Detalhes");
 
         detalhes.focus();
         return false;
     }
     if (!imagem.files[0]) {
-        alert("Preenchimento obrigatório: Imagem");
+        Swal.fire("Preenchimento obrigatório: Imagem");
         imagem.focus();
         return false;
     }
@@ -88,16 +89,18 @@ document.getElementById("form_cadastroProduto").addEventListener("submit", async
         });
 
         if (response.ok) {
-            alert("Produto cadastrado com sucesso!");
+            Swal.fire({
+              title:"Seu produto foi anunciado com sucesso!",
+              icon: 'success'});
             window.location.href = "../html/feed.html";
         } else {
-            const errorText = await response.text();
-            console.error("Erro no cadastro:", errorText);
-            alert("Erro no cadastro: " + errorText);
+
+            Swal.fire("Erro no cadastro.");
         }
     } catch (error) {
         console.error("Erro ao cadastrar produto:", error);
-        alert("Falha no cadastro. Verifique o console para mais detalhes.");
+        Swal.fire("Falha no cadastro.");
+
     }
 });
 
