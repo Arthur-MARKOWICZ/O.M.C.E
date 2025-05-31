@@ -25,6 +25,8 @@ public class AvaliacaoProduto {
     @JoinColumn(name = "produto_id")
     private Produto produto;
 
+    @Column(name = "criado_em")
+
     private LocalDateTime dataCriacao = LocalDateTime.now();
 }
 

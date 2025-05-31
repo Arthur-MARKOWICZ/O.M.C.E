@@ -56,7 +56,10 @@ public class ProdutoController {
             json.put("Imagem_tipo", produto.get().getImageTipo());
             json.put("condicao", produto.get().getCondicao());
             json.put("detalhes", produto.get().getDetalhes());
-            json.put("nome_do_usuario", usuario.getNome());
+
+                json.put("nome_do_usuario", usuario.getNome());
+                json.put("id_vendedor", usuario.getId());
+
 
             return ResponseEntity.ok(json);
         }
@@ -106,7 +109,9 @@ public class ProdutoController {
     public ResponseEntity<Page<ProdutoRespostaDTO>> pegarProdutosUsuario(@PageableDefault(size=10)Pageable pageable,
                                                                          @RequestHeader("Id-Usuario") Long id_usuario) {
         Page<Produto> produtos = produtoRepository.pegarProdutosUsuario(id_usuario,pageable);
-        var produtoDTO = produtos.map(ProdutoRespostaDTO::new);
-        return ResponseEntity.ok(produtoDTO);
+
+       var produtoDTO = produtos.map(ProdutoRespostaDTO::new);
+       return ResponseEntity.ok(produtoDTO);
+
     }
 }

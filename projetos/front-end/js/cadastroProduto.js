@@ -7,6 +7,7 @@ const id_usuario = localStorage.getItem("id_usuario");
 const id = Number(id_usuario);
 
 function btnSendOnClickProduto() {
+
     if (nome.value === "") {
 
         Swal.fire("Preenchimento obrigatório: Nome");

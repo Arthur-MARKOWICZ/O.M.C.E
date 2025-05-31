@@ -31,4 +31,5 @@ public class AvaliacaoVendedorController {
         Page<AvaliacaoVendedorRespostaDTO> avaliacoes = service.pegarAvaliaca(pageable,id);
         return ResponseEntity.ok(avaliacoes);
     }
+
 }
