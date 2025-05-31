@@ -1,10 +1,8 @@
 package OMCE.OMCE.controller;
 
-import OMCE.OMCE.User.DadosAlterarDadosUser;
-import OMCE.OMCE.User.DadosCadastroUser;
-import OMCE.OMCE.User.DadosRedefinirSenha;
-import OMCE.OMCE.User.User;
-import OMCE.OMCE.User.UserRepository;
+
+import OMCE.OMCE.User.*;
+
 import OMCE.OMCE.Validacao.ValidacaoUser;
 import OMCE.OMCE.config.EmailService;
 import java.time.LocalDateTime;
@@ -25,6 +23,8 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private ValidacaoUser validar;
+    @Autowired
+    private UserService userService;
     @GetMapping("/{id}")
     public  ResponseEntity pegarUsuario(@PathVariable Long id){
         var user  = userRepository.findById(id);
@@ -35,10 +35,7 @@ public class UserController {
     @PutMapping("/alterardados")
     @Transactional
     public ResponseEntity alterardados(@RequestBody DadosAlterarDadosUser dados){
-        System.out.println(dados);
-        validar.validarAlterarUsuario(dados);
-        var user =  userRepository.getReferenceById(dados.id());
-        user.alterarDados(dados);
+       userService.alterardados(dados);
         return ResponseEntity.ok().build();
     }
     @DeleteMapping("deletar/{id}")

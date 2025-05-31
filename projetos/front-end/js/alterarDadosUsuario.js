@@ -10,6 +10,7 @@ const end_Logradouro = document.getElementById("end_logradouro");
 const NomeUser = document.getElementById("txtNU");
 const txtSenha = document.getElementById("txtSenha");
 const cep = document.getElementById("txtCep");
+const novaSenha = document.getElementById("txtNovaSenha");
 const txtSenhaConfirmar = document.getElementById("txtSenhaConfirmar");
 document.querySelector("#form_cadastro").addEventListener("submit", function (e) {
     document.getElementById("end_logradouro").disabled = false;
@@ -40,7 +41,8 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
         email: txtEmail.value,
         telefone: txtTel.value,
         nomeUser: NomeUser.value,
-        senha: txtSenha.value
+        senha: txtSenha.value,
+        novaSenha: novaSenha.value
     };
     
     try {
@@ -54,14 +56,19 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
         });
         console.log(json);
         if (response.ok) {
-            alert("Seus dados foram atualizados com sucesso!");
+            Swal.fire({
+                title:"Seus dados foram atualizados com sucesso!",
+                icon:'success'});
             event.target.reset();
             window.location.href = "../html/home.html";
         } else {
-            alert("Erro ao atualizar os dados.");
+            Swal.fire("Erro ao atualizar os dados.");
         }
     } catch (error) {
-        alert("Erro de conexão.");
+        Swal.fire({
+            title:"Algo deu errado:(",
+            text:"Erro de conexão com o servidor",
+            icon:'warning'});
     }
 });
 
@@ -75,13 +82,17 @@ function validarCadastro() {
     if (!txtTel.value) return exibirErro("Telefone", txtTel);
     if (!NomeUser.value) return exibirErro("Nome de usuário", NomeUser);
     if (!txtSenha.value) return exibirErro("Senha", txtSenha);
-    if (txtSenha.value !== txtSenhaConfirmar.value) return exibirErro("Senhas diferentes", txtSenhaConfirmar);
+    if (novaSenha.value !== txtSenhaConfirmar.value) return exibirErro("Senhas diferentes", txtSenhaConfirmar);
 
     return true;
 }
 
 function exibirErro(mensagem, campo) {
-    alert("Erro no/a: " + mensagem);
+    Swal.fire({
+      title: "Não foi possível realizar seu cadastro",
+      text:"Erro no/a: " + mensagem,
+      icon:'warning',
+      confirmButtonText: 'OK'});("Erro no/a: " + mensagem);
     if (campo) campo.focus();
     return false;
 }
@@ -104,7 +115,7 @@ function isCep(cep) {
 
 function mostrarDados(dados) {
     if (dados.erro) {
-        alert("CEP não encontrado!");
+        Swal.fire("CEP não encontrado!");
         return;
     }
     end_Logradouro.value = dados.logradouro;

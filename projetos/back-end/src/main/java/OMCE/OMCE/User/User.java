@@ -4,7 +4,6 @@ import OMCE.OMCE.Enderco.Endereco;
 import OMCE.OMCE.Produto.Produto;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,7 +50,9 @@ public class User  implements UserDetails {
         this.nomeUser = dados.nomeUser();
     }
 
-    public void alterarDados(DadosAlterarDadosUser dados){
+
+    public void alterarDados(DadosAlterarDadosUser dados, String novoHash){
+
         this.nome = dados.nome();
         this.endereco = new Endereco(dados.endereco());
         this.cpf = dados.cpf();
@@ -59,6 +60,9 @@ public class User  implements UserDetails {
         this.email = dados.email();
         this.telefone = dados.telefone();
         this.nomeUser = dados.nomeUser();
+        if(dados.novaSenha() != null){
+            this.senha = novoHash;
+        }
     }
 
     public long getId() {
