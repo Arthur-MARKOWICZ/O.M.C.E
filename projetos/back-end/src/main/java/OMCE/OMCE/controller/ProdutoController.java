@@ -57,6 +57,7 @@ public class ProdutoController {
             json.put("condicao", produto.get().getCondicao());
             json.put("detalhes", produto.get().getDetalhes());
                 json.put("nome_do_usuario", usuario.getNome());
+                json.put("id_vendedor", usuario.getId());
 
             return ResponseEntity.ok(json);
         }

@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -32,6 +33,10 @@ public class User  implements UserDetails {
     private String nomeUser;
     private String senha;
     private boolean ativo;
+    @Column(name = "tokenRedefinicao")
+    private String tokenRedefinicao;
+    @Column(name = "tokenExpiracao")
+    private LocalDateTime tokenExpiracao;
     public User(){}
     public User(DadosCadastroUser dados){
         this.ativo = true;
@@ -155,12 +160,26 @@ public class User  implements UserDetails {
         this.ativo = ativo;
     }
 
+    public String getTokenRedefinicao() { 
+        return tokenRedefinicao; 
+    
+    }
+    public void setTokenRedefinicao(String tokenRedefinicao) { 
+        this.tokenRedefinicao = tokenRedefinicao; 
+    }
+
+    public LocalDateTime getTokenExpiracao() { 
+        return tokenExpiracao; 
+    
+    }
+    public void setTokenExpiracao(LocalDateTime tokenExpiracao) { 
+        this.tokenExpiracao = tokenExpiracao; 
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
-
-
 
     @Override
     public String getPassword() {
