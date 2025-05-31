@@ -18,8 +18,8 @@ document.getElementById("novaSenhaForm").addEventListener("submit", async (e) =>
   }
 
   try {
-    const response = await fetch("http://localhost:8080/user/redefinirSenha", {
-      method: "POST",
+    const response = await fetch("http://localhost:8080/user/novaSenha", {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json"
       },

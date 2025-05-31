@@ -10,7 +10,9 @@ import OMCE.OMCE.config.EmailService;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -69,5 +71,22 @@ public class UserController {
         emailService.enviarEmail(usuario.getEmail(), assunto, corpo);
         return ResponseEntity.ok("Enviando email...");
     }
+    @PutMapping("/novaSenha")
+    @Transactional
+    public ResponseEntity novaSenha(@RequestBody DadosRedefinirSenha dados){
+        User user = userRepository.findByTokenRedefinicao(dados.token());
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado.");
+        }
+        BCryptPasswordEncoder encoder =  new BCryptPasswordEncoder();
+        if(encoder.matches(dados.novaSenha(),user.getSenha())){
+            return ResponseEntity.badRequest().body(" Senha nova igual a original");
+        }
+        String novoHash =  encoder.encode(dados.novaSenha());
+       user.setSenha(novoHash);
+       return ResponseEntity.ok("senha alterada com sucesso");
+    }
+
+
 
 }

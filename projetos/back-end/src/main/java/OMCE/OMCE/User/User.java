@@ -19,7 +19,6 @@ public class User  implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String cor;
     private String nome;
     @Embedded
     private Endereco endereco;
