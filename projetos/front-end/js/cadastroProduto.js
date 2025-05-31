@@ -9,6 +9,7 @@ const id = Number(id_usuario);
 function btnSendOnClickProduto() {
 
     if (nome.value === "") {
+
         Swal.fire("Preenchimento obrigatório: Nome");
 
         nome.focus();

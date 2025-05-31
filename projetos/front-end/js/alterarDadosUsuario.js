@@ -1,4 +1,5 @@
 const txtName = document.getElementById("txtName");
+
 const txtCPF = document.getElementById("txtCPF");
 const dataNasc = document.getElementById("txtNasc");
 const txtEmail = document.getElementById("txtEmail");
@@ -26,6 +27,7 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
     const userId = localStorage.getItem("id_usuario");
     const json = {
         id: parseInt(userId),
+
         nome: txtName.value,
         cpf: txtCPF.value,
         dataNasc: dataNasc.value,

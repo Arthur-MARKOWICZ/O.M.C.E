@@ -41,10 +41,12 @@ async function carregarFeed(filtros = {}) {
                 <button onclick="abrirFormularioAvaliacao(${produto.id})">Avaliar Produto</button>
             `;
 
+
             container.appendChild(card);
             console.log("Produto:", produto);
             exibirMedia(produto.id);
         });
+
 
         
         document.querySelectorAll('.produto-imagem').forEach(img => {
@@ -122,6 +124,7 @@ async function enviarAvaliacao() {
     const comentario = document.getElementById("comentario-avaliacao").value;
 
 
+
     
     const resposta = await fetch(`http://localhost:8080/avaliacoes/criar`, {
 
@@ -133,6 +136,7 @@ async function enviarAvaliacao() {
     console.log(nota);
     console.log(comentario);
     console.log(idProdutoAtual);
+
 
 
 

@@ -17,7 +17,9 @@ public class AvaliacaoProdutoController {
     @Autowired
     private AvaliacaoProdutoServico servico;
 
+
     @PostMapping("/criar")
+
     public ResponseEntity<Void> criar(@RequestBody AvaliacaoProdutoDTO dto) {
         servico.criar(dto);
         return ResponseEntity.ok().build();

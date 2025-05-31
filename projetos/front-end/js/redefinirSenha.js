@@ -17,7 +17,7 @@ document.getElementById("resetForm").addEventListener("submit", async (e) => {
         });
 
         if (response.ok) {
-            alert("Se o email estiver cadastrado, enviaremos um link para redefinir sua senha.");
+            alert("Email enviado com sucesso.");
         } else {
             alert("Erro ao tentar redefinir a senha.");
         }

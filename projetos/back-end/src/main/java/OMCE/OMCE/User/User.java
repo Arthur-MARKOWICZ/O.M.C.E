@@ -33,9 +33,9 @@ public class User  implements UserDetails {
     private String nomeUser;
     private String senha;
     private boolean ativo;
-    @Column(name = "tokenRedefinicao")
+    @Column(name = "token_redefinicao")
     private String tokenRedefinicao;
-    @Column(name = "tokenExpiracao")
+    @Column(name = "token_expiracao")
     private LocalDateTime tokenExpiracao;
     public User(){}
     public User(DadosCadastroUser dados){
@@ -49,6 +49,7 @@ public class User  implements UserDetails {
         this.telefone = dados.telefone();
         this.nomeUser = dados.nomeUser();
     }
+
 
     public void alterarDados(DadosAlterarDadosUser dados, String novoHash){
 
@@ -91,6 +92,7 @@ public class User  implements UserDetails {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
+
 
     public String getDataNasc() {
         return dataNasc;

@@ -11,13 +11,18 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    public void enviarEmail(String para, String assunto, String corpo) {
+    public void enviarEmail(String destinatario, String assunto, String corpo) {
         SimpleMailMessage mensagem = new SimpleMailMessage();
-        mensagem.setTo(para);
+        mensagem.setTo(destinatario);
         mensagem.setSubject(assunto);
         mensagem.setText(corpo);
-        mensagem.setFrom("teste@example.com");
+        mensagem.setFrom("empresaomce@gmail.com");
 
-        mailSender.send(mensagem);
+        try {
+            mailSender.send(mensagem);
+            System.out.println("E-mail enviado para: " + destinatario);
+        } catch (Exception e) {
+            System.err.println("Erro ao enviar e-mail: " + e.getMessage());
+        }
     }
 }

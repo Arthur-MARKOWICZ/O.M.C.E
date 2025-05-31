@@ -1,2 +1,0 @@
-ALTER TABLE users ADD COLUMN tokenRedefinicao VARCHAR(255);
-ALTER TABLE users ADD COLUMN tokenExpiracao TIMESTAMP;

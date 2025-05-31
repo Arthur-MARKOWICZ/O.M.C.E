@@ -1,4 +1,5 @@
 const txtName = document.getElementById("txtName");
+
 const txtCPF = document.getElementById("txtCPF");
 const dataNasc = document.getElementById("txtNasc");
 const txtEmail = document.getElementById("txtEmail");
@@ -10,7 +11,6 @@ const end_logradouro = document.getElementById("end_logradouro");
 const NomeUser = document.getElementById("txtNU");
 const txtSenha = document.getElementById("txtSenha");
 const txtSenhaConfirmar = document.getElementById("txtSenhaConfirmar");
-const notyf = new Notyf();
 console.log(dataNasc.value);
 
 document.querySelector("#form_cadastro").addEventListener("submit", function (e) {
@@ -114,6 +114,7 @@ function validarCadastro() {
     return true;
 }
 
+
 function exibirErro(mensagem, campo) {
     Swal.fire({
       title: "Não foi possível realizar seu cadastro",
@@ -122,6 +123,7 @@ function exibirErro(mensagem, campo) {
       confirmButtonText: 'OK'});("Erro no/a: " + mensagem);
     campo.focus();
     return false;
+
 }   
 
 function isCPF(cpf) {
