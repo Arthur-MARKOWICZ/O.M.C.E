@@ -18,3 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Erro:", error.message);
         });
 });
+function logout(){
+   localStorage.removeItem("id_usuario");
+   localStorage.removeItem("jwt");
+}
