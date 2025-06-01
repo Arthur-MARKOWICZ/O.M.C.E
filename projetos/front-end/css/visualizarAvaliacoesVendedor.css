@@ -1,6 +1,8 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     background: white;
+    margin: 0;
+    padding: 0;
 }
 
 #avaliacao-container {
