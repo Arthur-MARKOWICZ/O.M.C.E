@@ -85,6 +85,9 @@ function validarCadastro() {
       return exibirErro("Data de nascimento", dataNasc);
          
     }
+    if(!isDataValida(dataNasc.value)){
+      return exibirErro("data de nascimento invalida",dataNasc)
+    }
     if (!document.querySelector('input[name="optGender"]:checked')) {
       return exibirErro("Preenchimento obrigatório: Sexo");
     }
@@ -193,6 +196,12 @@ function isData(data) {
   const re = /^\d{4}-\d{2}-\d{2}$/;
   return re.test(data);
   
+}
+function isDataValida(dataNasc) {
+  const hoje = new Date();
+  const data = new Date(dataNasc);
+
+  return data <= hoje;
 }
 function isCep(cep) {
   const re = /^\d{5}\d{3}$/;
