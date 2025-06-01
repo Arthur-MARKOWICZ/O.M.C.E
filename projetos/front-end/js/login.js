@@ -55,3 +55,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+function irCadastro(){
+     window.location.href = "../html/cadastro.html"; 
+}
