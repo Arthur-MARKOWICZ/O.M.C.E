@@ -25,21 +25,33 @@ public class TokenService {
                     .sign(algorithm);
             return token;
         }catch (JWTCreationException e){
-            throw new RuntimeException("erro na geracao do token", e);
+            throw new RuntimeException("Erro na geração do token", e);
 
         }
     }
-    public String validateToken(String token){
-        try{
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            return JWT.require(algorithm)
-                    .withIssuer("auth-api")
-                    .build()
-                    .verify(token)
-                    .getSubject();
-        } catch (JWTVerificationException e) {
-            return null;
-        }
+    public String generateResetToken(User user) {
+    try {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+        return JWT.create()
+                .withIssuer("reset-password")
+                .withSubject(user.getEmail())
+                .withExpiresAt(LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-03:00")))
+                .sign(algorithm);
+    } catch (JWTCreationException e) {
+        throw new RuntimeException("Erro na geração do token de redefinição de senha", e);
+    }
+    }
+    public String validateToken(String token) {
+    try {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+        return JWT.require(algorithm)
+                .withIssuer("auth-api", "reset-password")
+                .build()
+                .verify(token)
+                .getSubject();
+    } catch (JWTVerificationException e) {
+        return null;
+    }
     }
 
     private Instant generateExpirationDate(){

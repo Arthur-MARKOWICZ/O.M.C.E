@@ -1,4 +1,5 @@
 const txtName = document.getElementById("txtName");
+
 const txtCPF = document.getElementById("txtCPF");
 const dataNasc = document.getElementById("txtNasc");
 const txtEmail = document.getElementById("txtEmail");
@@ -113,6 +114,7 @@ function validarCadastro() {
     return true;
 }
 
+
 function exibirErro(mensagem, campo) {
     Swal.fire({
       title: "Não foi possível realizar seu cadastro",
@@ -121,7 +123,10 @@ function exibirErro(mensagem, campo) {
       confirmButtonText: 'OK'});("Erro no/a: " + mensagem);
     campo.focus();
     return false;
-}
+
+
+}   
+
 
 function exibirErroEmBranco(mensagem, campo) {
     Swal.fire({
@@ -132,6 +137,7 @@ function exibirErroEmBranco(mensagem, campo) {
        campo.focus();
        return false;
     }
+
 
 function isCPF(cpf) {
   const re = /^\d{11}$/;

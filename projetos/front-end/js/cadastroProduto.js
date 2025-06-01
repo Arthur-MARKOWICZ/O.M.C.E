@@ -1,3 +1,4 @@
+
 const nome = document.getElementById("txtName");
 const preco = document.getElementById("txtPreco");
 const detalhes = document.getElementById("txtDetalhes");
@@ -6,18 +7,25 @@ const id_usuario = localStorage.getItem("id_usuario");
 const id = Number(id_usuario);
 
 function btnSendOnClickProduto() {
+
     if (nome.value === "") {
+
         Swal.fire("Preenchimento obrigatório: Nome");
+
         nome.focus();
         return false;
     }
     if (preco.value === "") {
+
         Swal.fire("Preenchimento obrigatório: Preço");
+
         preco.focus();
         return false;
     }
     if (detalhes.value === "") {
+
         Swal.fire("Preenchimento obrigatório: Detalhes");
+
         detalhes.focus();
         return false;
     }
@@ -38,31 +46,39 @@ function toBase64(file) {
     });
 }
 
-
 document.getElementById("form_cadastroProduto").addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    if (!btnSendOnClickProduto()) return; 
+    if (!btnSendOnClickProduto()) return;
 
     try {
         const condicao = document.querySelector('input[name="Condicao"]:checked');
         const categoria = document.querySelector('input[name="categoria"]:checked');
         const token = localStorage.getItem("jwt");
+
+        if (!condicao || !categoria) {
+            alert("Selecione uma condição e uma categoria!");
+            return;
+        }
+
+        if (!token) {
+            alert("Token JWT não encontrado. Faça login novamente.");
+            return;
+        }
+
         const file = imagem.files[0];
         const base64 = await toBase64(file);
-        console.log(token)
+
         const produto = {
             nome: nome.value,
-            preco: parseFloat(preco.value),
+            preco: parseFloat(preco.value.replace(',', '.')),
             detalhes: detalhes.value,
             condicao: condicao.value,
             categoria: categoria.value,
             id_usuario: id,
-            imagem: base64.split(",")[1], 
-            imagem_tipo: file.type 
+            imagem: base64.split(",")[1],
+            imagem_tipo: file.type
         };
-
-        console.log(produto);
 
         const response = await fetch("http://localhost:8080/produto/cadastroProduto", {
             method: "POST",
@@ -71,17 +87,21 @@ document.getElementById("form_cadastroProduto").addEventListener("submit", async
                 "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(produto)
-        }); 
+        });
+
         if (response.ok) {
             Swal.fire({
               title:"Seu produto foi anunciado com sucesso!",
               icon: 'success'});
             window.location.href = "../html/feed.html";
         } else {
+
             Swal.fire("Erro no cadastro.");
         }
     } catch (error) {
         console.error("Erro ao cadastrar produto:", error);
         Swal.fire("Falha no cadastro.");
+
     }
 });
+

@@ -4,11 +4,11 @@ import OMCE.OMCE.Enderco.Endereco;
 import OMCE.OMCE.Produto.Produto;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,6 +33,10 @@ public class User  implements UserDetails {
     private String nomeUser;
     private String senha;
     private boolean ativo;
+    @Column(name = "token_redefinicao")
+    private String tokenRedefinicao;
+    @Column(name = "token_expiracao")
+    private LocalDateTime tokenExpiracao;
     public User(){}
     public User(DadosCadastroUser dados){
         this.ativo = true;
@@ -46,7 +50,8 @@ public class User  implements UserDetails {
         this.nomeUser = dados.nomeUser();
     }
 
-    public void alterarDados(DadosAlterarDadosUser dados){
+
+    public void alterarDados(DadosAlterarDadosUser dados, String novoHash){
 
         this.nome = dados.nome();
         this.endereco = new Endereco(dados.endereco());
@@ -55,6 +60,9 @@ public class User  implements UserDetails {
         this.email = dados.email();
         this.telefone = dados.telefone();
         this.nomeUser = dados.nomeUser();
+        if(dados.novaSenha() != null){
+            this.senha = novoHash;
+        }
     }
 
     public long getId() {
@@ -84,6 +92,7 @@ public class User  implements UserDetails {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
+
 
     public String getDataNasc() {
         return dataNasc;
@@ -153,12 +162,26 @@ public class User  implements UserDetails {
         this.ativo = ativo;
     }
 
+    public String getTokenRedefinicao() { 
+        return tokenRedefinicao; 
+    
+    }
+    public void setTokenRedefinicao(String tokenRedefinicao) { 
+        this.tokenRedefinicao = tokenRedefinicao; 
+    }
+
+    public LocalDateTime getTokenExpiracao() { 
+        return tokenExpiracao; 
+    
+    }
+    public void setTokenExpiracao(LocalDateTime tokenExpiracao) { 
+        this.tokenExpiracao = tokenExpiracao; 
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
-
-
 
     @Override
     public String getPassword() {

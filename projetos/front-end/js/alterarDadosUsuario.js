@@ -1,4 +1,5 @@
 const txtName = document.getElementById("txtName");
+
 const txtCPF = document.getElementById("txtCPF");
 const dataNasc = document.getElementById("txtNasc");
 const txtEmail = document.getElementById("txtEmail");
@@ -9,6 +10,7 @@ const end_Logradouro = document.getElementById("end_logradouro");
 const NomeUser = document.getElementById("txtNU");
 const txtSenha = document.getElementById("txtSenha");
 const cep = document.getElementById("txtCep");
+const novaSenha = document.getElementById("txtNovaSenha");
 const txtSenhaConfirmar = document.getElementById("txtSenhaConfirmar");
 document.querySelector("#form_cadastro").addEventListener("submit", function (e) {
     document.getElementById("end_logradouro").disabled = false;
@@ -25,6 +27,7 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
     const userId = localStorage.getItem("id_usuario");
     const json = {
         id: parseInt(userId),
+
         nome: txtName.value,
         cpf: txtCPF.value,
         dataNasc: dataNasc.value,
@@ -38,7 +41,8 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
         email: txtEmail.value,
         telefone: txtTel.value,
         nomeUser: NomeUser.value,
-        senha: txtSenha.value
+        senha: txtSenha.value,
+        novaSenha: novaSenha.value
     };
     
     try {
@@ -78,7 +82,7 @@ function validarCadastro() {
     if (!txtTel.value) return exibirErro("Telefone", txtTel);
     if (!NomeUser.value) return exibirErro("Nome de usuário", NomeUser);
     if (!txtSenha.value) return exibirErro("Senha", txtSenha);
-    if (txtSenha.value !== txtSenhaConfirmar.value) return exibirErro("Senhas diferentes", txtSenhaConfirmar);
+    if (novaSenha.value !== txtSenhaConfirmar.value) return exibirErro("Senhas diferentes", txtSenhaConfirmar);
 
     return true;
 }
