@@ -42,7 +42,10 @@ public class AuthenticationController {
            return ResponseEntity.badRequest().build();
        }
         var token = tokenService.generateToken(user);
-        return ResponseEntity.ok(new LoginResponseDTO(token, user.getId()));
+       Long idUser = user.getId();
+       String nome = user.getNomeUser();
+        System.out.println(nome);
+        return ResponseEntity.ok(new LoginResponseDTO(token,idUser,nome));
     }
 
     @PostMapping("/cadastro")

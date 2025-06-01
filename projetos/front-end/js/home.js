@@ -53,3 +53,4 @@ async function carregarProdutosHome() {
 document.addEventListener("DOMContentLoaded", () => {
     carregarProdutosHome();
 });
+console.log(localStorage.getItem("nome"))

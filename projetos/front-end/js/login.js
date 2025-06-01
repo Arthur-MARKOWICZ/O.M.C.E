@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (data.token && data.id) { 
                 localStorage.setItem("id_usuario", data.id); 
                 localStorage.setItem("jwt", data.token);
+                localStorage.setItem("nome",data.nome);
                 const token = localStorage.getItem("jwt");
                 Swal.fire({
                     Title:"Login bem-sucedido!",
@@ -54,3 +55,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+function irCadastro(){
+     window.location.href = "../html/cadastro.html"; 
+}
