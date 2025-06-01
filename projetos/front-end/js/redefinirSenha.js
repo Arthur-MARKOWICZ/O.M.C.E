@@ -3,7 +3,7 @@ document.getElementById("resetForm").addEventListener("submit", async (e) => {
     const email = document.getElementById("email-reset").value.trim();
 
     if (!email) {
-        alert("Email inválido ou não cadastrado");
+         Swal.fire("Email inválido ou não cadastrado");
         return;
     }
 
@@ -17,12 +17,12 @@ document.getElementById("resetForm").addEventListener("submit", async (e) => {
         });
 
         if (response.ok) {
-            alert("Email enviado com sucesso.");
+             Swal.fire("Email enviado com sucesso.");
         } else {
-            alert("Erro ao tentar redefinir a senha.");
+             Swal.fire("Erro ao tentar redefinir a senha.");
         }
     } catch (error) {
         console.error("Erro:", error);
-        alert("Erro ao conectar com o servidor.");
+         Swal.fire("Erro ao conectar com o servidor.");
     }
 });

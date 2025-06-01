@@ -1,7 +1,7 @@
 function getUsuarioId() {
   const id = localStorage.getItem("id_usuario");
   if (!id) {
-    alert("Você precisa estar logado para acessar o ir para o finalizar pedido.");
+     Swal.fire("Você precisa estar logado para acessar o ir para o finalizar pedido.");
     window.location.href = "../html/login.html";
     return null;
   }
@@ -11,7 +11,7 @@ async function pedido(){
   const id = getUsuarioId();
   const carrinho = JSON.parse(localStorage.getItem('carrinho_pedido')) || [];
   if (carrinho.length === 0) {
-    alert("Nenhum item no carrinho!");
+     Swal.fire("Nenhum item no carrinho!");
     window.location.href = '../html/carrinho.html';
     return;
   }
@@ -51,16 +51,16 @@ async function pedido(){
     });
 
     if (response.ok) {
-      alert("Pedido realizado com sucesso!");
+       Swal.fire("Pedido realizado com sucesso!");
 
       localStorage.removeItem(`carrinho_${id}`);
       window.location.href = '../html/carrinho.html';
     } else {
-      alert("Erro ao realizar pedido!");
+       Swal.fire("Erro ao realizar pedido!");
     }
   } catch(e) {
     console.error("Erro:", e);
-    alert("Erro ao realizar pedido!");
+     Swal.fire("Erro ao realizar pedido!");
   }
 }
 

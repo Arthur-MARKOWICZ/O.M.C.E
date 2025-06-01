@@ -40,10 +40,10 @@ const response = await fetch("http://localhost:8080/avaliacaoVendedor/cadastro",
         }
        if(!response.ok) {
 
-            alert("erro ao conectar ao servidor")
+            Swal.fire("erro ao conectar ao servidor")
           return;
         }
-        alert("avaliacao cadastrado com sucesso");
+         Swal.fire("avaliacao cadastrado com sucesso");
             event.target.reset();
             window.location.href = "../html/feed.html";
     }); 

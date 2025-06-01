@@ -5,7 +5,7 @@ document.getElementById("novaSenhaForm").addEventListener("submit", async (e) =>
   const confirmarSenha = document.getElementById("confirmarSenha").value.trim();
 
   if (novaSenha !== confirmarSenha) {
-    alert("As senhas não coincidem.");
+     Swal.fire("As senhas não coincidem.");
     return;
   }
 
@@ -13,7 +13,7 @@ document.getElementById("novaSenhaForm").addEventListener("submit", async (e) =>
   const token = urlParams.get("token");
 
   if (!token) {
-    alert("Token de redefinição inválido ou ausente.");
+     Swal.fire("Token de redefinição inválido ou ausente.");
     return;
   }
 
@@ -30,14 +30,14 @@ document.getElementById("novaSenhaForm").addEventListener("submit", async (e) =>
     });
 
     if (response.ok) {
-      alert("Senha atualizada com sucesso!");
+       Swal.fire("Senha atualizada com sucesso!");
       window.location.href = "login.html";
     } else {
       const erro = await response.text();
-      alert("Erro ao redefinir a senha: " + erro);
+       Swal.fire("Erro ao redefinir a senha: " + erro);
     }
   } catch (err) {
     console.error("Erro:", err);
-    alert("Erro ao conectar com o servidor.");
+     Swal.fire("Erro ao conectar com o servidor.");
   }
 });

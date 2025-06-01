@@ -57,12 +57,12 @@ document.getElementById("form_cadastroProduto").addEventListener("submit", async
         const token = localStorage.getItem("jwt");
 
         if (!condicao || !categoria) {
-            alert("Selecione uma condição e uma categoria!");
+             Swal.fire("Selecione uma condição e uma categoria!");
             return;
         }
 
         if (!token) {
-            alert("Token JWT não encontrado. Faça login novamente.");
+             Swal.fire("Token JWT não encontrado. Faça login novamente.");
             return;
         }
 

@@ -144,11 +144,11 @@ async function enviarAvaliacao() {
 
 
     if (resposta.ok) {
-        alert("Avaliação enviada com sucesso!");
+         Swal.fire("Avaliação enviada com sucesso!");
         document.getElementById("form-avaliacao").remove();
         exibirMedia(idProdutoAtual);
     } else {
-        alert("Erro ao enviar avaliação.");
+         Swal.fire("Erro ao enviar avaliação.");
     }
 }
 
