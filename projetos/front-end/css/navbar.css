@@ -1,68 +1,81 @@
-*{
-    margin: 0;
-    padding: 0;
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #0d4683;
+    height: 5vh;
+    padding: 0 20px; 
+    margin-top: 30px;
+    color: white;
 }
 
-a{
+header {
+    background: #007bff;
+    align-items: center;
+    margin-left: -9px;
+    margin-right: -9px;
+    margin-top: -9px;
+    height: 20vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.navlist {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 20px;
+}
+
+.navlist li a {
     color: white;
     text-decoration: none;
+    font-size: 18px;
+    padding: 5px 10px;
     transition: 0.3s;
-    font-size: 20px;
 }
-a:hover{
-    opacity: 0.7s;
+
+.navlist li a:hover {
+    opacity: 0.7;
+    border-bottom: 2px solid white;
 }
-.logo{
+
+.logo {
     font-size: 24px;
     text-transform: uppercase;
     letter-spacing: 4px;
-}
-
-nav{
-    display: flex;
-    justify-content: space-around;
-    align-items:center;
-    background: #007bff;
-    height: 20vh;
-}
-
-
-.navlist {
-    position: absolute;
-    top: 20vh;
-    right: 0;
-    width: 20vw;
-    height: 70vh;
-    background: rgb(50, 197, 205);
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    display: none; 
     color: white;
-}
-
-.navlist.active {
-    display: flex; 
-}
-
-.navlist.active {
-    transform: translateX(0);
-}
-
-.mobile-menu {
+    align-items: center;
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
-    width: 40px;
-    height: 30px;
-    cursor: pointer;
-    padding-left: 600px;
+    padding-left: 45%;
+    padding-top: 3%;
 }
 
-.mobile-menu div {
-    width: 100%;
-    height: 4px;
-    background-color: white;
+a {
+    color: inherit;
+    text-decoration: none;
     transition: 0.3s;
 }
 
+a:hover {
+    opacity: 0.7;
+    text-decoration: none;
+}
+
+.logout {
+    background-color: white; 
+    color: #007bff; 
+    border: 2px solid #007bff;
+    padding: 3px 15px; 
+    font-size: 16px; 
+    font-weight: bold;
+    border-radius: 5px; 
+    cursor: pointer; 
+}
+
+.logout:hover {
+    background-color: #007bff; 
+    color: white; 
+    border-color: white; 
+}
