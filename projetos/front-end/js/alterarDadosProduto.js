@@ -5,7 +5,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const produtoId = urlParams.get("id");
  
     if (!produtoId) {
-        Swal.fire("Produto não encontrado");
+        Swal.fire({                
+            text:"Produto não encontrado",
+            icon:'error'});
         return;
     }
     const token = localStorage.getItem("jwt");
@@ -22,7 +24,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
         if (!response.ok) {
-            throw new Error("Erro ao buscar produto");
+            Swal.fire({
+                text:"Erro ao buscar produto",
+                icon:'error'});
+            return;
         }
 
         const produto = await response.json();

@@ -5,39 +5,32 @@ nav {
     background: #0d4683;
     height: 5vh;
     padding: 0 20px; 
-    margin-top: 30px;
+    margin-top: 1%;
     color: white;
+}
+
+.carrinho {
+    max-width: 45px;
+    max-height: 45px;
 }
 
 header {
     background: #007bff;
-    align-items: center;
-    margin-left: -9px;
-    margin-right: -9px;
-    margin-top: -9px;
     height: 20vh;
     font-family: Arial, Helvetica, sans-serif;
+    position: relative;
 }
 
-.navlist {
+nav {
     display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    gap: 20px;
-}
-
-.navlist li a {
+    justify-content: space-between;
+    align-items: center;
+    background: #0d4683;
+    height: 5vh;
+    padding: 0 20px;
     color: white;
-    text-decoration: none;
-    font-size: 18px;
-    padding: 5px 10px;
-    transition: 0.3s;
-}
-
-.navlist li a:hover {
-    opacity: 0.7;
-    border-bottom: 2px solid white;
+    position: relative;
+    z-index: 10;
 }
 
 .logo {
@@ -45,11 +38,18 @@ header {
     text-transform: uppercase;
     letter-spacing: 4px;
     color: white;
-    align-items: center;
     display: flex;
-    justify-content: space-between;
-    padding-left: 45%;
-    padding-top: 3%;
+    justify-content: center;
+    padding: 10px 0;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    text-align: center;
+}
+
+.imagem {
+    max-width: 20%;
+    max-height: 20%;
 }
 
 a {
