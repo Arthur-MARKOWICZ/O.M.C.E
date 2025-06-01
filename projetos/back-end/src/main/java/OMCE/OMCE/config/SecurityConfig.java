@@ -44,6 +44,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/cadastro").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/redefinirSenha").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/user/novaSenha").permitAll()
                         .requestMatchers("/v3/api-docs/**","/swagger-ui.html","swagger-ui/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/produto/visualizarDetalhesProduto/*").permitAll()
                         .requestMatchers(HttpMethod.GET,"/produto/todos/*").permitAll()
