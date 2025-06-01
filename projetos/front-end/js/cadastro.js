@@ -104,8 +104,11 @@ function validarCadastro() {
     if (!NomeUser.value){
       return exibirErro("Nome de usuário", NomeUser);
     }
-    if (!txtSenha.value) {
+    if (!txtSenha.value ) {
       return exibirErro("Senha", txtSenha);
+    }
+    if( !isSenhaForte(txtSenha.value)){
+      return exibirErro("senha fraca, a senha precisa ser maior que 8 caracteres,letras maiuculas e minusculas,numero e caracteres especial")
     }
     if (txtSenha.value !== txtSenhaConfirmar.value){
       return exibirErro("Senha diferente em confirmar senha", txtSenhaConfirmar);
@@ -137,6 +140,23 @@ function exibirErroEmBranco(mensagem, campo) {
        campo.focus();
        return false;
     }
+  function isSenhaForte(senha) {
+  const minLength = 8;
+  const hasUpperCase = /[A-Z]/.test(senha);
+  const hasLowerCase = /[a-z]/.test(senha);
+  const hasNumber = /[0-9]/.test(senha);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(senha);
+
+  if (senha.length < minLength) {
+    return false;
+  }
+  
+  if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasSpecialChar) {
+    return false;
+  }
+
+  return true;
+}
 
 
 function isCPF(cpf) {
