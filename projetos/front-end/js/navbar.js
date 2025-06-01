@@ -1,37 +1,24 @@
-class MobileNavbar {
-    constructor(mobileMenu, navList) {
-        this.mobileMenu = document.querySelector(mobileMenu);
-        this.navList = document.querySelector(navList);
-        this.activeClass = "active";
-
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick() {
-        this.navList.classList.toggle(this.activeClass);
-    }
-
-    addClickEvent() {
-        this.mobileMenu.addEventListener("click", this.handleClick);
-    }
-
-    init() {
-        if (this.mobileMenu) {
-            this.addClickEvent();
-        }
-        return this;
-    }
-}
-
-const mobileNavbar = new MobileNavbar(".mobile-menu", ".navlist");
-mobileNavbar.init();
 document.addEventListener("DOMContentLoaded", function () {
     fetch("navbar.html")
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById("navbar-container").innerHTML = data;
-            const mobileNavbar = new MobileNavbar(".mobile-menu", ".navlist");
-            mobileNavbar.init();
+        .then((response) => {
+            if (!response.ok) throw new Error("Erro ao carregar navbar.");
+            return response.text();
         })
-        .catch(error => console.error("Erro ao carregar navbar:", error));
+        .then((data) => {
+            const navbarContainer = document.getElementById("navbar-container");
+            if (navbarContainer) {
+                navbarContainer.innerHTML = data;
+
+                console.log("Navbar carregada com sucesso!");
+            } else {
+                console.warn("Elemento de ID 'navbar-container' não encontrado.");
+            }
+        })
+        .catch((error) => {
+            console.error("Erro:", error.message);
+        });
 });
+function logout(){
+   localStorage.removeItem("id_usuario");
+   localStorage.removeItem("jwt");
+}
