@@ -10,10 +10,11 @@ fetch(`http://localhost:8080/produto/visualizarDetalhesProduto/${produtoId}`)
         document.getElementById('produto-nome').textContent = produto.nome;
         document.getElementById('produto-detalhes').textContent = produto.detalhes;
         document.getElementById('produto-preco').textContent = produto.preco;
-        document.getElementById('nome-usuario').textContent = produto.nome_do_usuario;
+        document.getElementById('nome-vendedor').textContent = produto.nome_do_usuario;
         document.getElementById('condicao-produto').textContent = produto.condicao;
 
         console.log(id_vendedor)
+        console.log(produto.nome_do_usuario)
         const img = document.createElement('img');
         img.src = `data:${produto.Imagem_tipo};base64,${produto.Imagem}`;
         img.alt = 'Imagem do Produto';
