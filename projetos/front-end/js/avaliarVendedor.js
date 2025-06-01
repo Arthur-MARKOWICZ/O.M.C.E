@@ -15,11 +15,11 @@ const avaliacao ={
     vendedor_id: id_vendedor
 }
 if(nota.value == ""){
-    exibirErro("campo de nota e obrigatorio");
+    exibirErro("Campo de nota e obrigatório");
     return;
 }
 if(comentario.value == ""){
-    exibirErro("campo de comentario e obrigatorio");
+    exibirErro("Campo de comentario e obrigatório");
         return;
 
 }
@@ -39,11 +39,13 @@ const response = await fetch("http://localhost:8080/avaliacaoVendedor/cadastro",
           json = {};
         }
        if(!response.ok) {
-
-            alert("erro ao conectar ao servidor")
+            Swal.fire({
+                text:"Erro ao conectar ao servidor",
+                icon: 'warning',
+            })
           return;
         }
-        alert("avaliacao cadastrado com sucesso");
+        alert("Avaliação cadastrado com sucesso");
             event.target.reset();
             window.location.href = "../html/feed.html";
     }); 

@@ -4,16 +4,6 @@ body {
     margin: 0;
     padding: 0;
   }
-
-header {
-    background: #007bff;
-    align-items: center;
-    margin-left: -9px;
-    margin-right: -9px;
-    margin-top: -70px;
-    height: 20vh;
-    font-family: Arial, Helvetica, sans-serif;
-}
   
   h1 {
     color: black;
