@@ -61,6 +61,9 @@ async function carregarFeed(filtros = {}) {
 
     } catch (erro) {
         console.error("Erro ao carregar o feed:", erro);
+        Swal.fire({
+            title:"Erro ao carregar o feed",
+            icon:'info'});
     }
 }
 

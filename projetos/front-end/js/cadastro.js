@@ -76,7 +76,7 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
 
 function validarCadastro() {
     if (!txtName.value){
-      return exibirErroCampoEmBranco("Nome", txtName);
+      return exibirErroEmBranco("Nome", txtName);
     } 
     if (!txtCPF.value || !isCPF(txtCPF.value)){
       return exibirErro("CPF", txtCPF);
@@ -124,7 +124,20 @@ function exibirErro(mensagem, campo) {
     campo.focus();
     return false;
 
+
 }   
+
+
+function exibirErroEmBranco(mensagem, campo) {
+    Swal.fire({
+        title: "Não foi possível realizar seu cadastro",
+        text:"Preenchimento obrigatório: "+ mensagem,
+        icon:'warning',
+        confirmButtonText: 'OK'});("Erro no/a: " + mensagem);
+       campo.focus();
+       return false;
+    }
+
 
 function isCPF(cpf) {
   const re = /^\d{11}$/;

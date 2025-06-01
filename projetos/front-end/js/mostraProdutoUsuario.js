@@ -70,31 +70,49 @@ async function carregarProdutos() {
             botaoDeletar.addEventListener("click", async (e) => {
                 e.stopPropagation();
 
-                const confirmacao = confirm(`Tem certeza que deseja deletar o produto "${produto.nome}"?`);
-                if (!confirmacao) return;
+                Swal.fire({
+                    title: 'Tem certeza?',
+                    text: `Deseja excluir o produto "${produto.nome}"? Esta ação não pode ser desfeita!`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sim, excluir!',
+                    cancelButtonText: 'Cancelar',
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        try {
+                            const token = localStorage.getItem("jwt");
 
-                try {
-                    const token = localStorage.getItem("jwt");
-                    const response = await fetch(`http://localhost:8080/produto/deletar/${produto.id}`, {
-                        method: "DELETE",
-                        headers: {
-                            "Authorization": `Bearer ${token}`
+                            const response = await fetch(`http://localhost:8080/produto/deletar/${produto.id}`, {
+                                method: "DELETE",
+                                headers: {
+                                    "Authorization": `Bearer ${token}`
+                                }
+                            });
+
+                            if (response.ok) {
+                                Swal.fire({
+                                    title: "Produto deletado com sucesso!",
+                                    icon: "success",
+                                });
+                                carregarProdutos();
+                            } else {
+                                Swal.fire({
+                                    title: "Erro ao deletar o produto",
+                                    text: "Ocorreu um problema ao tentar deletar o produto.",
+                                    icon: "error",
+                                });
+                            }
+                        } catch (error) {
+                            Swal.fire({
+                                title: "Erro",
+                                text: "Houve um erro ao processar sua solicitação.",
+                                icon: "error",
+                            });
                         }
-                    });
-
-                    if (response.ok) {
-                        Swal.fire({
-                            title:"Produto deletado com sucesso",
-                            icon: 'success'});
-                        carregarProdutos();
-                    } else {
-                        const erro = await response.text();
-                        Swal.fire("Erro ao deletar: " + erro);
                     }
-                } catch (error) {
-                    console.error("Erro ao deletar produto:", error);
-                    Swal.fire("Erro ao deletar produto.");
-                }
+                });
             });
 
             infoContainer.appendChild(botaoDeletar);
