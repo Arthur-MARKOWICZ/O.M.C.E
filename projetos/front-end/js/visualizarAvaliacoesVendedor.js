@@ -25,7 +25,9 @@ const resposta = await fetch(`http://localhost:8080/avaliacaoVendedor/${user_id}
             card.classList.add("avaliacao-card");
 
             card.innerHTML = `
+                <p>subistituir : ${avaliacao.subistituir}</p>
                 <h2>${avaliacao.nota}</h2>
+                
                 <p><strong>comentario:</strong> ${avaliacao.comentario}</p>
               
             `;

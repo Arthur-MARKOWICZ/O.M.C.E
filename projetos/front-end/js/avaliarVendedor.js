@@ -6,6 +6,7 @@ if (id_vendedor) {
 }
 const nota = document.getElementById("nota-avaliacao");
 const comentario = document.getElementById("Comentario");
+const subistituir = document.getElementById("subistituir");
 
 document.getElementById("form-avaliarVendedor").addEventListener("submit", async function(event) {
     event.preventDefault();

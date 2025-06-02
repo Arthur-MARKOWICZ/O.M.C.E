@@ -12,6 +12,7 @@ public class AvaliacaoVendedor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String subistituir;
     private int nota;
     private String comentario;
 
@@ -20,11 +21,20 @@ public class AvaliacaoVendedor {
     private User vendedor;
     private LocalDateTime data = LocalDateTime.now();
     public AvaliacaoVendedor(AvaliacaoVendedorDTO dto){
-        this.nota = dto.nota();;
+        this.subistituir =dto.subistituir();
+        this.nota = dto.nota();
         this.comentario = dto.comentario();
     }
 
     public AvaliacaoVendedor() {
+    }
+
+    public String getSubistituir() {
+        return subistituir;
+    }
+
+    public void setSubistituir(String subistituir) {
+        this.subistituir = subistituir;
     }
 
     public Long getId() {
