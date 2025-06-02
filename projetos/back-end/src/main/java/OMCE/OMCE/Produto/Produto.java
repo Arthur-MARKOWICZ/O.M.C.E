@@ -15,6 +15,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public class Produto {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private String subistituir;
     private String nome;
     private Double preco;
     private String detalhes;
@@ -33,6 +34,7 @@ public class Produto {
     private Categoria categoria;
 
     public Produto(DadosCadastroProduto dados){
+        this.subistituir = dados.subistituir();
         this.vendido = false;
         this.nome = dados.nome();
         this.preco = dados.preco();
@@ -42,6 +44,14 @@ public class Produto {
         this.imageTipo = dados.imagem_tipo();
         this.condicao = dados.condicao();
         this.categoria = dados.categoria();
+    }
+
+    public String getSubistituir() {
+        return subistituir;
+    }
+
+    public void setSubistituir(String subistituir) {
+        this.subistituir = subistituir;
     }
 
     @Override
