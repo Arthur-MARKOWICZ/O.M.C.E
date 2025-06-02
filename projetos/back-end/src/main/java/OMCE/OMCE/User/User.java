@@ -18,6 +18,7 @@ public class User  implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private String subistituir;
     private String nome;
     @Embedded
     private Endereco endereco;
@@ -40,6 +41,7 @@ public class User  implements UserDetails {
     public User(){}
     public User(DadosCadastroUser dados){
         this.ativo = true;
+        this.subistituir = dados.subistituir();
         this.nome = dados.nome();
         this.endereco = new Endereco(dados.endereco());
         this.cpf = dados.cpf();
@@ -63,6 +65,14 @@ public class User  implements UserDetails {
         if(dados.novaSenha() != null){
             this.senha = novoHash;
         }
+    }
+
+    public String getSubistituir() {
+        return subistituir;
+    }
+
+    public void setSubistituir(String subistituir) {
+        this.subistituir = subistituir;
     }
 
     public long getId() {

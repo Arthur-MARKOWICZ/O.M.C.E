@@ -1,5 +1,5 @@
 const txtName = document.getElementById("txtName");
-
+const Subistituir = document.getElementById("Subistituir");
 const txtCPF = document.getElementById("txtCPF");
 const dataNasc = document.getElementById("txtNasc");
 const txtEmail = document.getElementById("txtEmail");
@@ -29,6 +29,7 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
     const sexo = document.querySelector('input[name="optGender"]:checked');
     
     const usuario = {
+      subistituir: Subistituir,value,
         nome: txtName.value,
         cpf: txtCPF.value,
         dataNasc: dataNasc.value,

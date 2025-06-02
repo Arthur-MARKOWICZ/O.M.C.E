@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record DadosAlterarDadosUser(@JsonProperty("id") Long id,
+                                    String subistituir,
                                          @JsonProperty("nome") String nome,
                                          @JsonProperty("cpf") String cpf,
                                          @JsonProperty("dataNasc") String dataNasc,

@@ -1,5 +1,5 @@
 const txtName = document.getElementById("txtName");
-
+const subistituir = document.getElementById("Subistituir");
 const txtCPF = document.getElementById("txtCPF");
 const dataNasc = document.getElementById("txtNasc");
 const txtEmail = document.getElementById("txtEmail");
@@ -149,6 +149,7 @@ async function carregarDados() {
         if (!response.ok) throw new Error("Usuário não encontrado");
         const dados = await response.json();
         console.log(dados); 
+        subistituir.value = dados.subistituir;
         const endereco = dados.endereco;
         console.log(endereco.cep);
         cep.value = endereco.cep;
