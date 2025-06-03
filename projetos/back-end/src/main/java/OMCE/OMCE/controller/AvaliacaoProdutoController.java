@@ -28,8 +28,10 @@ public class AvaliacaoProdutoController {
     }
 
     @GetMapping("/produto/{idProduto}")
-    public ResponseEntity<List<AvaliacaoProduto>> listarPorProduto(@PathVariable Long idProduto) {
-        return ResponseEntity.ok(servico.listarPorProduto(idProduto));
+    public ResponseEntity<Page<AvaliacaoProduto>> listarPorProduto(@PathVariable Long idProduto,Pageable pageable) {
+        var avaliacoes = servico.listarPorProduto(idProduto,pageable);
+        System.out.println(avaliacoes);
+        return ResponseEntity.ok(avaliacoes);
     }
 
     @GetMapping("/produto/{idProduto}/media")

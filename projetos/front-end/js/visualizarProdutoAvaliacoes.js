@@ -7,8 +7,7 @@ async function carregarAvaliacoesProduto(pagina = 0) {
     const resposta = await fetch(`http://localhost:8080/avaliacoes/produto/${produtoId}?page=${pagina}`, {
         method: "GET",
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem('jwt')}`
+            "Content-Type": "application/json", 
         }
     });
 

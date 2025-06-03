@@ -31,9 +31,6 @@ public class AvaliacaoProdutoServico {
         repositorio.save(avaliacao);
     }
 
-    public List<AvaliacaoProduto> listarPorProduto(Long idProduto) {
-        return repositorio.findByProdutoId(idProduto);
-    }
 
     public Double mediaNotas(Long idProduto) {
         Double media = repositorio.mediaPorProduto(idProduto);

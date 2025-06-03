@@ -10,7 +10,6 @@ import java.util.List;
 
 public interface AvaliacaoProdutoRepositorio extends JpaRepository<AvaliacaoProduto, Long> {
 
-    List<AvaliacaoProduto> findByProdutoId(Long id_produto);
 
     Page<AvaliacaoProduto> findByProdutoId(Long id_produto, Pageable pageable);
 
