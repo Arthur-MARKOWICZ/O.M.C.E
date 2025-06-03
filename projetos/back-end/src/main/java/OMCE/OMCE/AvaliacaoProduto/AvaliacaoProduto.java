@@ -21,7 +21,7 @@ public class AvaliacaoProduto {
 
     private String comentario;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "produto_id")
     private Produto produto;
 
