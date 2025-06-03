@@ -14,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 
 public class AvaliacaoProdutoDTO {
+    private String subistituir;
     private int nota;
     private String comentario;
     private Long idProduto; 

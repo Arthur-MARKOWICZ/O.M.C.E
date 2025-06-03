@@ -29,6 +29,7 @@ async function carregarAvaliacoesProduto(pagina = 0) {
         const card = document.createElement("div");
         card.classList.add("avaliacao-card");
         card.innerHTML = `
+            <p>${avaliacao.subistituir}</p>
             <h3>Nota: ${avaliacao.nota} ⭐</h3>
             <p>${avaliacao.comentario}</p>
             

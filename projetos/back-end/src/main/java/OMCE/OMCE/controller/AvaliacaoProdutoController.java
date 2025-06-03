@@ -30,7 +30,6 @@ public class AvaliacaoProdutoController {
     @GetMapping("/produto/{idProduto}")
     public ResponseEntity<Page<AvaliacaoProduto>> listarPorProduto(@PathVariable Long idProduto,Pageable pageable) {
         var avaliacoes = servico.listarPorProduto(idProduto,pageable);
-        System.out.println(avaliacoes);
         return ResponseEntity.ok(avaliacoes);
     }
 
@@ -50,6 +49,7 @@ public class AvaliacaoProdutoController {
         Page<AvaliacaoProduto> avaliacoesPage = servico.listarPorProduto(idProduto, pageable);
 
         Page<AvaliacaoProdutoDTO> dtoPage = avaliacoesPage.map(av -> new AvaliacaoProdutoDTO(
+            av.getSubistituir(),
             av.getNota(),
             av.getComentario(),
             av.getProduto().getId()

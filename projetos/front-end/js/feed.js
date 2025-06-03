@@ -109,6 +109,8 @@ function abrirFormularioAvaliacao(idProduto) {
     const formulario = `
         <div id="form-avaliacao" style="margin-top: 10px;">
             <h4>Avaliar Produto</h4>
+            <label>subistituir:</label>
+             <input type="text" name="subistituir" id="subistituir" placeholder="Insira seu subistituir" /><br />
             <label>Nota (1-5):</label>
             <input type="number" id="nota-avaliacao" min="1" max="5"><br>
             <label>Comentário:</label><br>
@@ -125,15 +127,14 @@ function abrirFormularioAvaliacao(idProduto) {
 async function enviarAvaliacao() {
     const nota = parseInt(document.getElementById("nota-avaliacao").value);
     const comentario = document.getElementById("comentario-avaliacao").value;
-
+    const subistituir = document.getElementById("subistituir").value;
 
 
     
     const resposta = await fetch(`http://localhost:8080/avaliacoes/criar`, {
-
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${localStorage.getItem('jwt')}` },
-        body: JSON.stringify({ nota: nota, comentario: comentario, idProduto: idProdutoAtual })
+        body: JSON.stringify({subistituir: subistituir, nota: nota, comentario: comentario, idProduto: idProdutoAtual })
 
     });
     console.log(nota);

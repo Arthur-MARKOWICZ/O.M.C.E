@@ -16,7 +16,7 @@ public class AvaliacaoProduto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String subistituir;
     private int nota;
 
     private String comentario;
