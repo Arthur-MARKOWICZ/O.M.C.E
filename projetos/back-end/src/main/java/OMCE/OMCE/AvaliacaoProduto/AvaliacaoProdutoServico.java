@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 @Service
 public class AvaliacaoProdutoServico {
 
@@ -17,12 +20,8 @@ public class AvaliacaoProdutoServico {
     private ProdutoRepository produtoRepositorio;
 
     public void criar(AvaliacaoProdutoDTO dto) {
-
-        System.out.println(dto.getIdProduto());
         Produto produto = produtoRepositorio.findById(dto.getIdProduto())
             .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
-        System.out.println("test");
-
 
         AvaliacaoProduto avaliacao = new AvaliacaoProduto();
         avaliacao.setNota(dto.getNota());
@@ -32,12 +31,16 @@ public class AvaliacaoProdutoServico {
         repositorio.save(avaliacao);
     }
 
-    public List<AvaliacaoProduto> listarPorProduto(Long idProduto) {
-        return repositorio.findByProdutoId(idProduto);
-    }
 
     public Double mediaNotas(Long idProduto) {
         Double media = repositorio.mediaPorProduto(idProduto);
         return media != null ? media : 0.0;
     }
-} 
+
+    
+    public Page<AvaliacaoProduto> listarPorProduto(Long idProduto, Pageable pageable) {
+        return repositorio.findByProdutoId(idProduto, pageable);
+    }
+}
+
+
