@@ -129,3 +129,8 @@ header {
     color: #333;
   }
   
+  .imagem {
+    max-width: 100%;
+    padding: 50px 650px;
+    max-height: 50%;
+}
