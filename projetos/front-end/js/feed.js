@@ -144,7 +144,9 @@ async function enviarAvaliacao() {
 
 
     if (resposta.ok) {
-        alert("Avaliação enviada com sucesso!");
+        Swal.fire({
+              title:"Avaliação enviada com sucesso!",
+              icon: 'success'});
         document.getElementById("form-avaliacao").remove();
         exibirMedia(idProdutoAtual);
     } else {
