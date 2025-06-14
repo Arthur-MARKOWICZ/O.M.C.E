@@ -1,0 +1,1 @@
+ALTER TABLE produto ADD COLUMN dataaquisicao VARCHAR(50);

@@ -1,4 +1,4 @@
-
+const dataaquisicao = document.getElementById("dataaquisicao");
 const nome = document.getElementById("txtName");
 const preco = document.getElementById("txtPreco");
 const detalhes = document.getElementById("txtDetalhes");
@@ -70,6 +70,7 @@ document.getElementById("form_cadastroProduto").addEventListener("submit", async
         const base64 = await toBase64(file);
 
         const produto = {
+            dataaquisicao: dataaquisicao.value,
             nome: nome.value,
             preco: parseFloat(preco.value.replace(',', '.')),
             detalhes: detalhes.value,

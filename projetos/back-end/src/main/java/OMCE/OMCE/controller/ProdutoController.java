@@ -50,6 +50,7 @@ public class ProdutoController {
             String imagem = Base64.getEncoder().encodeToString(imagemBytes);
             Map<String, Object> json = new HashMap<>();
             json.put("id", produto.get().getId());
+            json.put("dataaquisicao", produto.get().getDataaquisicao());
             json.put("nome", produto.get().getNome());
             json.put("preco", produto.get().getPreco());
             json.put("Imagem", imagem);

@@ -12,6 +12,7 @@ fetch(`http://localhost:8080/produto/visualizarDetalhesProduto/${produtoId}`)
         const id_vendedor = produto.id_vendedor;
 
         document.getElementById('produto-nome').textContent = produto.nome;
+        document.getElementById('dataaquisicao').textContent = produto.dataaquisicao;
         document.getElementById('produto-detalhes').textContent = produto.detalhes;
         document.getElementById('produto-preco').textContent = produto.preco;
         document.getElementById('nome-vendedor').textContent = produto.nome_do_usuario;

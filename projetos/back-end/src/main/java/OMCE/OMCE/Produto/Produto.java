@@ -16,6 +16,7 @@ public class Produto {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String nome;
+    private String dataaquisicao;
     private Double preco;
     private String detalhes;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,6 +35,7 @@ public class Produto {
 
     public Produto(DadosCadastroProduto dados){
         this.vendido = false;
+        this.dataaquisicao = dados.dataaquisicao();
         this.nome = dados.nome();
         this.preco = dados.preco();
         this.detalhes = dados.detalhes();
@@ -44,7 +46,17 @@ public class Produto {
         this.categoria = dados.categoria();
     }
 
+    public String getDataaquisicao() {
+        return dataaquisicao;
+    }
+
+    public void setDataaquisicao(String dataaquisicao) {
+        this.dataaquisicao = dataaquisicao;
+    }
+
     @Override
+
+
     public String toString() {
         return "Produto{id=" + id + ", nome=" + nome + ", preco=" + preco + "}";
     }
