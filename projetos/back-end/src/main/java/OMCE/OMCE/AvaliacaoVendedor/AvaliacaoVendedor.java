@@ -14,12 +14,14 @@ public class AvaliacaoVendedor {
     private Long id;
     private int nota;
     private String comentario;
+    private boolean recomendado;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vendedor_id")
     private User vendedor;
     private LocalDateTime data = LocalDateTime.now();
     public AvaliacaoVendedor(AvaliacaoVendedorDTO dto){
+        this.recomendado = dto.recomendado();
         this.nota = dto.nota();;
         this.comentario = dto.comentario();
     }
@@ -33,6 +35,14 @@ public class AvaliacaoVendedor {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public boolean isRecomendado() {
+        return recomendado;
+    }
+
+    public void setRecomendado(boolean recomendado) {
+        this.recomendado = recomendado;
     }
 
     public int getNota() {

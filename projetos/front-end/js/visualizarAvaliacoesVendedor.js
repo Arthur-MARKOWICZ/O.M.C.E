@@ -26,6 +26,7 @@ const resposta = await fetch(`http://localhost:8080/avaliacaoVendedor/${user_id}
 
             card.innerHTML = `
                 <h2>${avaliacao.nota}</h2>
+                <p>recomendado: ${avaliacao.recomendado ? 'Sim' : 'Não'}</p>
                 <p><strong>comentario:</strong> ${avaliacao.comentario}</p>
               
             `;

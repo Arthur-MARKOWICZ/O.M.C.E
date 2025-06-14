@@ -11,6 +11,7 @@ document.getElementById("form-avaliarVendedor").addEventListener("submit", async
     event.preventDefault();
 const avaliacao ={
     nota: nota.value,
+    recomendado: recomendado.checked,
     comentario: comentario.value,
     vendedor_id: id_vendedor
 }
