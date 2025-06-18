@@ -1,9 +1,13 @@
+
+
 const parametro = new URLSearchParams(window.location.search);
 const produtoId = parametro.get('id');
 
 if (!produtoId) {
-    alert("Produto não especificado!");
-    window.location.href = "pagina-de-erro.html";
+    Swal.fire({
+        text:"Produto não especificado!",
+    icon:'error'});
+    window.location.href = "../login.html";
 }
 
 fetch(`http://localhost:8080/produto/visualizarDetalhesProduto/${produtoId}`)
@@ -58,5 +62,8 @@ fetch(`http://localhost:8080/produto/visualizarDetalhesProduto/${produtoId}`)
             });
     })
     .catch(() => {
-        alert("Erro ao carregar os dados do produto.");
+        Swal.fire({
+            text:"Erro ao carregar os dados do produto.",
+            icon: 'warning'
+        })
     });

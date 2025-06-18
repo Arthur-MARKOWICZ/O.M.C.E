@@ -14,7 +14,10 @@ window.onload = function () {
 function getUsuarioId() {
   const id = localStorage.getItem("id_usuario");
   if (!id) {
-    alert("Você precisa estar logado para acessar o carrinho.");
+   Swal.fire({
+    text: "Você precisa estar logado para acessar o carrinho.",
+    icon: 'warning'
+   })
     window.location.href = "../html/login.html";
     return null;
   }
@@ -127,7 +130,10 @@ function logout() {
 function finalizarCompra() {
   const carrinho = getCarrinho();
   if (carrinho.length === 0) {
-    alert("Seu carrinho está vazio!");
+   Swal.fire({
+    text: "Seu carrinho está vazio!",
+    icon: 'warning'
+   })
     return;
   }
   

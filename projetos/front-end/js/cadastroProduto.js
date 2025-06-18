@@ -5,6 +5,7 @@ const detalhes = document.getElementById("txtDetalhes");
 const imagem = document.getElementById("productImage");
 const id_usuario = localStorage.getItem("id_usuario");
 const id = Number(id_usuario);
+const registro = document.getElementById("registro");
 
 function btnSendOnClickProduto() {
 
@@ -57,12 +58,18 @@ document.getElementById("form_cadastroProduto").addEventListener("submit", async
         const token = localStorage.getItem("jwt");
 
         if (!condicao || !categoria) {
-            alert("Selecione uma condição e uma categoria!");
+            Swal.fire({
+                text: "selecione uma condicao e categoria",
+                icon: 'warning'
+            })
             return;
         }
 
         if (!token) {
-            alert("Token JWT não encontrado. Faça login novamente.");
+            Swal.fire({
+                text: "Token JWT não encontrado. Faça login novamente.",
+                icon: 'warning'
+            })
             return;
         }
 
@@ -70,6 +77,7 @@ document.getElementById("form_cadastroProduto").addEventListener("submit", async
         const base64 = await toBase64(file);
 
         const produto = {
+            registro:parseInt(registro.value),
             nome: nome.value,
             preco: parseFloat(preco.value.replace(',', '.')),
             detalhes: detalhes.value,

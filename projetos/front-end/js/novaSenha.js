@@ -1,3 +1,4 @@
+const { default: Swal } = require("sweetalert2");
 document.getElementById("novaSenhaForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -5,7 +6,10 @@ document.getElementById("novaSenhaForm").addEventListener("submit", async (e) =>
   const confirmarSenha = document.getElementById("confirmarSenha").value.trim();
 
   if (novaSenha !== confirmarSenha) {
-    alert("As senhas não coincidem.");
+    Swal.fire({
+      text: "As senhas não coincidem.",
+      icon: 'warning'
+    })
     return;
   }
 
@@ -13,7 +17,10 @@ document.getElementById("novaSenhaForm").addEventListener("submit", async (e) =>
   const token = urlParams.get("token");
 
   if (!token) {
-    alert("Token de redefinição inválido ou ausente.");
+    Swal.fire({
+      text: "Token de redefinição inválido ou ausente.",
+      icon: 'warning'
+    })
     return;
   }
 
@@ -30,14 +37,19 @@ document.getElementById("novaSenhaForm").addEventListener("submit", async (e) =>
     });
 
     if (response.ok) {
-      alert("Senha atualizada com sucesso!");
       window.location.href = "login.html";
     } else {
       const erro = await response.text();
-      alert("Erro ao redefinir a senha: " + erro);
+      Swal.fire({
+        text: "Erro ao redefinir a senha: " + erro,
+        icon: 'warning'
+      })
     }
   } catch (err) {
     console.error("Erro:", err);
-    alert("Erro ao conectar com o servidor.");
+    Swal.fire({
+      text: "Erro ao conectar com o servidor.",
+      icon: 'warning'
+    })
   }
 });

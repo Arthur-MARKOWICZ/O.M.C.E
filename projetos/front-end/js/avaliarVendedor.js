@@ -45,7 +45,10 @@ const response = await fetch("http://localhost:8080/avaliacaoVendedor/cadastro",
             })
           return;
         }
-        alert("Avaliação cadastrado com sucesso");
+            Swal.fire({
+                text:"Avaliação cadastrado com sucesso",
+                icon: 'success'
+            })
             event.target.reset();
             window.location.href = "../html/feed.html";
     }); 

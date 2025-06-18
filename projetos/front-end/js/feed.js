@@ -150,7 +150,11 @@ async function enviarAvaliacao() {
         document.getElementById("form-avaliacao").remove();
         exibirMedia(idProdutoAtual);
     } else {
-        alert("Erro ao enviar avaliação.");
+      Swal.fire({
+        text: "Erro ao enviar avaliação.",
+        icon: "warning"
+      })
+      return;
     }
 }
 
