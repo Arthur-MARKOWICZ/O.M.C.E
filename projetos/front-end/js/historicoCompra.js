@@ -53,12 +53,21 @@ async function carregarProdutos() {
 
             const detalhes = document.createElement("p");
             detalhes.classList.add("product-detalhes");
+            const avaliacaoProduto = document.createElement("button");
+            avaliacaoProduto.classList.add("product-avaliacao");
+            avaliacaoProduto.textContent = "Avaliar";
+            avaliacaoProduto.addEventListener("click",  (event) => {
+                event.stopPropagation();
+                abrirFormularioAvaliacao(produto.id, card);
+});
             infoContainer.appendChild(titulo);
             infoContainer.appendChild(preco);
             infoContainer.appendChild(detalhes);
+            infoContainer.appendChild(avaliacaoProduto);
             card.appendChild(imagemContainer);
             card.appendChild(infoContainer);
             container.appendChild(card);
+            
 
             card.addEventListener("click", (e) => {
                 if (e.target.tagName !== "BUTTON") {
@@ -87,3 +96,53 @@ document.getElementById('proximo').addEventListener('click', () => {
 document.addEventListener("DOMContentLoaded", () => {
     carregarProdutos();
 });
+let idProdutoAtual = null;  
+function abrirFormularioAvaliacao(idProduto, card) {
+    idProdutoAtual = idProduto;
+
+    const formulario = `
+        <div id="form-avaliacao" style="margin-top: 10px;">
+            <h4>Avaliar Produto</h4>
+            <label>Nota (1-5):</label>
+            <input type="number" id="nota-avaliacao" min="1" max="5"><br>
+            <label>Comentário:</label><br>
+            <textarea id="comentario-avaliacao"></textarea><br>
+            <button onclick="enviarAvaliacao()">Enviar Avaliação</button>
+        </div>`;
+
+    if (!document.getElementById('form-avaliacao')) {
+        card.insertAdjacentHTML('beforeend', formulario);
+    }
+}
+
+async function enviarAvaliacao() {
+    const nota = parseInt(document.getElementById("nota-avaliacao").value);
+    const comentario = document.getElementById("comentario-avaliacao").value;
+    const resposta = await fetch(`http://localhost:8080/avaliacoes/criar`, {
+
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${localStorage.getItem('jwt')}` },
+        body: JSON.stringify({ nota: nota, comentario: comentario, idProduto: idProdutoAtual })
+
+    });
+    console.log(nota);
+    console.log(comentario);
+    console.log(idProdutoAtual);
+
+
+
+
+    if (resposta.ok) {
+        Swal.fire({
+              title:"Avaliação enviada com sucesso!",
+              icon: 'success'});
+        document.getElementById("form-avaliacao").remove();
+        exibirMedia(idProdutoAtual);
+    } else {
+      Swal.fire({
+        text: "Erro ao enviar avaliação.",
+        icon: "warning"
+      })
+      return;
+    }
+}

@@ -1,4 +1,3 @@
-const { default: Swal } = require("sweetalert2");
 
 function getUsuarioId() {
   const id = localStorage.getItem("id_usuario");
@@ -13,6 +12,7 @@ function getUsuarioId() {
   return id;
 }
 async function pedido(){
+
   const id = getUsuarioId();
   const carrinho = JSON.parse(localStorage.getItem('carrinho_pedido')) || [];
   if (carrinho.length === 0) {

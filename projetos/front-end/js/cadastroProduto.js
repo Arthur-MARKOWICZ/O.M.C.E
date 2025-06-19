@@ -5,7 +5,7 @@ const detalhes = document.getElementById("txtDetalhes");
 const imagem = document.getElementById("productImage");
 const id_usuario = localStorage.getItem("id_usuario");
 const id = Number(id_usuario);
-const registro = document.getElementById("registro");
+
 
 function btnSendOnClickProduto() {
 
@@ -77,7 +77,6 @@ document.getElementById("form_cadastroProduto").addEventListener("submit", async
         const base64 = await toBase64(file);
 
         const produto = {
-            registro:parseInt(registro.value),
             nome: nome.value,
             preco: parseFloat(preco.value.replace(',', '.')),
             detalhes: detalhes.value,
