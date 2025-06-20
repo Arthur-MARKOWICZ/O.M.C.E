@@ -44,7 +44,6 @@ public class AuthenticationController {
         var token = tokenService.generateToken(user);
        Long idUser = user.getId();
        String nome = user.getNomeUser();
-        System.out.println(nome);
         return ResponseEntity.ok(new LoginResponseDTO(token,idUser,nome));
     }
 

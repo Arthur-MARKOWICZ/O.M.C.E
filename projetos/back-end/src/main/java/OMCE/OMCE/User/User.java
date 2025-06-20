@@ -60,7 +60,7 @@ public class User  implements UserDetails {
         this.email = dados.email();
         this.telefone = dados.telefone();
         this.nomeUser = dados.nomeUser();
-        if(dados.novaSenha() != null){
+        if (novoHash != null) {
             this.senha = novoHash;
         }
     }
