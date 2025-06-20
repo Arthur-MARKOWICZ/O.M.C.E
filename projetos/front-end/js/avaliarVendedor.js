@@ -23,6 +23,7 @@ if(comentario.value == ""){
         return;
 
 }
+console.log(avaliacao)
 const response = await fetch("http://localhost:8080/avaliacaoVendedor/cadastro", {
             method: "POST",
             headers: {

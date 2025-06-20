@@ -38,7 +38,6 @@ async function carregarFeed(filtros = {}) {
                 <p><strong>Vendedor:</strong> ${produto.nomeUsuario}</p>
                 <p id="media-avaliacao-${produto.id}">Média: -</p>
                 <button onclick="adicionarProduto('${produto.nome}', ${produto.preco}, ${produto.id}, '${produto.imagem}', '${produto.imagem_tipo}', '${produto.id_usuario}')">Adicionar ao Carrinho</button>
-                
             `;
 
 

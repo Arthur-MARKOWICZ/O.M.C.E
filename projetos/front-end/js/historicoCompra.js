@@ -60,10 +60,20 @@ async function carregarProdutos() {
                 event.stopPropagation();
                 abrirFormularioAvaliacao(produto.id, card);
 });
+         const  avaliarVendedor = document.createElement("button");
+        avaliarVendedor.classList.add("avaliacaoVendedor");
+        avaliarVendedor.textContent = "Avaliar Vendedor";
+        avaliarVendedor.addEventListener("click", (event) => {
+    event.stopPropagation();    
+    window.location.href = `../html/AvaliarVendedor.html?vendedor=${encodeURIComponent(produto.id_vendedor)}`;
+});
+
+
             infoContainer.appendChild(titulo);
             infoContainer.appendChild(preco);
             infoContainer.appendChild(detalhes);
             infoContainer.appendChild(avaliacaoProduto);
+            infoContainer.appendChild(avaliarVendedor);
             card.appendChild(imagemContainer);
             card.appendChild(infoContainer);
             container.appendChild(card);
@@ -108,6 +118,7 @@ function abrirFormularioAvaliacao(idProduto, card) {
             <label>Comentário:</label><br>
             <textarea id="comentario-avaliacao"></textarea><br>
             <button onclick="enviarAvaliacao()">Enviar Avaliação</button>
+            
         </div>`;
 
     if (!document.getElementById('form-avaliacao')) {
