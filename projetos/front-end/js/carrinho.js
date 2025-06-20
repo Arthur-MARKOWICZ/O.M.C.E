@@ -40,7 +40,7 @@ function criarCarrinho() {
   carrinhoDiv.innerHTML = `
     <h3>Itens no Carrinho</h3>
     <ul id="itens-carrinho"></ul>
-    <p><strong>Total: </strong> R$ <span id="valor-total">0.00</span></p>
+    <p><strong>Total: R$ </strong><span id="valor-total">0.00</span></p>
     <button onclick="limparCarrinho()">Limpar Carrinho</button>
     <button onclick="finalizarCompra()">Finalizar Compra</button>
     <button onclick="logout()">Sair</button>
@@ -87,7 +87,7 @@ function atualizarCarrinho() {
     card.innerHTML = `
       <h2>${produto.nome}</h2>
       <img src="${imgSrc}" alt="${produto.nome}" width="200">
-      <p><strong>Preço:</strong> R$ ${produto.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+      <p><strong>Preço:</strong> ${produto.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
       <button>Remover do Carrinho</button>
     `;
 

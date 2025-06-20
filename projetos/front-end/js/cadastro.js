@@ -1,5 +1,4 @@
 const txtName = document.getElementById("txtName");
-
 const txtCPF = document.getElementById("txtCPF");
 const dataNasc = document.getElementById("txtNasc");
 const txtEmail = document.getElementById("txtEmail");
@@ -86,7 +85,7 @@ function validarCadastro() {
          
     }
     if(!isDataValida(dataNasc.value)){
-      return exibirErro("data de nascimento invalida",dataNasc)
+      return exibirErro("Data de nascimento inválida",dataNasc)
     }
     if (!document.querySelector('input[name="optGender"]:checked')) {
       return exibirErro("Preenchimento obrigatório: Sexo");
@@ -111,7 +110,7 @@ function validarCadastro() {
       return exibirErro("Senha", txtSenha);
     }
     if( !isSenhaForte(txtSenha.value)){
-      return exibirErro("senha fraca, a senha precisa ser maior que 8 caracteres,letras maiuculas e minusculas,numero e caracteres especial")
+      return exibirErro("Senha fraca, a senha precisa ser maior que 8 caracteres, letras maiúsculas e minúsculas, número e caracteres especiais")
     }
     if (txtSenha.value !== txtSenhaConfirmar.value){
       return exibirErro("Senha diferente em confirmar senha", txtSenhaConfirmar);
@@ -183,9 +182,12 @@ function isCPF(cpf) {
 }
 
 function mostrarErro(msg) {
-  const alerta = document.getElementById('alerta');
-  alerta.textContent = msg;
-  alerta.classList.add('alerta-erro');
+  Swal.fire({
+    title: "Erro ao realizar cadastro",
+    text: msg,
+    icon: 'warning',
+    confirmButtonText: 'OK'
+  });
 }
 function isEmail(email) {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

@@ -1,4 +1,3 @@
-
 let numeroPaginaAtual = 0;
 const nomeProduto = document.getElementById("produto-nome");
 
