@@ -12,12 +12,6 @@ const txtSenha = document.getElementById("txtSenha");
 const txtSenhaConfirmar = document.getElementById("txtSenhaConfirmar");
 console.log(dataNasc.value);
 
-document.querySelector("#form_cadastro").addEventListener("submit", function (e) {
-  document.getElementById("end_logradouro").disabled = false;
-  document.getElementById("end_estado").disabled = false;
-  document.getElementById("end_cidade").disabled = false;
-});
-
 document.getElementById("form_cadastro").addEventListener("submit", async function(event) {
     event.preventDefault(); 
     console.log(dataNasc.value);
@@ -95,13 +89,13 @@ function validarCadastro() {
     }
 
     if (end_estado.value === "0") {
-      return exibirErro("Estado", end_estado);
+      return exibirErro("CEP", end_estado);
     }
     if (!end_cidade.value){
-      return exibirErro("Cidade", end_cidade);
+      return exibirErro("CEP", end_cidade);
     }
-    if (!txtTel.value) {
-      return exibirErro("Telefone", txtTel);
+    if (!txtTel.value || !/^\d+$/.test(txtTel.value)) {
+      return exibirErro("Telefone (somente números)", txtTel);
     }
     if (!NomeUser.value){
       return exibirErro("Nome de usuário", NomeUser);
@@ -181,13 +175,18 @@ function isCPF(cpf) {
   return true
 }
 
-function mostrarErro(msg) {
-  Swal.fire({
-    title: "Erro ao realizar cadastro",
-    text: msg,
-    icon: 'warning',
-    confirmButtonText: 'OK'
-  });
+function mostrarDados(dados) {
+  if (dados.erro) {
+    Swal.fire("CEP não encontrado!");
+    return false;
+  }
+  end_logradouro.value = dados.logradouro;
+  end_estado.value = dados.uf;
+  end_cidade.value = dados.localidade;
+
+  end_logradouro.disabled = true;
+  end_estado.disabled = true;
+  end_cidade.disabled = true;
 }
 function isEmail(email) {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -231,3 +230,7 @@ fetch(`https://viacep.com.br/ws/${buscaCep}/json/`, opcoes)
 .then(dados => mostrarDados(dados))
 .catch(erro => console.log("Erro ao buscar o CEP: " + erro.message));
 })
+
+txtTel.addEventListener("input", function () {
+  this.value = this.value.replace(/\D/g, "");
+});
