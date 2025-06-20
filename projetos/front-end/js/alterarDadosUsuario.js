@@ -12,11 +12,6 @@ const txtSenha = document.getElementById("txtSenha");
 const cep = document.getElementById("txtCep");
 const novaSenha = document.getElementById("txtNovaSenha");
 const txtSenhaConfirmar = document.getElementById("txtSenhaConfirmar");
-document.querySelector("#form_cadastro").addEventListener("submit", function (e) {
-    document.getElementById("end_logradouro").disabled = false;
-    document.getElementById("end_estado").disabled = false;
-    document.getElementById("end_cidade").disabled = false;
-  });
 
 const userId = localStorage.getItem("id_usuario");
 const token = localStorage.getItem("jwt");
@@ -77,9 +72,9 @@ function validarCadastro() {
     if (!txtCPF.value || !isCPF(txtCPF.value)) return exibirErro("CPF", txtCPF);
     if (!dataNasc.value || !isData(dataNasc.value)) return exibirErro("Data de nascimento", dataNasc);
     if (!txtEmail.value || !isEmail(txtEmail.value)) return exibirErro("E-mail", txtEmail);
-    if (end_estado.value === "0") return exibirErro("Estado", end_estado);
-    if (!end_cidade.value) return exibirErro("Cidade", end_cidade);
-    if (!txtTel.value) return exibirErro("Telefone", txtTel);
+    if (end_estado.value === "0") return exibirErro("CEP", end_estado);
+    if (!end_cidade.value) return exibirErro("CEP", end_cidade);
+    if (!txtTel.value) return exibirErro("Telefone (somente números)", txtTel);
     if (!NomeUser.value) return exibirErro("Nome de usuário", NomeUser);
     if (!txtSenha.value) return exibirErro("Senha", txtSenha);
     if (novaSenha.value !== txtSenhaConfirmar.value) return exibirErro("Senhas diferentes", txtSenhaConfirmar);
@@ -114,15 +109,18 @@ function isCep(cep) {
 }
 
 function mostrarDados(dados) {
-    if (dados.erro) {
-        Swal.fire("CEP não encontrado!");
-        return;
-    }
-    end_Logradouro.value = dados.logradouro;
-    end_estado.value = dados.uf;
-    end_cidade.value = dados.localidade;
-}
+  if (dados.erro) {
+    Swal.fire("CEP não encontrado!");
+    return false;
+  }
+  end_logradouro.value = dados.logradouro;
+  end_estado.value = dados.uf;
+  end_cidade.value = dados.localidade;
 
+  end_logradouro.disabled = true;
+  end_estado.disabled = true;
+  end_cidade.disabled = true;
+}
 cep.addEventListener("blur", () => {
     const buscaCep = cep.value.replace("-", ""); 
     fetch(`https://viacep.com.br/ws/${buscaCep}/json/`)
@@ -170,3 +168,7 @@ async function carregarDados() {
         console.error("Erro ao carregar os dados do usuário:", error);
     }
 }
+
+txtTel.addEventListener("input", function () {
+  this.value = this.value.replace(/\D/g, "");
+});
