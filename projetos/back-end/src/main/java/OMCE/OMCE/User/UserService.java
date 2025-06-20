@@ -20,7 +20,12 @@ public class UserService {
         if(!encoder.matches(dados.senha(),user.getSenha())){
             throw  new RuntimeException("Senha diferente da original");
         }
-       String novoHash =  encoder.encode(dados.novaSenha());
+
+        String novoHash = null;
+        if (dados.novaSenha() != null && !dados.novaSenha().isEmpty()) {
+            novoHash = encoder.encode(dados.novaSenha());
+        }
         user.alterarDados(dados,novoHash);
+        userRepository.save(user);
     }
 }
