@@ -56,7 +56,6 @@ public class ProdutoController {
             json.put("Imagem_tipo", produto.get().getImageTipo());
             json.put("condicao", produto.get().getCondicao());
             json.put("detalhes", produto.get().getDetalhes());
-
                 json.put("nome_do_usuario", usuario.getNome());
                 json.put("id_vendedor", usuario.getId());
 

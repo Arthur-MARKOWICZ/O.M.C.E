@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../css/pedido.css" />
-  <script defer src="../js/navbar.js"></script>
-  <title>Pedido</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/cadastro.css" />
+    <script defer src="../js/navbar.js"></script>
+    <title>Pedido</title>
 </head>
 <div vw class="enabled">
     <div vw-access-button class="active"></div>
@@ -18,58 +18,45 @@
     new window.VLibras.Widget('https://vlibras.gov.br/app');
   </script>
 <body>
-  <header>
-    <a href="home.html" class="logo">
-      <img src="../html/imagens/logo.png" class="imagem" alt="Logo">
-    </a>
-  </header>
-
-  <main>
-    <form id="form_pedido" method="post" enctype="multipart/form-data">
-      CEP 
-      <input type="text" name="end_cep" id="end_cep" placeholder="Insira o CEP da sua residência" /><br />
-      
-      <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank">
-        Não sabe seu CEP? Clique aqui
-      </a><br />
-      
-      Logradouro
-      <input type="text" name="end_logradouro" id="end_logradouro" placeholder="" disabled /><br />
-      
-      <label for="estado">Estado</label>
-      <select id="end_estado" name="end_estado" required disabled>
-        <option value="0" disabled selected>Selecione</option>
-        <option value="AC">AC</option>
-        <option value="AL">AL</option>
-        <option value="AM">AM</option>
-        <option value="AP">AP</option>
-        <option value="BA">BA</option>
-        <option value="CE">CE</option>
-        <option value="DF">DF</option>
-        <option value="ES">ES</option>
-        <option value="GO">GO</option>
-        <option value="MA">MA</option>
-        <option value="MG">MG</option>
-        <option value="MS">MS</option>
-        <option value="MT">MT</option>
-        <option value="PA">PA</option>
-        <option value="PB">PB</option>
-        <option value="PE">PE</option>
-        <option value="PI">PI</option>
-        <option value="PR">PR</option>
-        <option value="RJ">RJ</option>
-        <option value="RN">RN</option>
-        <option value="RO">RO</option>
-        <option value="RR">RR</option>
-        <option value="RS">RS</option>
-        <option value="SC">SC</option>
-        <option value="SE">SE</option>
-        <option value="SP">SP</option>
-        <option value="TO">TO</option>
-      </select><br />
-
-      Cidade
-      <input type="text" name="end_cidade" id="end_cidade" placeholder="" disabled /><br /><br />
+    <form id = "form_pedido"
+      method="post"
+        enctype="multipart/form-data"
+        >
+        CEP <input type="text" name="end_cep" id="end_cep" placeholder="Insira o CEP da sua residência"/><br />
+        <a href="https://buscacepinter.correios.com.br/app/endereco/index.php">Não sabe seu CEP? Clique aqui</a> <br>
+        Logradouro<input type="text" name="end_logradouro" id="end_logradouro" placeholder="" disabled/><br />
+        <label for="estado">Estado</label>
+        <select id="end_estado" name="end_estado" required disabled>
+          <option value="0" readonly selected></option>
+          <option value="AC">AC</option>
+          <option value="AL">AL</option>
+          <option value="AM">AM</option>
+          <option value="AP">AP</option>
+          <option value="BA">BA</option>
+          <option value="CE">CE</option>
+          <option value="DF">DF</option>
+          <option value="ES">ES</option>
+          <option value="GO">GO</option>
+          <option value="MA">MA</option>
+          <option value="MG">MG</option>
+          <option value="MS">MS</option>
+          <option value="MT">MT</option>
+          <option value="PA">PA</option>
+          <option value="PB">PB</option>
+          <option value="PE">PE</option>
+          <option value="PI">PI</option>
+          <option value="PR">PR</option>
+          <option value="RJ">RJ</option>
+          <option value="RN">RN</option>
+          <option value="RO">RO</option>
+          <option value="RR">RR</option>
+          <option value="RS">RS</option>
+          <option value="SC">SC</option>
+          <option value="SE">SE</option>
+          <option value="SP">SP</option>
+          <option value="TO">TO</option></select
+        ><br />
+        Cidade<input type="text" name="end_cidade" id="end_cidade" placeholder="" disabled/><br /><br />
 
       <button type="submit" id="btn-finalizar-pedido">Finalizar Pedido</button>
     </form>
