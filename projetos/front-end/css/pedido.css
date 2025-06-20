@@ -68,12 +68,6 @@ footer {
   padding-top: 25px;
 }
 
-a {
-  margin-top: 10px;
-  text-decoration: none;
-  color: #007bff;
-}
-
 a:hover {
   text-decoration: underline;
 }

@@ -29,28 +29,28 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<  Map<String, String>> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
-        String mensagem;
+public ResponseEntity<Map<String, String>> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+    String mensagem;
 
-        if (ex.getCause() instanceof org.hibernate.exception.ConstraintViolationException &&
-                ex.getMessage().contains("user.email")) {
+    if (ex.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+        if (ex.getMessage().contains("user.email")) {
             mensagem = "E-mail já cadastrado. Escolha outro.";
+        } else if (ex.getMessage().contains("user.nome_user")) {
+            mensagem = "Nome de usuário já cadastrado.";
+        } else {
+            mensagem = "Violação de restrição de dados.";
         }
-        if(ex.getCause() instanceof  org.hibernate.exception.ConstraintViolationException &&
-                ex.getMessage().contains("user.nome_user")){
-            mensagem = "Nome de usuario ja cadastrado";
-        }
-        else {
-            mensagem = "Erro de integridade nos dados enviados.";
-        }
-
-        Map<String, String> erro = new HashMap<>();
-        erro.put("mensagem", mensagem);
-
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(erro);
+    } else {
+        mensagem = "Erro de integridade nos dados enviados.";
     }
+
+    Map<String, String> erro = new HashMap<>();
+    erro.put("mensagem", mensagem);
+
+    return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(erro);
+}
     public ResponseEntity<Map<String, Object>> handleValidationExceptions(
             MethodArgumentNotValidException ex,
             HttpServletRequest request) {

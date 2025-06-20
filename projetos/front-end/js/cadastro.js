@@ -183,9 +183,12 @@ function isCPF(cpf) {
 }
 
 function mostrarErro(msg) {
-  const alerta = document.getElementById('alerta');
-  alerta.textContent = msg;
-  alerta.classList.add('alerta-erro');
+  Swal.fire({
+    title: "Erro ao realizar cadastro",
+    text: msg,
+    icon: 'warning',
+    confirmButtonText: 'OK'
+  });
 }
 function isEmail(email) {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
