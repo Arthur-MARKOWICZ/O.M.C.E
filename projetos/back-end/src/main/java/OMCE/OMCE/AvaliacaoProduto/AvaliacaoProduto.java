@@ -26,7 +26,6 @@ public class AvaliacaoProduto {
     private Produto produto;
 
     @Column(name = "criado_em")
-
     private LocalDateTime dataCriacao = LocalDateTime.now();
 }
 

@@ -1,17 +1,25 @@
+
 function getUsuarioId() {
   const id = localStorage.getItem("id_usuario");
   if (!id) {
-    alert("Você precisa estar logado para acessar o ir para o finalizar pedido.");
+    Swal.fire({
+      text:"Você precisa estar logado para acessar o ir para o finalizar pedido.",
+    icon: "warning"
+  });
     window.location.href = "../html/login.html";
     return null;
   }
   return id;
 }
 async function pedido(){
+
   const id = getUsuarioId();
   const carrinho = JSON.parse(localStorage.getItem('carrinho_pedido')) || [];
   if (carrinho.length === 0) {
-    alert("Nenhum item no carrinho!");
+    Swal.fire({
+      text: "Nenhum item no carrinho!",
+      icon: 'warning'
+    })
     window.location.href = '../html/carrinho.html';
     return;
   }
@@ -51,16 +59,25 @@ async function pedido(){
     });
 
     if (response.ok) {
-      alert("Pedido realizado com sucesso!");
+      Swal.fire({
+        text:"Pedido realizado com sucesso!",
+        icon: 'warning'
+      })
 
       localStorage.removeItem(`carrinho_${id}`);
       window.location.href = '../html/carrinho.html';
     } else {
-      alert("Erro ao realizar pedido!");
+      Swal.fire({
+        text:"Erro ao realizar pedido!",
+        icon: 'warning'
+      })
     }
   } catch(e) {
     console.error("Erro:", e);
-    alert("Erro ao realizar pedido!");
+   Swal.fire({
+    text: "Erro ao realizar pedido!",
+    icon: 'warning'
+   });
   }
 }
 
@@ -74,7 +91,10 @@ function isCep(cep) {
 }
 function mostrarDados(dados) {
   if (dados.erro) {
-    alert("CEP não encontrado!");
+    Swal.fire({
+      text:"CEP não encontrado!",
+      icon: 'warning'
+    })
     return false;
   }
   end_logradouro.value = dados.logradouro;

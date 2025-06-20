@@ -1,9 +1,15 @@
+const { default: Swal } = require("sweetalert2");
+
+const Swal = new Swal()
 document.getElementById("resetForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = document.getElementById("email-reset").value.trim();
 
     if (!email) {
-        alert("Email inválido ou não cadastrado");
+        Swal.fire({
+            text:"Email inválido ou não cadastrado",
+            icon: 'warning'
+        })
         return;
     }
 
@@ -17,12 +23,21 @@ document.getElementById("resetForm").addEventListener("submit", async (e) => {
         });
 
         if (response.ok) {
-            alert("Email enviado com sucesso.");
+            Swal.fire({
+                text:"Email enviado com sucesso.",
+                icon: 'warning'
+            })
         } else {
-            alert("Erro ao tentar redefinir a senha.");
+            Swal.fire({
+                text:"Erro ao tentar redefinir a senha.",
+                icon:'warning'
+            })
         }
     } catch (error) {
         console.error("Erro:", error);
-        alert("Erro ao conectar com o servidor.");
+        Swal.fire({
+            text:"Erro ao conectar com o servidor.",
+            icon: 'warning'
+        })
     }
 });

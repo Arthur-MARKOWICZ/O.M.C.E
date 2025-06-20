@@ -38,7 +38,6 @@ async function carregarFeed(filtros = {}) {
                 <p><strong>Vendedor:</strong> ${produto.nomeUsuario}</p>
                 <p id="media-avaliacao-${produto.id}">Média: -</p>
                 <button onclick="adicionarProduto('${produto.nome}', ${produto.preco}, ${produto.id}, '${produto.imagem}', '${produto.imagem_tipo}', '${produto.id_usuario}')">Adicionar ao Carrinho</button>
-                <button onclick="abrirFormularioAvaliacao(${produto.id})">Avaliar Produto</button>
             `;
 
 
@@ -102,57 +101,11 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarFeed();
 });
 
-let idProdutoAtual = null;
-
-function abrirFormularioAvaliacao(idProduto) {
-    idProdutoAtual = idProduto;
-    const formulario = `
-        <div id="form-avaliacao" style="margin-top: 10px;">
-            <h4>Avaliar Produto</h4>
-            <label>Nota (1-5):</label>
-            <input type="number" id="nota-avaliacao" min="1" max="5"><br>
-            <label>Comentário:</label><br>
-            <textarea id="comentario-avaliacao"></textarea><br>
-            <button onclick="enviarAvaliacao()">Enviar Avaliação</button>
-        </div>`;
-
-    const cardProduto = document.querySelector(`#media-avaliacao-${idProduto}`).parentElement;
-    if (!document.getElementById('form-avaliacao')) {
-        cardProduto.insertAdjacentHTML('beforeend', formulario);
-    }
-}
-
-async function enviarAvaliacao() {
-    const nota = parseInt(document.getElementById("nota-avaliacao").value);
-    const comentario = document.getElementById("comentario-avaliacao").value;
-
-
-
-    
-    const resposta = await fetch(`http://localhost:8080/avaliacoes/criar`, {
-
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${localStorage.getItem('jwt')}` },
-        body: JSON.stringify({ nota: nota, comentario: comentario, idProduto: idProdutoAtual })
-
-    });
-    console.log(nota);
-    console.log(comentario);
-    console.log(idProdutoAtual);
 
 
 
 
-    if (resposta.ok) {
-        Swal.fire({
-              title:"Avaliação enviada com sucesso!",
-              icon: 'success'});
-        document.getElementById("form-avaliacao").remove();
-        exibirMedia(idProdutoAtual);
-    } else {
-        alert("Erro ao enviar avaliação.");
-    }
-}
+
 
 async function exibirMedia(idProduto) {
     try {
