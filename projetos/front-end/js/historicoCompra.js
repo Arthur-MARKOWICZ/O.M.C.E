@@ -17,7 +17,7 @@ async function carregarProdutos() {
         if (!response.ok) throw new Error("Usuário ou produtos não encontrado");
         
         const dados = await response.json();
-        const produtos = dados.content
+        const produtos = dados.content;
         console.log(produtos);
         const numTotalPaginas = dados.totalPages;
         const container = document.getElementById("product-list");
@@ -52,44 +52,44 @@ async function carregarProdutos() {
 
             const detalhes = document.createElement("p");
             detalhes.classList.add("product-detalhes");
+
             const avaliacaoProduto = document.createElement("button");
             avaliacaoProduto.classList.add("product-avaliacao");
             avaliacaoProduto.textContent = "Avaliar";
             avaliacaoProduto.addEventListener("click",  (event) => {
                 event.stopPropagation();
                 abrirFormularioAvaliacao(produto.id, card);
-});
-         const  avaliarVendedor = document.createElement("button");
-        avaliarVendedor.classList.add("avaliacaoVendedor");
-        avaliarVendedor.textContent = "Avaliar Vendedor";
-        avaliarVendedor.addEventListener("click", (event) => {
-    event.stopPropagation();    
-    window.location.href = `../html/AvaliarVendedor.html?vendedor=${encodeURIComponent(produto.id_vendedor)}`;
-});
+            });
 
+            const avaliarVendedor = document.createElement("button");
+            avaliarVendedor.classList.add("avaliacaoVendedor");
+            avaliarVendedor.textContent = "Avaliar Vendedor";
+            avaliarVendedor.addEventListener("click", (event) => {
+                event.stopPropagation();    
+                window.location.href = `../html/AvaliarVendedor.html?vendedor=${encodeURIComponent(produto.id_vendedor)}`;
+            });
 
             infoContainer.appendChild(titulo);
             infoContainer.appendChild(preco);
             infoContainer.appendChild(detalhes);
             infoContainer.appendChild(avaliacaoProduto);
             infoContainer.appendChild(avaliarVendedor);
+
             card.appendChild(imagemContainer);
             card.appendChild(infoContainer);
             container.appendChild(card);
-            
-
-            card.addEventListener("click", (e) => {
-                if (e.target.tagName !== "BUTTON") {
-                    window.location.href = `../html/visualizarProduto.html?id=${produto.id}`; 
-                }
-            });
-        
         });
     }
     catch(e){
-
+        console.error("Erro ao carregar produtos:", e);
+        Swal.fire({
+            title: "Erro",
+            text: "Erro ao carregar produtos. Tente novamente mais tarde.",
+            icon: "error"
+        });
     }
 }
+
 document.getElementById('anterior').addEventListener('click', () => {
     if (numeroPaginaAtual > 0) {
         numeroPaginaAtual--;
@@ -105,7 +105,9 @@ document.getElementById('proximo').addEventListener('click', () => {
 document.addEventListener("DOMContentLoaded", () => {
     carregarProdutos();
 });
-let idProdutoAtual = null;  
+
+let idProdutoAtual = null;
+
 function abrirFormularioAvaliacao(idProduto, card) {
     idProdutoAtual = idProduto;
 
@@ -117,10 +119,9 @@ function abrirFormularioAvaliacao(idProduto, card) {
             <label>Comentário:</label><br>
             <textarea id="comentario-avaliacao"></textarea><br>
             <button onclick="enviarAvaliacao()">Enviar Avaliação</button>
-            
         </div>`;
 
-    if (!document.getElementById('form-avaliacao')) {
+    if (!card.querySelector('#form-avaliacao')) {
         card.insertAdjacentHTML('beforeend', formulario);
     }
 }
@@ -128,31 +129,36 @@ function abrirFormularioAvaliacao(idProduto, card) {
 async function enviarAvaliacao() {
     const nota = parseInt(document.getElementById("nota-avaliacao").value);
     const comentario = document.getElementById("comentario-avaliacao").value;
+
+    if (isNaN(nota) || nota < 1 || nota > 5 || comentario.trim() === "") {
+        Swal.fire({
+            title: "Erro",
+            text: "Por favor, insira uma nota entre 1 e 5 e um comentário.",
+            icon: "warning"
+        });
+        return;
+    }
+
     const resposta = await fetch(`http://localhost:8080/avaliacoes/criar`, {
-
         method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${localStorage.getItem('jwt')}` },
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem('jwt')}`
+        },
         body: JSON.stringify({ nota: nota, comentario: comentario, idProduto: idProdutoAtual })
-
     });
-    console.log(nota);
-    console.log(comentario);
-    console.log(idProdutoAtual);
-
-
-
 
     if (resposta.ok) {
         Swal.fire({
-              title:"Avaliação enviada com sucesso!",
-              icon: 'success'});
+            title:"Avaliação enviada com sucesso!",
+            icon: 'success'
+        });
         document.getElementById("form-avaliacao").remove();
-        exibirMedia(idProdutoAtual);
+        exibirMedia(idProdutoAtual); 
     } else {
-      Swal.fire({
-        text: "Erro ao enviar avaliação.",
-        icon: "warning"
-      })
-      return;
+        Swal.fire({
+            text: "Erro ao enviar avaliação.",
+            icon: "warning"
+        });
     }
 }
