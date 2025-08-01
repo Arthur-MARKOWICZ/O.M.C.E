@@ -1,7 +1,10 @@
-package OMCE.OMCE.Produto;
+package OMCE.OMCE.Produto.dto;
 
-public record ProdutoRespostaDTO(Long id, String nome, Double preco,String detalhes,
-                                 byte[] imagem,String image_tipo,
+import OMCE.OMCE.Produto.Produto;
+import OMCE.OMCE.Produto.enums.Condicao;
+
+public record ProdutoRespostaDTO(Long id, String nome, Double preco, String detalhes,
+                                 byte[] imagem, String image_tipo,
                                  String nomeUsuario, Condicao condicao, Long id_vendedor) {
     public ProdutoRespostaDTO(Produto produto){
         this(produto.getId(),

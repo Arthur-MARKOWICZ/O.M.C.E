@@ -1,7 +1,6 @@
-package OMCE.OMCE.User;
+package OMCE.OMCE.User.dto;
 
 import OMCE.OMCE.Enderco.DadosEndereco;
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record DadosAlterarDadosUser(@JsonProperty("id") Long id,

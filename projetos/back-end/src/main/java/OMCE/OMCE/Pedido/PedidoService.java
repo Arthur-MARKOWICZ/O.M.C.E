@@ -1,7 +1,7 @@
 package OMCE.OMCE.Pedido;
 
 import OMCE.OMCE.Produto.Produto;
-import OMCE.OMCE.Produto.ProdutoRepository;
+import OMCE.OMCE.Produto.repository.ProdutoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

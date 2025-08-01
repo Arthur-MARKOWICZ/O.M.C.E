@@ -1,7 +1,7 @@
 package OMCE.OMCE.controller;
 
 import OMCE.OMCE.Historico.HistoricoService;
-import OMCE.OMCE.Produto.ProdutoRespostaDTO;
+import OMCE.OMCE.Produto.dto.ProdutoRespostaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

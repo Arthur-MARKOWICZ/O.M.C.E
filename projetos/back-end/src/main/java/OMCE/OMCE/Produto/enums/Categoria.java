@@ -1,4 +1,4 @@
-package OMCE.OMCE.Produto;
+package OMCE.OMCE.Produto.enums;
 
 public enum Categoria {
     ESP32,

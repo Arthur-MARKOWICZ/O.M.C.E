@@ -1,6 +1,6 @@
 package OMCE.OMCE.config;
 
-import OMCE.OMCE.User.UserRepository;
+import OMCE.OMCE.User.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

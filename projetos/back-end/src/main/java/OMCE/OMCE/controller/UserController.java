@@ -3,21 +3,22 @@ package OMCE.OMCE.controller;
 
 import OMCE.OMCE.User.*;
 
+import OMCE.OMCE.User.Service.UserService;
+import OMCE.OMCE.User.dto.DadosAlterarDadosUser;
+import OMCE.OMCE.User.dto.DadosRedefinirSenha;
+import OMCE.OMCE.User.repository.UserRepository;
 import OMCE.OMCE.Validacao.ValidacaoUser;
-import OMCE.OMCE.config.EmailService;
-import java.time.LocalDateTime;
-import java.util.UUID;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-import OMCE.OMCE.User.DadosSolicitarRedefinicaoSenha;
+import OMCE.OMCE.User.dto.DadosSolicitarRedefinicaoSenha;
 
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
     @Autowired
     private UserRepository userRepository;
@@ -26,61 +27,35 @@ public class UserController {
     @Autowired
     private UserService userService;
     @GetMapping("/{id}")
-    public  ResponseEntity pegarUsuario(@PathVariable Long id){
-        var user  = userRepository.findById(id);
-        System.out.println(user);
-        return ResponseEntity.ok(user.get());
+    public  ResponseEntity<User> pegarUsuario(@PathVariable Long id){
+       User user = userService.pegarUserPorId(id);
+        return ResponseEntity.ok(user);
     }
 
     @PutMapping("/alterardados")
     @Transactional
-    public ResponseEntity alterardados(@RequestBody DadosAlterarDadosUser dados){
+    public ResponseEntity<Void> alterardados(@RequestBody DadosAlterarDadosUser dados){
        userService.alterardados(dados);
         return ResponseEntity.ok().build();
     }
     @DeleteMapping("deletar/{id}")
     @Transactional
-    public ResponseEntity excluir(@PathVariable Long id) {
-        var user = userRepository.getReferenceById(id);
-        user.excluir();
+    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+        userService.excluir(id);
         return ResponseEntity.noContent().build();
     }
 
-    @Autowired
-    private EmailService emailService;
+
     @PostMapping("/redefinirSenha")
     public ResponseEntity<?> redefinirSenha(@RequestBody DadosSolicitarRedefinicaoSenha dados) {
-        var usuario = userRepository.findByEmail(dados.email());
-        if (usuario == null) {
-            return ResponseEntity.badRequest().body("Email não encontrado.");
-        }
-        String token = UUID.randomUUID().toString();
-        usuario.setTokenRedefinicao(token);
-        usuario.setTokenExpiracao(LocalDateTime.now().plusMinutes(30));
-        userRepository.save(usuario);
-        String link = "http://localhost:5500/front-end/html/novaSenha.html?token=" + token;
-        String assunto = "Redefinição de Senha - OMCE";
-        String corpo = "Olá, " + usuario.getNome() + "!\n\n" +
-                       "Recebemos uma solicitação para redefinir sua senha. " +
-                       "Clique no link abaixo para criar uma nova senha (válido por 30 minutos):\n\n" +
-                       link + "\n\n" +
-                       "Se você não solicitou isso, ignore este e-mail.";
-        emailService.enviarEmail(usuario.getEmail(), assunto, corpo);
+        log.info("Requisicao redefinirSenha recebida");
+        userService.redefinirSenhaPorEmail(dados);
         return ResponseEntity.ok("Enviando email...");
     }
     @PutMapping("/novaSenha")
     @Transactional
     public ResponseEntity novaSenha(@RequestBody DadosRedefinirSenha dados){
-        User user = userRepository.findByTokenRedefinicao(dados.token());
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado.");
-        }
-        BCryptPasswordEncoder encoder =  new BCryptPasswordEncoder();
-        if(encoder.matches(dados.novaSenha(),user.getSenha())){
-            return ResponseEntity.badRequest().body(" Senha nova igual a original");
-        }
-        String novoHash =  encoder.encode(dados.novaSenha());
-       user.setSenha(novoHash);
+        userService.novaSenha(dados);
        return ResponseEntity.ok("senha alterada com sucesso");
     }
 

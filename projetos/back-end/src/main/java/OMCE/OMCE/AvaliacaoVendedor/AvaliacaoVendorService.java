@@ -2,7 +2,7 @@ package OMCE.OMCE.AvaliacaoVendedor;
 
 
 import OMCE.OMCE.User.User;
-import OMCE.OMCE.User.UserRepository;
+import OMCE.OMCE.User.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

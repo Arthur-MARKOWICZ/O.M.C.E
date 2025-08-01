@@ -1,4 +1,4 @@
-package OMCE.OMCE.User;
+package OMCE.OMCE.User.dto;
 
 import OMCE.OMCE.Enderco.DadosEndereco;
 import jakarta.validation.constraints.NotNull;

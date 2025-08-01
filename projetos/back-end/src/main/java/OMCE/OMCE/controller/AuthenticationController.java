@@ -1,13 +1,14 @@
 package OMCE.OMCE.controller;
 
-import OMCE.OMCE.Produto.DadosCadastroProduto;
-import OMCE.OMCE.Produto.Produto;
-import OMCE.OMCE.Produto.ProdutoRepository;
+import OMCE.OMCE.Produto.repository.ProdutoRepository;
 import OMCE.OMCE.User.*;
+import OMCE.OMCE.User.dto.AuthenticationDTO;
+import OMCE.OMCE.User.dto.DadosCadastroUser;
+import OMCE.OMCE.User.dto.DadosRedefinirSenha;
+import OMCE.OMCE.User.dto.LoginResponseDTO;
+import OMCE.OMCE.User.repository.UserRepository;
 import OMCE.OMCE.Validacao.ValidacaoUser;
 import OMCE.OMCE.config.TokenService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("auth")

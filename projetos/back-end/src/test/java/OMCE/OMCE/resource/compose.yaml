@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  mysql_db:
+    image: mysql:8.0
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: senha_root
+      MYSQL_DATABASE: omce_test
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: senha
+    command: --max_allowed_packet=16M
+    ports:
+      - "3307:3307"
+    volumes:
+      - mysql_data:/var/lib/mysql
+volumes:
+  mysql_data:

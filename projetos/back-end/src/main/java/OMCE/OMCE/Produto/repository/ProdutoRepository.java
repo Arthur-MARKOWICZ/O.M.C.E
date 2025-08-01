@@ -1,5 +1,7 @@
-package OMCE.OMCE.Produto;
+package OMCE.OMCE.Produto.repository;
 
+import OMCE.OMCE.Produto.Produto;
+import OMCE.OMCE.Produto.enums.Categoria;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

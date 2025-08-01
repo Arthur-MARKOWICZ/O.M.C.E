@@ -1,7 +1,7 @@
 package OMCE.OMCE.Validacao;
 
-import OMCE.OMCE.User.DadosAlterarDadosUser;
-import OMCE.OMCE.User.DadosCadastroUser;
+import OMCE.OMCE.User.dto.DadosAlterarDadosUser;
+import OMCE.OMCE.User.dto.DadosCadastroUser;
 import org.springframework.stereotype.Component;
 
 @Component
