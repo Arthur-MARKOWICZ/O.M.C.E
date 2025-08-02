@@ -5,6 +5,7 @@ import OMCE.OMCE.User.*;
 
 import OMCE.OMCE.User.Service.UserService;
 import OMCE.OMCE.User.dto.DadosAlterarDadosUser;
+import OMCE.OMCE.User.dto.DadosCadastroUser;
 import OMCE.OMCE.User.dto.DadosRedefinirSenha;
 import OMCE.OMCE.User.repository.UserRepository;
 import OMCE.OMCE.Validacao.ValidacaoUser;
@@ -20,8 +21,7 @@ import OMCE.OMCE.User.dto.DadosSolicitarRedefinicaoSenha;
 @RequestMapping("/user")
 @Slf4j
 public class UserController {
-    @Autowired
-    private UserRepository userRepository;
+
     @Autowired
     private ValidacaoUser validar;
     @Autowired
@@ -44,7 +44,11 @@ public class UserController {
         userService.excluir(id);
         return ResponseEntity.noContent().build();
     }
-
+    @PostMapping("/cadastro")
+    public ResponseEntity cadastro(@RequestBody DadosCadastroUser dados) {
+        userService.cadastro(dados);
+        return ResponseEntity.ok().build();
+    }
 
     @PostMapping("/redefinirSenha")
     public ResponseEntity<?> redefinirSenha(@RequestBody DadosSolicitarRedefinicaoSenha dados) {

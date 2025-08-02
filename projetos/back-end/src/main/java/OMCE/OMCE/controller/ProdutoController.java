@@ -57,28 +57,20 @@ public class ProdutoController {
     @DeleteMapping("/deletar/{id}")
     @Transactional
     public ResponseEntity<?> deletarProduto(@PathVariable Long id) {
-        Optional<Produto> produto = produtoRepository.findById(id);
-        if (produto.isEmpty() ) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto ou usuário não encontrado.");
-        }
-        produtoRepository.deleteById(id);
+        service.deletar(id);
         return ResponseEntity.ok("Produto deletado com sucesso.");
     }
 
     @PutMapping ("/alterarDadosProduto")
     @Transactional
     public ResponseEntity alterardados(@RequestBody DadosAlterarDadosProduto dados){
-        validar.ValidarAlterarProduto(dados);
-        var produto =  produtoRepository.getReferenceById(dados.id());
-        produto.alterarDados(dados);
+        service.alterarDadosProduto(dados);
         return ResponseEntity.ok().build();
     }
     @GetMapping("/todosProdutosUsuario")
     public ResponseEntity<Page<ProdutoRespostaDTO>> pegarProdutosUsuario(@PageableDefault(size=10)Pageable pageable,
                                                                          @RequestHeader("Id-Usuario") Long id_usuario) {
-        Page<Produto> produtos = produtoRepository.pegarProdutosUsuario(id_usuario,pageable);
-
-       var produtoDTO = produtos.map(ProdutoRespostaDTO::new);
+        Page<ProdutoRespostaDTO> produtoDTO = service.pegarProdutosPorUser(id_usuario,pageable);
        return ResponseEntity.ok(produtoDTO);
 
     }

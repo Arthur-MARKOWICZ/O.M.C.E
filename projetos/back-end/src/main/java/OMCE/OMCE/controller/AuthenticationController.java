@@ -47,15 +47,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(new LoginResponseDTO(token,idUser,nome));
     }
 
-    @PostMapping("/cadastro")
-    public ResponseEntity cadastro(@RequestBody DadosCadastroUser dados) {
-        validar.validarCadastroUsuario(dados);
-        String encryptedPassword = new BCryptPasswordEncoder().encode(dados.senha());
-        User newUser = new User(dados);
-        newUser.setSenha(encryptedPassword);
-        this.userRepository.save(newUser);
-        return ResponseEntity.ok().build();
-    }
+
 
     @PostMapping("/redefinirSenha")
     public ResponseEntity<?> redefinirSenha(@RequestBody DadosRedefinirSenha dados) {

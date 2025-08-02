@@ -4,6 +4,7 @@ import OMCE.OMCE.Execao.SenhaIgualAOriginal;
 import OMCE.OMCE.Execao.UserNaoEncontrado;
 import OMCE.OMCE.User.*;
 import OMCE.OMCE.User.dto.DadosAlterarDadosUser;
+import OMCE.OMCE.User.dto.DadosCadastroUser;
 import OMCE.OMCE.User.dto.DadosRedefinirSenha;
 import OMCE.OMCE.User.dto.DadosSolicitarRedefinicaoSenha;
 import OMCE.OMCE.User.repository.UserRepository;
@@ -82,5 +83,13 @@ public class UserService {
         }
         String novoHash =  encoder.encode(dados.novaSenha());
         user.setSenha(novoHash);
+    }
+    public User cadastro(DadosCadastroUser dados){
+        validar.validarCadastroUsuario(dados);
+        String encryptedPassword = new BCryptPasswordEncoder().encode(dados.senha());
+        User newUser = new User(dados);
+        newUser.setSenha(encryptedPassword);
+        userRepository.save(newUser);
+        return newUser;
     }
 }

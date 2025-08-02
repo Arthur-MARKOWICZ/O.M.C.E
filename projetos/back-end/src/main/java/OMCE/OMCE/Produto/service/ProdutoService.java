@@ -3,6 +3,7 @@ package OMCE.OMCE.Produto.service;
 import OMCE.OMCE.Execao.CategoriaInvalida;
 import OMCE.OMCE.Execao.ProdutoNaoEncontrado;
 import OMCE.OMCE.Produto.Produto;
+import OMCE.OMCE.Produto.dto.DadosAlterarDadosProduto;
 import OMCE.OMCE.Produto.dto.DadosCadastroProduto;
 import OMCE.OMCE.Produto.dto.ProdutoRespostaDTO;
 import OMCE.OMCE.Produto.enums.Categoria;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -83,4 +85,23 @@ public class ProdutoService {
         return  produtosDTO;
 
     }
+    public void deletar(Long id){
+        Optional<Produto> produto = repository.findById(id);
+        if (produto.isEmpty() ) {
+           throw new ProdutoNaoEncontrado("produto nao encontrado");
+        }
+        repository.deleteById(id);
+    }
+    public void alterarDadosProduto(DadosAlterarDadosProduto dados){
+        validar.ValidarAlterarProduto(dados);
+        Produto produto =  repository.getReferenceById(dados.id());
+        produto.alterarDados(dados);
+    }
+    public Page<ProdutoRespostaDTO> pegarProdutosPorUser(Long id_usuario,Pageable pageable){
+        Page<Produto> produtos = repository.pegarProdutosUsuario(id_usuario,pageable);
+
+        Page<ProdutoRespostaDTO> produtoDTO = produtos.map(ProdutoRespostaDTO::new);
+        return  produtoDTO;
+    }
+
 }

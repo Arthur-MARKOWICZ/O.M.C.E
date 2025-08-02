@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(ProdutoNaoEncontrado.class)
     public  ResponseEntity<Object> handleProdutoNaoEncontrado(ProdutoNaoEncontrado ex){
-        return  buildResponse(HttpStatus.CONFLICT,ex.getMessage());
+        return  buildResponse(HttpStatus.NOT_FOUND,ex.getMessage());
     }
 
 

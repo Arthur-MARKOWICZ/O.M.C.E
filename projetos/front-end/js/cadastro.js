@@ -45,7 +45,7 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
         senha: txtSenha.value
     };
 
-        const response = await fetch("http://localhost:8080/auth/cadastro", {
+        const response = await fetch("http://localhost:8080/user/cadastro", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
