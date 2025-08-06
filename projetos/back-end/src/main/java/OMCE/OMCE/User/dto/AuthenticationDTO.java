@@ -1,4 +1,4 @@
 package OMCE.OMCE.User.dto;
 
-public record AuthenticationDTO(String email ,String senha , long id) {
+public record AuthenticationDTO(String email ,String senha) {
 }

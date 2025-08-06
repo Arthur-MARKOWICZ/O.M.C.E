@@ -1,4 +1,4 @@
-package OMCE.OMCE.Pedido;
+package OMCE.OMCE.Pedido.dto;
 
 import OMCE.OMCE.Enderco.DadosEndereco;
 

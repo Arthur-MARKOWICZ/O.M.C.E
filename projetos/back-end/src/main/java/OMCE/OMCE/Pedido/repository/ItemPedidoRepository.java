@@ -1,5 +1,6 @@
-package OMCE.OMCE.Pedido;
+package OMCE.OMCE.Pedido.repository;
 
+import OMCE.OMCE.Pedido.ItemPedido;
 import OMCE.OMCE.Produto.Produto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

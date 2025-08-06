@@ -1,5 +1,10 @@
-package OMCE.OMCE.Pedido;
+package OMCE.OMCE.Pedido.service;
 
+import OMCE.OMCE.Pedido.ItemPedido;
+import OMCE.OMCE.Pedido.Pedido;
+import OMCE.OMCE.Pedido.dto.PedidoCadastroDTO;
+import OMCE.OMCE.Pedido.repository.ItemPedidoRepository;
+import OMCE.OMCE.Pedido.repository.PedidoRepository;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.repository.ProdutoRepository;
 import jakarta.transaction.Transactional;

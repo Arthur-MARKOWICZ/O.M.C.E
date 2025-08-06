@@ -1,7 +1,7 @@
 package OMCE.OMCE.Historico;
 
-import OMCE.OMCE.Pedido.ItemPedidoRepository;
-import OMCE.OMCE.Pedido.PedidoRepository;
+import OMCE.OMCE.Pedido.repository.ItemPedidoRepository;
+import OMCE.OMCE.Pedido.repository.PedidoRepository;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.repository.ProdutoRepository;
 import OMCE.OMCE.Produto.dto.ProdutoRespostaDTO;

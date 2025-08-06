@@ -45,7 +45,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
     @PostMapping("/cadastro")
-    public ResponseEntity cadastro(@RequestBody DadosCadastroUser dados) {
+    public ResponseEntity<Void> cadastro(@RequestBody DadosCadastroUser dados) {
         userService.cadastro(dados);
         return ResponseEntity.ok().build();
     }
