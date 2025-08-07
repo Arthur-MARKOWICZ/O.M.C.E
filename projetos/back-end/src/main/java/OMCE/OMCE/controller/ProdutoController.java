@@ -56,14 +56,14 @@ public class ProdutoController {
     }
     @DeleteMapping("/deletar/{id}")
     @Transactional
-    public ResponseEntity<?> deletarProduto(@PathVariable Long id) {
+    public ResponseEntity<String> deletarProduto(@PathVariable Long id) {
         service.deletar(id);
         return ResponseEntity.ok("Produto deletado com sucesso.");
     }
 
     @PutMapping ("/alterarDadosProduto")
     @Transactional
-    public ResponseEntity alterardados(@RequestBody DadosAlterarDadosProduto dados){
+    public ResponseEntity<Void> alterardados(@RequestBody DadosAlterarDadosProduto dados){
         service.alterarDadosProduto(dados);
         return ResponseEntity.ok().build();
     }

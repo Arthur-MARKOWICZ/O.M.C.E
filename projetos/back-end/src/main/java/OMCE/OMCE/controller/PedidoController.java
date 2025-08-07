@@ -16,7 +16,7 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @PostMapping("/cadastro")
-    public ResponseEntity cadastroPedido(@RequestBody PedidoCadastroDTO dados){
+    public ResponseEntity<Void> cadastroPedido(@RequestBody PedidoCadastroDTO dados){
         pedidoService.CadastroCompra(dados);
         return ResponseEntity.ok().build();
     }

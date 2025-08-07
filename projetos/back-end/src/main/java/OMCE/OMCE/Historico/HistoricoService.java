@@ -24,7 +24,6 @@ public class HistoricoService {
     private ItemPedidoRepository itemPedidoRepository;
 
     public Page<ProdutoRespostaDTO> pegarHistoricoDeVenda(Long id_usuario, Pageable pageable){
-
         Page<Produto> historicoVenda = produtoRepository.pegarVendas(id_usuario, pageable);
         Page<ProdutoRespostaDTO> dtosVenda = historicoVenda.map(ProdutoRespostaDTO::new);
         return dtosVenda;

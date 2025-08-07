@@ -1,9 +1,6 @@
 package OMCE.OMCE.Execao.global;
 
-import OMCE.OMCE.Execao.CategoriaInvalida;
-import OMCE.OMCE.Execao.ProdutoNaoEncontrado;
-import OMCE.OMCE.Execao.SenhaIgualAOriginal;
-import OMCE.OMCE.Execao.UserNaoEncontrado;
+import OMCE.OMCE.Execao.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,6 +27,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ProdutoNaoEncontrado.class)
     public  ResponseEntity<Object> handleProdutoNaoEncontrado(ProdutoNaoEncontrado ex){
         return  buildResponse(HttpStatus.NOT_FOUND,ex.getMessage());
+    }
+    @ExceptionHandler(SenhaDiferenteDaOriginal.class)
+    public  ResponseEntity<Object> handleSenhaDiferenteDaOriginal(SenhaDiferenteDaOriginal ex){
+        return  buildResponse(HttpStatus.CONFLICT,ex.getMessage());
     }
 
 

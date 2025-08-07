@@ -40,7 +40,7 @@ public class AuthenticationController {
 
 
     @PostMapping("/redefinirSenha")
-    public ResponseEntity<?> redefinirSenha(@RequestBody DadosRedefinirSenha dados) {
+    public ResponseEntity<String> redefinirSenha(@RequestBody DadosRedefinirSenha dados) {
         service.redefinirSenha(dados);
         return ResponseEntity.ok("Senha redefinida com sucesso!");
     }

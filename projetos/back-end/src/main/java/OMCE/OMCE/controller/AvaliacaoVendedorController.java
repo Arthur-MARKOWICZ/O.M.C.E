@@ -17,7 +17,7 @@ public class AvaliacaoVendedorController {
     private AvaliacaoVendorService service;
 
     @PostMapping("/cadastro")
-    public ResponseEntity cadastro(@RequestBody AvaliacaoVendedorDTO dto){
+    public ResponseEntity<Void> cadastro(@RequestBody AvaliacaoVendedorDTO dto){
         service.criar(dto);
         return ResponseEntity.ok().build();
     }

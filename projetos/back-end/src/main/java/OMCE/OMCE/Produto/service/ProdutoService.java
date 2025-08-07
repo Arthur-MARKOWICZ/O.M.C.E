@@ -2,6 +2,7 @@ package OMCE.OMCE.Produto.service;
 
 import OMCE.OMCE.Execao.CategoriaInvalida;
 import OMCE.OMCE.Execao.ProdutoNaoEncontrado;
+import OMCE.OMCE.Execao.UserNaoEncontrado;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.dto.DadosAlterarDadosProduto;
 import OMCE.OMCE.Produto.dto.DadosCadastroProduto;
@@ -39,6 +40,9 @@ public class ProdutoService {
     public void cadastro(DadosCadastroProduto dados){
         validar.ValidarCadastroProduto(dados);
         User user = userService.pegarUserPorId(dados.id_usuario());
+        if (user == null){
+            throw new UserNaoEncontrado("Usuario nao encontrado");
+        }
         Produto newproduto = new Produto(dados);
         newproduto.setUsuario(user);
         this.repository.save(newproduto);
@@ -47,6 +51,9 @@ public class ProdutoService {
 
         Optional<Produto> produto = repository.findById(id);
         User usuario = userService.pegarUserPorId(produto.get().getUsuario().getId());
+        if(usuario == null){
+            throw  new UserNaoEncontrado("usuario nao encontrado");
+        }
 
         if(produto.isPresent()) {
             byte[] imagemBytes = produto.get().getImagem();
