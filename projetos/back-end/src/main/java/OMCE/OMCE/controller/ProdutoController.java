@@ -1,8 +1,14 @@
 package OMCE.OMCE.controller;
 import OMCE.OMCE.Produto.*;
+import OMCE.OMCE.Produto.dto.DadosAlterarDadosProduto;
+import OMCE.OMCE.Produto.dto.DadosCadastroProduto;
+import OMCE.OMCE.Produto.dto.ProdutoRespostaDTO;
+import OMCE.OMCE.Produto.enums.Categoria;
+import OMCE.OMCE.Produto.repository.ProdutoRepository;
+import OMCE.OMCE.Produto.service.ProdutoService;
 import OMCE.OMCE.User.User;
 import OMCE.OMCE.Validacao.ValidacaoProduto;
-import OMCE.OMCE.User.UserRepository;
+import OMCE.OMCE.User.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,49 +29,21 @@ public class ProdutoController {
     private ProdutoRepository produtoRepository;
     @Autowired
     ValidacaoProduto validar;
-    public ProdutoController(ProdutoRepository produtoRepository,
-                             UserRepository userRepository) {
-        this.produtoRepository = produtoRepository;
-        this.userRepository = userRepository;
+    private final ProdutoService service;
+    public ProdutoController(ProdutoService service) {
+        this.service = service;
     }
     @PostMapping("/cadastroProduto")
-    public ResponseEntity cadastroProduto(@RequestBody DadosCadastroProduto dados) {
-        validar.ValidarCadastroProduto(dados);
-        User user = userRepository.getReferenceById(dados.id_usuario());
-        Produto newproduto = new Produto(dados);
-        newproduto.setUsuario(user);
-
-        this.produtoRepository.save(newproduto);
+    public ResponseEntity<Void> cadastroProduto(@RequestBody DadosCadastroProduto dados) {
+        service.cadastro(dados);
         return ResponseEntity.ok().build();
     }
     @GetMapping(value = "/visualizarDetalhesProduto/{id}", produces = "application/json")
-    public ResponseEntity mostraDetalhesProdutos(@PathVariable Long id){
-
-        Optional<Produto> produto = produtoRepository.findById(id);
-        Optional<User> user = userRepository.findById(produto.get().getUsuario().getId());
-
-        if(produto.isPresent()) {
-            User usuario = user.get();
-            byte[] imagemBytes = produto.get().getImagem();
-            String imagem = Base64.getEncoder().encodeToString(imagemBytes);
-            Map<String, Object> json = new HashMap<>();
-            json.put("id", produto.get().getId());
-            json.put("nome", produto.get().getNome());
-            json.put("preco", produto.get().getPreco());
-            json.put("Imagem", imagem);
-            json.put("Imagem_tipo", produto.get().getImageTipo());
-            json.put("condicao", produto.get().getCondicao());
-            json.put("detalhes", produto.get().getDetalhes());
-                json.put("nome_do_usuario", usuario.getNome());
-                json.put("id_vendedor", usuario.getId());
-
-
-            return ResponseEntity.ok(json);
-        }
-        else {
-            return ResponseEntity.notFound().build();
-        }
-    }@GetMapping("/filtro")
+    public ResponseEntity<Map<String, Object>> mostraDetalhesProdutos(@PathVariable Long id){
+        Map<String, Object> detalhes = service.pegarDetalhesDoProduto(id);
+       return ResponseEntity.ok(detalhes);
+    }
+    @GetMapping("/filtro")
     public ResponseEntity<Page<ProdutoRespostaDTO>> filtrarProdutos(
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) String categoria,
@@ -73,43 +51,26 @@ public class ProdutoController {
             @RequestParam(required = false) Double precoMax,
             @PageableDefault(size = 10) Pageable pageable
     ) {
-        Categoria catEnum = null;
-        if (categoria != null && !categoria.isBlank()) {
-            try {
-                catEnum = Categoria.valueOf(categoria.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                return ResponseEntity.badRequest().body(Page.empty());
-            }
-        }
-        Page<Produto> produtos = produtoRepository.filtrarProdutos(nome, catEnum, precoMin, precoMax, pageable);
-        Page<ProdutoRespostaDTO> produtosDTO = produtos.map(ProdutoRespostaDTO::new);
+        Page<ProdutoRespostaDTO> produtosDTO = service.filtrarProduto(nome,categoria,precoMin,precoMax,pageable);
         return ResponseEntity.ok(produtosDTO);
     }
     @DeleteMapping("/deletar/{id}")
     @Transactional
-    public ResponseEntity<?> deletarProduto(@PathVariable Long id) {
-        Optional<Produto> produto = produtoRepository.findById(id);
-        if (produto.isEmpty() ) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto ou usuário não encontrado.");
-        }
-        produtoRepository.deleteById(id);
+    public ResponseEntity<String> deletarProduto(@PathVariable Long id) {
+        service.deletar(id);
         return ResponseEntity.ok("Produto deletado com sucesso.");
     }
 
     @PutMapping ("/alterarDadosProduto")
     @Transactional
-    public ResponseEntity alterardados(@RequestBody DadosAlterarDadosProduto dados){
-        validar.ValidarAlterarProduto(dados);
-        var produto =  produtoRepository.getReferenceById(dados.id());
-        produto.alterarDados(dados);
+    public ResponseEntity<Void> alterardados(@RequestBody DadosAlterarDadosProduto dados){
+        service.alterarDadosProduto(dados);
         return ResponseEntity.ok().build();
     }
     @GetMapping("/todosProdutosUsuario")
     public ResponseEntity<Page<ProdutoRespostaDTO>> pegarProdutosUsuario(@PageableDefault(size=10)Pageable pageable,
                                                                          @RequestHeader("Id-Usuario") Long id_usuario) {
-        Page<Produto> produtos = produtoRepository.pegarProdutosUsuario(id_usuario,pageable);
-
-       var produtoDTO = produtos.map(ProdutoRespostaDTO::new);
+        Page<ProdutoRespostaDTO> produtoDTO = service.pegarProdutosPorUser(id_usuario,pageable);
        return ResponseEntity.ok(produtoDTO);
 
     }

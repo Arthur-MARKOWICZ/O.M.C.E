@@ -1,14 +1,12 @@
 package OMCE.OMCE.controller;
 
-import OMCE.OMCE.AvaliacaoProduto.AvaliacaoProdutoDTO;
+import OMCE.OMCE.AvaliacaoProduto.dto.AvaliacaoProdutoDTO;
 import OMCE.OMCE.AvaliacaoProduto.AvaliacaoProduto;
-import OMCE.OMCE.AvaliacaoProduto.AvaliacaoProdutoServico;
+import OMCE.OMCE.AvaliacaoProduto.service.AvaliacaoProdutoServico;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

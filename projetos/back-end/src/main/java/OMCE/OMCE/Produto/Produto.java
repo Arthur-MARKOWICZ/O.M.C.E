@@ -1,11 +1,15 @@
 package OMCE.OMCE.Produto;
 
+import OMCE.OMCE.Produto.dto.DadosAlterarDadosProduto;
+import OMCE.OMCE.Produto.dto.DadosCadastroProduto;
+import OMCE.OMCE.Produto.enums.Categoria;
+import OMCE.OMCE.Produto.enums.Condicao;
 import OMCE.OMCE.User.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import java.util.Base64;
-import OMCE.OMCE.Produto.DadosAlterarDadosProduto;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

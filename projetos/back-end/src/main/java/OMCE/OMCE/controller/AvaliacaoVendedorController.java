@@ -1,8 +1,8 @@
 package OMCE.OMCE.controller;
 
-import OMCE.OMCE.AvaliacaoVendedor.AvaliacaoVendedorDTO;
-import OMCE.OMCE.AvaliacaoVendedor.AvaliacaoVendedorRespostaDTO;
-import OMCE.OMCE.AvaliacaoVendedor.AvaliacaoVendorService;
+import OMCE.OMCE.AvaliacaoVendedor.dto.AvaliacaoVendedorDTO;
+import OMCE.OMCE.AvaliacaoVendedor.dto.AvaliacaoVendedorRespostaDTO;
+import OMCE.OMCE.AvaliacaoVendedor.service.AvaliacaoVendorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +17,7 @@ public class AvaliacaoVendedorController {
     private AvaliacaoVendorService service;
 
     @PostMapping("/cadastro")
-    public ResponseEntity cadastro(@RequestBody AvaliacaoVendedorDTO dto){
+    public ResponseEntity<Void> cadastro(@RequestBody AvaliacaoVendedorDTO dto){
         service.criar(dto);
         return ResponseEntity.ok().build();
     }

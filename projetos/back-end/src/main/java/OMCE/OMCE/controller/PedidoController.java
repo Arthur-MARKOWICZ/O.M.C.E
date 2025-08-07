@@ -1,8 +1,7 @@
 package OMCE.OMCE.controller;
 
-import OMCE.OMCE.Pedido.PedidoCadastroDTO;
-import OMCE.OMCE.Pedido.PedidoRepository;
-import OMCE.OMCE.Pedido.PedidoService;
+import OMCE.OMCE.Pedido.dto.PedidoCadastroDTO;
+import OMCE.OMCE.Pedido.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +16,7 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @PostMapping("/cadastro")
-    public ResponseEntity cadastroPedido(@RequestBody PedidoCadastroDTO dados){
+    public ResponseEntity<Void> cadastroPedido(@RequestBody PedidoCadastroDTO dados){
         pedidoService.CadastroCompra(dados);
         return ResponseEntity.ok().build();
     }

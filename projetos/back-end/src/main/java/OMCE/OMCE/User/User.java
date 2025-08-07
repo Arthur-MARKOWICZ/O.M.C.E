@@ -2,8 +2,11 @@ package OMCE.OMCE.User;
 
 import OMCE.OMCE.Enderco.Endereco;
 import OMCE.OMCE.Produto.Produto;
+import OMCE.OMCE.User.dto.DadosAlterarDadosUser;
+import OMCE.OMCE.User.dto.DadosCadastroUser;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

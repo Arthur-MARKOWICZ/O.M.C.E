@@ -1,11 +1,8 @@
 package OMCE.OMCE.Pedido;
 
 import OMCE.OMCE.Enderco.Endereco;
-import OMCE.OMCE.Produto.Produto;
+import OMCE.OMCE.Pedido.dto.PedidoCadastroDTO;
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "pedido")

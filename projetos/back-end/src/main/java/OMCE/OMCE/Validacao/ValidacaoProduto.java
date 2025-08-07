@@ -1,7 +1,7 @@
 package OMCE.OMCE.Validacao;
 
-import OMCE.OMCE.Produto.DadosAlterarDadosProduto;
-import OMCE.OMCE.Produto.DadosCadastroProduto;
+import OMCE.OMCE.Produto.dto.DadosAlterarDadosProduto;
+import OMCE.OMCE.Produto.dto.DadosCadastroProduto;
 import org.springframework.stereotype.Component;
 
 @Component
