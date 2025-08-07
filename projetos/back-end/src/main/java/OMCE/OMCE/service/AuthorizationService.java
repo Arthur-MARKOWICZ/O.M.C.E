@@ -7,6 +7,7 @@ import OMCE.OMCE.User.dto.LoginResponseDTO;
 import OMCE.OMCE.User.repository.UserRepository;
 import OMCE.OMCE.config.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,12 +18,19 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthorizationService implements UserDetailsService {
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    private TokenService tokenService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
+
+    private final UserRepository userRepository;
+
+    private final TokenService tokenService;
+
+    private final AuthenticationManager authenticationManager;
+
+    public AuthorizationService(UserRepository userRepository, TokenService tokenService,@Lazy AuthenticationManager authenticationManager) {
+        this.userRepository = userRepository;
+        this.tokenService = tokenService;
+        this.authenticationManager = authenticationManager;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);

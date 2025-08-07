@@ -1,4 +1,4 @@
-package OMCE.OMCE.AvaliacaoProduto;
+package OMCE.OMCE.AvaliacaoProduto.dto;
 
 
 import lombok.AllArgsConstructor;

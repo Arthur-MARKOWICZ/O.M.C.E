@@ -3,10 +3,7 @@ package OMCE.OMCE.integracao;
 import OMCE.OMCE.Enderco.DadosEndereco;
 import OMCE.OMCE.User.Service.UserService;
 import OMCE.OMCE.User.User;
-import OMCE.OMCE.User.dto.AuthenticationDTO;
-import OMCE.OMCE.User.dto.DadosAlterarDadosUser;
-import OMCE.OMCE.User.dto.DadosCadastroUser;
-import OMCE.OMCE.User.dto.LoginResponseDTO;
+import OMCE.OMCE.User.dto.*;
 import OMCE.OMCE.User.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,13 +38,13 @@ public class UserControllerIntegrationTest {
                 "testToken","test");
         User salvo = service.cadastro(dadosCadastroUser);
         System.out.println(salvo.getEmail());
-        // 1. DTO de Requisição de Login (adapte à sua classe real)
+
         AuthenticationDTO loginRequest = new AuthenticationDTO("test@test.com", "test");
 
-        // 2. Faz a requisição de POST para o endpoint de login
+
         ResponseEntity<LoginResponseDTO> loginResponse = restTemplate.postForEntity("/auth/login", loginRequest, LoginResponseDTO.class);
 
-        // 3. Verifica se o login foi bem-sucedido e extrai o token
+
         assertEquals(HttpStatus.OK, loginResponse.getStatusCode(), "Login falhou! Verifique credenciais ou endpoint.");
         LoginResponseDTO authResponse = loginResponse.getBody();
         if (authResponse != null && authResponse.token() != null) {
@@ -112,6 +109,30 @@ public class UserControllerIntegrationTest {
         );
         assertEquals(HttpStatus.NO_CONTENT,response.getStatusCode());
     }
+    @Test
+    void deveMudarASenhaDoUser(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(jwtToken);
+        DadosEndereco dadosEndereco = new DadosEndereco("8123434", "brasil", "test",
+                "test", "Rua test");
+        DadosCadastroUser dadosCadastroUser = new DadosCadastroUser("test", "12345678912"
+                , "22-06-2005", "test", dadosEndereco, "cadastro@gmail", "1231313139",
+                "USERTEST", "test");
+        User user = new User(dadosCadastroUser);
+        user.setTokenRedefinicao("test");
+        userRepository.save(user);
+
+
+        DadosRedefinirSenha dadosSenha = new DadosRedefinirSenha("test", "novaSenha");
+        HttpEntity<DadosRedefinirSenha> requestEntity = new HttpEntity<>(dadosSenha);
+        ResponseEntity<String> response = restTemplate.exchange("/user/novaSenha", HttpMethod.PUT,
+                requestEntity,
+                String.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+
+    }
+
 
 
 }

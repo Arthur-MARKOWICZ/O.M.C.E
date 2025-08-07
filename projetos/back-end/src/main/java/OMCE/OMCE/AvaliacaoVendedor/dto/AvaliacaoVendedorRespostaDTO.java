@@ -1,4 +1,6 @@
-package OMCE.OMCE.AvaliacaoVendedor;
+package OMCE.OMCE.AvaliacaoVendedor.dto;
+
+import OMCE.OMCE.AvaliacaoVendedor.AvaliacaoVendedor;
 
 import java.time.LocalDateTime;
 

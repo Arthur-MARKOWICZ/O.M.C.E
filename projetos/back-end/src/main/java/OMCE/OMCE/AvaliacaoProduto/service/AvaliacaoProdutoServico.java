@@ -1,5 +1,8 @@
-package OMCE.OMCE.AvaliacaoProduto;
+package OMCE.OMCE.AvaliacaoProduto.service;
 
+import OMCE.OMCE.AvaliacaoProduto.AvaliacaoProduto;
+import OMCE.OMCE.AvaliacaoProduto.dto.AvaliacaoProdutoDTO;
+import OMCE.OMCE.AvaliacaoProduto.repository.AvaliacaoProdutoRepositorio;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +24,7 @@ public class AvaliacaoProdutoServico {
         Produto produto = produtoRepositorio.findById(dto.getIdProduto())
             .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
-        AvaliacaoProduto avaliacao = new AvaliacaoProduto();
-        avaliacao.setNota(dto.getNota());
-        avaliacao.setComentario(dto.getComentario());
-        avaliacao.setProduto(produto);
+        AvaliacaoProduto avaliacao = new AvaliacaoProduto(dto,produto);
 
         repositorio.save(avaliacao);
     }

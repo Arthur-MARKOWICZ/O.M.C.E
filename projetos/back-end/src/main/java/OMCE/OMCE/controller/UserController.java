@@ -58,7 +58,7 @@ public class UserController {
     }
     @PutMapping("/novaSenha")
     @Transactional
-    public ResponseEntity novaSenha(@RequestBody DadosRedefinirSenha dados){
+    public ResponseEntity<String> novaSenha(@RequestBody DadosRedefinirSenha dados){
         userService.novaSenha(dados);
        return ResponseEntity.ok("senha alterada com sucesso");
     }

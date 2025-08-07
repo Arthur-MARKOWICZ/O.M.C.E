@@ -1,6 +1,10 @@
-package OMCE.OMCE.AvaliacaoVendedor;
+package OMCE.OMCE.AvaliacaoVendedor.service;
 
 
+import OMCE.OMCE.AvaliacaoVendedor.AvaliacaoVendedor;
+import OMCE.OMCE.AvaliacaoVendedor.dto.AvaliacaoVendedorDTO;
+import OMCE.OMCE.AvaliacaoVendedor.repository.AvaliacaoVendedorRepository;
+import OMCE.OMCE.AvaliacaoVendedor.dto.AvaliacaoVendedorRespostaDTO;
 import OMCE.OMCE.User.User;
 import OMCE.OMCE.User.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +38,6 @@ public class AvaliacaoVendorService {
     }
     public Page<AvaliacaoVendedorRespostaDTO> pegarAvaliaca(Pageable pageable, Long id){
         Page<AvaliacaoVendedor> avaliacoes = repository.findByVendedorId(id,pageable);
-        return avaliacoes.map(avaliacao -> new AvaliacaoVendedorRespostaDTO(avaliacao));
+        return avaliacoes.map(AvaliacaoVendedorRespostaDTO::new);
     }
 }

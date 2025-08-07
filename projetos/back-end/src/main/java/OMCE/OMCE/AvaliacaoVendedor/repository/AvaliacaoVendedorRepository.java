@@ -1,6 +1,7 @@
-package OMCE.OMCE.AvaliacaoVendedor;
+package OMCE.OMCE.AvaliacaoVendedor.repository;
 
 
+import OMCE.OMCE.AvaliacaoVendedor.AvaliacaoVendedor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

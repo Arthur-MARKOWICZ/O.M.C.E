@@ -1,6 +1,7 @@
 package OMCE.OMCE.AvaliacaoVendedor;
 
 
+import OMCE.OMCE.AvaliacaoVendedor.dto.AvaliacaoVendedorDTO;
 import OMCE.OMCE.User.User;
 import jakarta.persistence.*;
 

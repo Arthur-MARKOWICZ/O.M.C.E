@@ -1,5 +1,6 @@
 package OMCE.OMCE.AvaliacaoProduto;
 
+import OMCE.OMCE.AvaliacaoProduto.dto.AvaliacaoProdutoDTO;
 import OMCE.OMCE.Produto.Produto;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,5 +28,10 @@ public class AvaliacaoProduto {
 
     @Column(name = "criado_em")
     private LocalDateTime dataCriacao = LocalDateTime.now();
+    public AvaliacaoProduto(AvaliacaoProdutoDTO dto, Produto produto){
+        this.nota = dto.getNota();
+        this.comentario = dto.getComentario();
+        this.produto = produto;
+    }
 }
 

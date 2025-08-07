@@ -24,8 +24,12 @@ import java.time.LocalDateTime;
 @RequestMapping("auth")
 public class AuthenticationController {
 
-    @Autowired
-    private AuthorizationService service;
+
+    private final AuthorizationService service;
+
+    public AuthenticationController(AuthorizationService service) {
+        this.service = service;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody AuthenticationDTO dto) {
