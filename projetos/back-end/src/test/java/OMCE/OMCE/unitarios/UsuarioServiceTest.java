@@ -12,11 +12,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UsuarioServiceTest {
@@ -66,5 +67,23 @@ public class UsuarioServiceTest {
 
         assertThrows(RuntimeException.class,
                 () -> service.cadastro(dadosCadastroUser));
+    }
+    @Test
+    public void DeveDeletarUsuario(){
+        DadosEndereco dadosEndereco = new DadosEndereco("8123434","brasil","test",
+                "test","Rua test");
+        DadosCadastroUser dadosCadastroUser = new DadosCadastroUser("test","12345678912"
+                ,"22-06-2005","test",dadosEndereco,"test@gmail","1231313139",
+                "testUser","test");
+        User usuario = new User(dadosCadastroUser);
+        when(repository.save(any(User.class))).thenReturn(usuario);
+        var usuarioCadastro = service.cadastro(dadosCadastroUser);
+        when(repository.getReferenceById(usuario.getId())).thenReturn(usuario);
+
+        assertEquals("test", usuarioCadastro.getNome());
+        service.excluir(usuarioCadastro.getId());
+        User usuarioExcluido = repository.getReferenceById(usuarioCadastro.getId());
+        assertEquals(false, usuarioExcluido.isAtivo());
+
     }
 }
