@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
 import static OMCE.OMCE.Produto.enums.Categoria.ESP32;
@@ -50,5 +51,15 @@ public class ProdutoRepositoryTest {
         var produtoRetornadoBanco = repository.findById(produtoBanco.getId())
                 .orElseThrow();
         assertEquals("test", produtoRetornadoBanco.getNome());
+    }
+    @Test
+    void deveSalvarProdutoEObterPorIdDoUSer(){
+        DadosCadastroProduto dados = new DadosCadastroProduto("test",10,"test", user.getId(),
+                "10", "10",ESP32,USADO);
+        Produto produto = new Produto(dados);
+        produto.setUsuario(user);
+        var produtoBanco = repository.save(produto);
+        var produtosRetornadoBanco = repository.pegarProdutosUsuario(user.getId(), Pageable.unpaged());
+        assertEquals("test", produtosRetornadoBanco.get().toList().getFirst().getNome());
     }
 }
