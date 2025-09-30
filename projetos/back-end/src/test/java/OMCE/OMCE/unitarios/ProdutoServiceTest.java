@@ -2,6 +2,7 @@ package OMCE.OMCE.unitarios;
 
 import OMCE.OMCE.Enderco.DadosEndereco;
 import OMCE.OMCE.Produto.Produto;
+import OMCE.OMCE.Produto.dto.DadosAlterarDadosProduto;
 import OMCE.OMCE.Produto.dto.DadosCadastroProduto;
 import OMCE.OMCE.Produto.repository.ProdutoRepository;
 import OMCE.OMCE.Produto.service.ProdutoService;
@@ -74,6 +75,32 @@ public class ProdutoServiceTest {
                 .when(validacao).ValidarCadastroProduto(dados);
         assertThrows(RuntimeException.class,
                 () -> service.cadastro(dados));;
+    }
+    @Test
+    public  void DeveAlterarONomeDoProduto(){
+        when(userService.pegarUserPorId(1L)).thenReturn(usuarioCadastro);
+        DadosCadastroProduto dados = new DadosCadastroProduto("test",10,"test",1l,
+                "10", "10",ESP32,USADO);
+        Produto produto = new Produto(dados);
+        produto.setId(1L);
+        when(repository.save(any(Produto.class))).thenAnswer(invocation -> {
+            Produto p = invocation.getArgument(0);
+            p.setId(1L);
+
+            when(repository.getReferenceById(1L)).thenReturn(p);
+            return p;
+        });
+
+        Produto produtoCadastro = service.cadastro(dados);
+
+        DadosAlterarDadosProduto dadosAlterar = new DadosAlterarDadosProduto(
+                produtoCadastro.getId(), "testalterado", 10.00, "test", "10", "10"
+        );
+
+        service.alterarDadosProduto(dadosAlterar);
+
+        assertEquals("testalterado", produtoCadastro.getNome());
+
     }
 
 }
