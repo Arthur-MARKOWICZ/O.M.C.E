@@ -26,8 +26,7 @@ import static OMCE.OMCE.Produto.enums.Condicao.USADO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ProdutoServiceTest {
@@ -101,6 +100,19 @@ public class ProdutoServiceTest {
 
         assertEquals("testalterado", produtoCadastro.getNome());
 
+    }
+    @Test
+    void DeveDeletarProduto(){
+        when(userService.pegarUserPorId(1L)).thenReturn(usuarioCadastro);
+        DadosCadastroProduto dados = new DadosCadastroProduto("test", 10, "test", 1L,
+                "10", "10", ESP32, USADO);
+        Produto produto = new Produto(dados);
+        produto.setId(1L);
+        when(repository.save(any(Produto.class))).thenReturn(produto);
+        when(repository.findById(1L)).thenReturn(Optional.of(produto));
+        Produto produtoCadastro = service.cadastro(dados);
+        service.deletar(produto.getId());
+        verify(repository).deleteById(1L);
     }
 
 }
