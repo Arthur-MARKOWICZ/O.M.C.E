@@ -12,10 +12,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
+import static org.mockito.ArgumentMatchers.*;
 import java.util.List;
 import java.util.Optional;
-
+import static org.junit.jupiter.api.Assertions.*;
 import static OMCE.OMCE.Produto.enums.Categoria.ESP32;
 import static OMCE.OMCE.Produto.enums.Condicao.USADO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -83,5 +83,27 @@ public class ProdutoRepositoryTest {
         assertTrue(result.isFirst());
         assertEquals("test", result.getContent().get(0).getNome());
         assertEquals(1L, result.getContent().get(0).getId());
+    }
+
+    @Test
+    @DisplayName("Deve aplicar o filtro de nome do produto")
+    void DeveAplicarFiltroNomeProduto() {
+        Pageable pageable = PageRequest.of(0, 10);
+        DadosCadastroProduto dados = new DadosCadastroProduto(
+                "Test Product Name", 100.0, "Detalhes do produto", 1L,
+                "dGVzdA==", "image/png", ESP32, USADO
+        );
+        Produto produto = new Produto(dados);
+        produto.setId(1L);
+        produto.setVendido(false);
+        Page<Produto> produtoPage = new PageImpl<>(List.of(produto));
+        when(repository.filtrarProdutos(eq("Test"), isNull(), isNull(), isNull(), eq(pageable)))
+                .thenReturn(produtoPage);
+        Page<Produto> result = repository.filtrarProdutos("Test", null, null, null, pageable);
+        assertTrue(result.hasContent());
+        assertEquals(1, result.getContent().size());
+        assertEquals("Test Product Name", result.getContent().get(0).getNome());
+        assertEquals(1L, result.getContent().get(0).getId());
+        assertFalse(result.getContent().get(0).isVendido());
     }
 }
