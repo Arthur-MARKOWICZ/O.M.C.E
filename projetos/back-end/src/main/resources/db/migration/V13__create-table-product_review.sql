@@ -1,5 +1,5 @@
 CREATE TABLE avaliacao_produto (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id BIGINT PRIMARY KEY ,
     nota INT CHECK (nota BETWEEN 1 AND 5),
     comentario TEXT,
     produtoId BIGINT NOT NULL,

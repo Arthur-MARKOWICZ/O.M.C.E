@@ -1,6 +1,6 @@
 create table user(
 
-    id bigint not null auto_increment,
+    id bigint not null ,
     nome varchar(100) not null,
     email varchar(100) not null unique,
     cpf varchar(100) not null,
