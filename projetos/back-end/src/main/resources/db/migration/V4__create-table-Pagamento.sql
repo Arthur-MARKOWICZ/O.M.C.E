@@ -1,5 +1,5 @@
 CREATE TABLE pagamento (
-    id BIGINT NOT NULL ,
+    id BIGINT NOT NULL AUTO_INCREMENT,
     pedido_id BIGINT NOT NULL,
     metodo_pagamento VARCHAR(100) NOT NULL,
     valor DECIMAL(10,2) NOT NULL,

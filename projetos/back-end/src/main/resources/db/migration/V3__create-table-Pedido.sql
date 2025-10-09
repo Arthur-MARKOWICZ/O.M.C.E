@@ -1,5 +1,5 @@
 CREATE TABLE pedido (
-    pedido_id BIGINT NOT NULL ,
+    pedido_id BIGINT NOT NULL AUTO_INCREMENT,
     comprador_id BIGINT NOT NULL,
     produto_id BIGINT NOT NULL,
     valor DOUBLE NOT NULL,
