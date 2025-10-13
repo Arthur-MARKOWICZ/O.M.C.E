@@ -55,13 +55,13 @@ public class UserService {
     public void redefinirSenhaPorEmail(DadosSolicitarRedefinicaoSenha dados){
         User usuario = userRepository.findByEmail(dados.email());
         if (usuario == null) {
-            throw new UserNaoEncontrado("usuario nao encontrado");
+            throw new UserNaoEncontrado("Usuário nao encontrado");
         }
         String token = UUID.randomUUID().toString();
         usuario.setTokenRedefinicao(token);
         usuario.setTokenExpiracao(LocalDateTime.now().plusMinutes(30));
         userRepository.save(usuario);
-        String link = "http://localhost:5500/front-end/html/novaSenha.html?token=" + token;
+        String link = "http://127.0.0.1:5500/O.M.C.E/projetos/front-end/html/novaSenha.html?token=" + token;
         String assunto = "Redefinição de Senha - OMCE";
         String corpo = "Olá, " + usuario.getNome() + "!\n\n" +
                 "Recebemos uma solicitação para redefinir sua senha. " +
@@ -69,17 +69,17 @@ public class UserService {
                 link + "\n\n" +
                 "Se você não solicitou isso, ignore este e-mail.";
         emailService.enviarEmail(usuario.getEmail(), assunto, corpo);
-        log.info("email enviado com sucesso");
+        log.info("Email enviado com sucesso");
     }
     @Transactional
     public void novaSenha(DadosRedefinirSenha dados){
         User user = userRepository.findByTokenRedefinicao(dados.token());
         if (user == null) {
-           throw  new UserNaoEncontrado("user nao foi encontrado");
+           throw  new UserNaoEncontrado("User nao foi encontrado");
         }
         BCryptPasswordEncoder encoder =  new BCryptPasswordEncoder();
         if(encoder.matches(dados.novaSenha(),user.getSenha())){
-           throw  new SenhaIgualAOriginal(" Senha nova igual a original");
+           throw  new SenhaIgualAOriginal("Senha nova igual a original");
         }
         String novoHash =  encoder.encode(dados.novaSenha());
         user.setSenha(novoHash);
