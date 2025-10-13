@@ -37,8 +37,7 @@ async function carregarFeed(filtros = {}) {
                 <p><strong>Condição:</strong> ${produto.condicao}</p>
                 <p><strong>Vendedor:</strong> ${produto.nomeUsuario}</p>
                 <p id="media-avaliacao-${produto.id}">Média: -</p>
-                <button onclick="adicionarProduto('${produto.nome}', ${produto.preco}, ${produto.id}, '${produto.imagem}', '${produto.imagem_tipo}', '${produto.id_usuario}')">Adicionar ao Carrinho</button>
-            `;
+                <button onclick="adicionarProdutoBackend(${produto.id})">Adicionar ao Carrinho</button>            `;
 
 
             container.appendChild(card);
