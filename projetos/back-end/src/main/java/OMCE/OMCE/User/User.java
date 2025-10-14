@@ -216,6 +216,7 @@ public class User  implements UserDetails {
         return UserDetails.super.isEnabled();
     }
 
+
     public void excluir() {
         this.ativo = false;
     }
