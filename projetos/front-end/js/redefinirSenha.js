@@ -23,7 +23,7 @@ document.getElementById("resetForm").addEventListener("submit", async (e) => {
         if (response.ok) {
             Swal.fire({
                 text:"Email enviado com sucesso.",
-                icon: 'warning'
+                icon: 'success'
             })
         } else {
             Swal.fire({

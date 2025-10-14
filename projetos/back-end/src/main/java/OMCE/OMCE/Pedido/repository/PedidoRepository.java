@@ -12,8 +12,4 @@ public interface PedidoRepository extends JpaRepository<Pedido,Long> {
     @Query("SELECT p FROM Pedido p WHERE p.compradorId = :compradorId")
     Page<Pedido> pegarPedidoCompradoUsuario(@Param("compradorId") Long compradorId, Pageable pageable);
 
-
-
-
-
 }
