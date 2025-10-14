@@ -23,7 +23,6 @@ function getUsuarioId() {
   return id;
 }
 
-
 async function getCarrinhoBackend() {
   const usuarioId = getUsuarioId();
   try {
@@ -45,15 +44,18 @@ async function getCarrinhoBackend() {
 
 async function atualizarCarrinho() {
   const itensCarrinho = document.getElementById('itens-carrinho');
-  const valorTotal = document.getElementById('valor-total');
+  const valorSubtotal = document.getElementById('valor-subtotal');
+  const valorDesconto = document.getElementById('valor-desconto');
+  const valorFrete = document.getElementById('valor-frete');
+  const valorFinal = document.getElementById('valor-final');
 
-  if (!itensCarrinho || !valorTotal) {
+  if (!itensCarrinho || !valorFinal) {
     console.error("Erro: Elementos do carrinho não foram encontrados");
     return;
   }
 
   itensCarrinho.innerHTML = '';
-  let total = 0;
+  let subtotal = 0;
   
   const carrinho = await getCarrinhoBackend();
 
@@ -81,10 +83,19 @@ async function atualizarCarrinho() {
     });
 
     itensCarrinho.appendChild(card);
-    total += produto.preco;
+    subtotal += produto.preco;
   }
 
-  valorTotal.textContent = `${total.toFixed(2)}`;
+  // 🔹 Cálculo do desconto e frete
+  const desconto = subtotal >= 100 ? subtotal * 0.10 : 0;
+  const frete = subtotal >= 100 ? 0 : 20;
+  const totalFinal = subtotal - desconto + frete;
+
+  // 🔹 Atualiza os valores na tela formatados
+  valorSubtotal.textContent = subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  valorDesconto.textContent = desconto.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  valorFrete.textContent = frete.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  valorFinal.textContent = totalFinal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
 async function adicionarProdutoBackend(produtoId) {
@@ -182,7 +193,11 @@ function criarCarrinho() {
   carrinhoDiv.innerHTML = `
     <h3>Itens no Carrinho</h3>
     <ul id="itens-carrinho"></ul>
-    <p><strong>Total: R$ </strong><span id="valor-total">0.00</span></p>
+    <p><strong>Subtotal:</strong> <span id="valor-subtotal">R$ 0,00</span></p>
+    <p><strong>Desconto:</strong> <span id="valor-desconto">R$ 0,00</span></p>
+    <p><strong>Frete:</strong> <span id="valor-frete">R$ 0,00</span></p>
+    <hr>
+    <p><strong>Total Final:</strong> <span id="valor-final">R$ 0,00</span></p>
     <button onclick="limparCarrinho()">Limpar Carrinho</button>
     <button onclick="finalizarCompra()">Finalizar Compra</button>
     <button onclick="logout()">Sair</button>

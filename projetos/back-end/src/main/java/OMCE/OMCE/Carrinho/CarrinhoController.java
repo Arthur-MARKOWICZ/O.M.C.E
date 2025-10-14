@@ -48,4 +48,10 @@ public class CarrinhoController {
         executor.executarComando(cmd);
         return cmd.getResultado();
     }
+  @GetMapping("/{usuarioId}/total")
+public double calcularTotal(@PathVariable Long usuarioId) {
+    return service.calcularTotal(usuarioId);
 }
+
+}
+

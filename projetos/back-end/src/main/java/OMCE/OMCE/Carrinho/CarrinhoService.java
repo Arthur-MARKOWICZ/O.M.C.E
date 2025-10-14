@@ -1,5 +1,5 @@
 package OMCE.OMCE.Carrinho;
-
+import OMCE.OMCE.Carrinho.Decorator.*;
 import OMCE.OMCE.Produto.Produto;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -36,4 +36,17 @@ public class CarrinhoService {
         System.out.println("Compra finalizada: " + itens);
         carrinhos.remove(usuarioId);
     }
+    public double calcularTotal(Long usuarioId) {
+    List<Produto> produtos = getCarrinho(usuarioId);
+
+    Carrinho base = new CarrinhoBase(produtos);
+    Carrinho comDesconto = new CarrinhoComDesconto(base);
+    Carrinho comFreteGratis = new CarrinhoComFreteGratis(comDesconto);
+
+    return comFreteGratis.calcularTotal();
 }
+}
+
+
+
+
