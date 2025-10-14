@@ -169,7 +169,7 @@ async function finalizarCompra() {
         title: "Compra finalizada com sucesso!", 
         icon: 'success' 
       });
-      window.location.href = '../html/pedidos.html';
+      window.location.href = '../html/pedido.html';
     }
   } catch (error) {
     Swal.fire({ title: "Erro ao finalizar compra", icon: 'error' });

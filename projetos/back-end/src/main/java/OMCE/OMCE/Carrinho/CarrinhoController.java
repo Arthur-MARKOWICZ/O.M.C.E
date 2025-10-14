@@ -8,7 +8,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/carrinho")
-@CrossOrigin(origins = "*")
 public class CarrinhoController {
 
     private final CarrinhoExecutor executor;
