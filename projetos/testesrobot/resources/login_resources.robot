@@ -12,6 +12,7 @@ ${TELEFONE}    991849066
 ${NOME_USER}   omce4952
 ${SENHA}       Omce1234*
 ${EMAIL_INCORRETO}  omce492@gmail.com
+${SENHA_INCORRETA}    Omce123*
 
 *** Keywords ***
 Abrir o navegador
@@ -84,3 +85,13 @@ Realizar logout
     Click Element    css=button.logout
     Wait Until Element Is Visible    css=.loginBox    5s
     Element Should Contain    css=.loginBox h1    Bem-vindo ao O.M.C.E
+Realizar login com Senha incorreta
+    Wait Until Element Is Visible    id=email    5s
+    Input Text    id=email    ${EMAIL_INCORRETO}
+    Input Text    id=senha    ${SENHA_INCORRETA}
+    Wait Until Element Is Visible    xpath=//button[text()='Entrar']    5s
+    Click Button    Entrar
+    Wait Until Element Is Visible    css=.swal2-popup    5s
+    Element Should Contain    css=.swal2-title    Não foi possível realizar seu login
+    Element Should Contain    css=#swal2-html-container    Verifique suas credenciais
+    Click Button    css=.swal2-confirm

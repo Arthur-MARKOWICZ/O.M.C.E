@@ -24,3 +24,7 @@ CT45 - Realizar Logout
     [Tags]    logout
     Realizar login no site
     Realizar logout
+CT53 - Realizar Login com Senha incorreta
+    [Documentation]     Esse teste realiza login com senha incorreto
+    [Tags]     Senha_INCORRETO
+    Realizar login com Senha incorreta
