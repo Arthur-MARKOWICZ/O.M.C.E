@@ -25,9 +25,6 @@ Adicionar produto ao carrinho
     Sleep    2s
 
 Verificar se o produto foi adicionado ao carrinho
-
     Go To    ${URL_carrinho}
-    Sleep    5s
-   
-
-
+    Wait Until Element Is Visible    xpath=//div[contains(@class,'produto-card')]    5s
+    Sleep    2s
