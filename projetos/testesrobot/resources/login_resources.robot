@@ -3,7 +3,7 @@ Library     SeleniumLibrary
 
 *** Variables ***
 ${BROWSER}     Chrome
-${URL}         http://127.0.0.1:5500/front-end/html/login.html
+${URL}         http://127.0.0.1:5500/projetos/front-end/html/login.html
 ${NOME}        OMCE
 ${CPF}         08749058932
 ${EMAIL}       omce4952@gmail.com
