@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3.2 (Python 3.14.0 on win32)" generated="2025-10-27T08:17:26.165531" rpa="false" schemaversion="5">
+<suite id="s1" name="Login Testes" source="c:\Users\arthu\Documents\programacao_faculdade\O.M.C.E\projetos\testesrobot\testes\login_testes.robot">
+<test id="s1-t1" name="CT45 - Realizar Logout" line="22">
+<kw name="Abrir o navegador" owner="login_resources" type="SETUP">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-10-27T08:17:26.740816" level="INFO">Opening browser 'Chrome' to base url 'http://127.0.0.1:5500/front-end/html/login.html'.</msg>
+<arg>${URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-10-27T08:17:26.739712" elapsed="1.642824"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2025-10-27T08:17:28.382954" elapsed="0.042556"/>
+</kw>
+<status status="PASS" start="2025-10-27T08:17:26.735891" elapsed="1.689952"/>
+</kw>
+<kw name="Realizar login no site" owner="login_resources">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id=email</arg>
+<arg>5s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-10-27T08:17:28.427306" elapsed="0.026541"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-10-27T08:17:28.455237" level="INFO">Typing text 'omce4952@gmail.com' into text field 'id=email'.</msg>
+<arg>id=email</arg>
+<arg>${EMAIL}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-27T08:17:28.454486" elapsed="0.176816"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-10-27T08:17:28.632564" level="INFO">Typing text 'Omce1234*' into text field 'id=senha'.</msg>
+<arg>id=senha</arg>
+<arg>${SENHA}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-27T08:17:28.631884" elapsed="0.106493"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=//button[text()='Entrar']</arg>
+<arg>5s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-10-27T08:17:28.738978" elapsed="0.029966"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-10-27T08:17:28.769791" level="INFO">Clicking button 'Entrar'.</msg>
+<arg>Entrar</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-27T08:17:28.769356" elapsed="0.163738"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Bem-vindo ao O.M.C.E</arg>
+<arg>10s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2025-10-27T08:17:28.933724" elapsed="0.024660"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-10-27T08:17:31.959632" level="INFO">Slept 3 seconds.</msg>
+<arg>3s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-10-27T08:17:28.958827" elapsed="3.001688"/>
+</kw>
+<status status="PASS" start="2025-10-27T08:17:28.426697" elapsed="3.534278"/>
+</kw>
+<kw name="Realizar logout" owner="login_resources">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css=button.logout</arg>
+<arg>5s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-10-27T08:17:31.964152" elapsed="0.053799"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-10-27T08:17:32.019190" level="INFO">Clicking element 'css=button.logout'.</msg>
+<arg>css=button.logout</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-27T08:17:32.018562" elapsed="0.360991"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>css=.loginBox</arg>
+<arg>5s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-10-27T08:17:32.380443" elapsed="0.043870"/>
+</kw>
+<kw name="Element Should Contain" owner="SeleniumLibrary">
+<msg time="2025-10-27T08:17:32.483541" level="INFO">Element 'css=.loginBox h1' contains text 'Bem-vindo ao O.M.C.E'.</msg>
+<arg>css=.loginBox h1</arg>
+<arg>Bem-vindo ao O.M.C.E</arg>
+<doc>Verifies that element ``locator`` contains text ``expected``.</doc>
+<status status="PASS" start="2025-10-27T08:17:32.425004" elapsed="0.059110"/>
+</kw>
+<status status="PASS" start="2025-10-27T08:17:31.963034" elapsed="0.521409"/>
+</kw>
+<kw name="Fechar o navegador" owner="login_resources" type="TEARDOWN">
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2025-10-27T08:17:32.670555" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="printsSelenium/screenshot_6.png"&gt;&lt;img src="printsSelenium/screenshot_6.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>${EXECDIR}/printsSelenium/screenshot_{index}.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2025-10-27T08:17:32.486837" elapsed="0.184163"/>
+</kw>
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2025-10-27T08:17:32.671302" elapsed="3.171763"/>
+</kw>
+<status status="PASS" start="2025-10-27T08:17:32.486019" elapsed="3.357559"/>
+</kw>
+<doc>Esse teste realiza logout</doc>
+<tag>logout</tag>
+<status status="PASS" start="2025-10-27T08:17:26.733023" elapsed="9.111961"/>
+</test>
+<status status="PASS" start="2025-10-27T08:17:26.180304" elapsed="9.668404"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="1" fail="0" skip="0">logout</stat>
+</tag>
+<suite>
+<stat name="Login Testes" id="s1" pass="1" fail="0" skip="0">Login Testes</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

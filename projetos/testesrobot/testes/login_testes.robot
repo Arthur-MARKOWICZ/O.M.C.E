@@ -15,3 +15,12 @@ CT46 - Realizar cadastro com email já cadastrado
     [Tags]     email_ja_cadastrado
     Acessar a pagina de cadastro do site
     Realizar cadastro no site email existente
+CT44 - Realizar Login com Email incorreto
+    [Documentation]     Esse teste realiza login com email incorreto
+    [Tags]     EMAIL_INCORRETO
+    Realizar Login Com Email incorreto
+CT45 - Realizar Logout 
+    [Documentation]    Esse teste realiza logout 
+    [Tags]    logout
+    Realizar login no site
+    Realizar logout
