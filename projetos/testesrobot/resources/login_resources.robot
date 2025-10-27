@@ -84,3 +84,19 @@ Realizar logout
     Click Element    css=button.logout
     Wait Until Element Is Visible    css=.loginBox    5s
     Element Should Contain    css=.loginBox h1    Bem-vindo ao O.M.C.E
+Realizar cadastro com email em branco
+    Wait Until Element Is Visible    id=txtName    5s
+    Input Text    id=txtName    ${NOME}
+    Input Text    id=txtCPF    ${CPF}
+    Input Text    id=txtNasc    2000-05-12
+    Select Radio Button    optGender    masculino
+    Input Text    id=end_cep    ${CEP}
+    Input Text    id=txtTel    ${TELEFONE}
+    Input Text    id=txtNU    ${NOME_USER}
+    Input Text    id=txtSenha    ${SENHA}
+    Input Text    id=txtSenhaConfirmar    ${SENHA}
+    Sleep    1s
+    Click Button    Enviar
+    Wait Until Element Is Visible    css=.swal2-popup    10s
+    Sleep    1s
+    Element Should Contain    css=.swal2-title    Não foi possível realizar seu cadastro
