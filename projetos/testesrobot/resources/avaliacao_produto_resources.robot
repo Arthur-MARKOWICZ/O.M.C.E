@@ -3,8 +3,8 @@ Library     SeleniumLibrary
 
 *** Variables ***
 ${BROWSER}     Chrome
-${URL}         http://127.0.0.1:5500/front-end/html/login.html
-${URL_AVALIACAO_PRODUTO}  http://127.0.0.1:5500/front-end/html/historicoCompra.html
+${URL}         http://127.0.0.1:5500/projetos/front-end/html/login.html
+${URL_AVALIACAO_PRODUTO}  http://127.0.0.1:5500/projetos/front-end/html/historicoCompra.html
 ${NOTA_AVALIACAO_PRODUTO}   5
 ${COMENTARIO_AVALIACAO_PRODUTO}     Teste
 
