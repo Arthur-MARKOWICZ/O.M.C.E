@@ -11,3 +11,14 @@ CT60 - Adicionar produto ao carrinho com sucesso
     Entrar no feed
     Adicionar produto ao carrinho
     Verificar se o produto foi adicionado ao carrinho
+
+CT61 - REMOVER PRODUTO DO CARRINHO
+    [Documentation]    
+    [Tags]    remover_produto_carrinho
+    Realizar login no site
+    Entrar no feed
+    Adicionar produto ao carrinho
+    Verificar se o produto foi adicionado ao carrinho
+    Remover produto do carrinho
+    
+   

@@ -28,3 +28,10 @@ Verificar se o produto foi adicionado ao carrinho
     Go To    ${URL_carrinho}
     Wait Until Element Is Visible    xpath=//div[contains(@class,'produto-card')]    5s
     Sleep    2s
+Remover produto do carrinho
+    Click Button    xpath=(//button[contains(text(),'Remover do Carrinho')])[1]
+    Sleep    2s
+
+Verificar se o produto foi removido do carrinho
+    Go To    ${URL_carrinho}
+       Wait Until Page Contains    Total: R$ 0.00    timeout=10s
