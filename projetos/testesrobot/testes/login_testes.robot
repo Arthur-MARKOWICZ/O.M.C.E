@@ -34,3 +34,10 @@ CT51 - Cadastro de um usuário com o campo de email em branco
     [Tags]     email_em_branco
     Acessar a pagina de cadastro do site
     Realizar cadastro com email em branco
+
+CT48- Enviar email de recuperar senha
+    [Documentation]     Esse teste realiza o envio de email para recuperar a senha
+    [Tags]     recuperar_senha
+    Acessar pagina login
+    Acessar pagina de recuperar senha
+    Enviar email para recuperar senha

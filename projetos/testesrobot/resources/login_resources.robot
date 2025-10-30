@@ -4,6 +4,7 @@ Library     SeleniumLibrary
 *** Variables ***
 ${BROWSER}     Chrome
 ${URL}         http://127.0.0.1:5500/projetos/front-end/html/login.html
+${URL_RECUPERAR_SENHA}    http://127.0.0.1:5500/projetos/front-end/html/redefinirSenha.html
 ${NOME}        OMCE
 ${CPF}         08749058932
 ${EMAIL}       omce4952@gmail.com
@@ -113,4 +114,20 @@ Realizar cadastro com email em branco
     Wait Until Element Is Visible    css=.swal2-popup    10s
     Sleep    1s
     Element Should Contain    css=.swal2-title    Não foi possível realizar seu cadastro
+
+Acessar pagina login
+    Go To    ${URL}
+    Wait Until Element Is Visible    id=email    5s
+
+Acessar pagina de recuperar senha
+    Wait Until Element Is Visible    xpath=//a[contains(text(),'Esqueceu a senha?')]    5s
+    Click Link    xpath=//a[contains(text(),'Esqueceu a senha?')]
+
+Enviar email para recuperar senha
+    Go To    ${URL_RECUPERAR_SENHA}
+    Wait Until Element Is Visible    id=email-reset    5s
+    Input Text    id=email-reset    ${EMAIL}
+    Click Button    xpath=//button[contains(text(),'Enviar Link de Redefinição')]
+
+
 

@@ -10,6 +10,12 @@ CT49 - Cadastro de produto com preço negativo
     [Tags]     produto_valor_negativo
     Realizar login no site
     Realizar Cadastro De Produto Com Valor negativo
+
+CT55- Cadastro de produto sem categoria    
+    [Documentation]     Esse teste realiza um cadastro de produto com o campo   categoria vazio
+    [Tags]     produto_nome_vazio
+    Realizar login no site
+    Realizar Cadastro De Produto sem categoria
 CT58 - Cadastro de produto sem imagem
     [Documentation]     Esse teste realiza um cadastro de produto sem selecionar uma imagem
     [Tags]     produto_sem_imagem
