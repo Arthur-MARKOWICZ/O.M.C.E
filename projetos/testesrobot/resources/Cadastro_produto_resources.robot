@@ -3,8 +3,8 @@ Library     SeleniumLibrary
 
 *** Variables ***
 ${BROWSER}     Chrome
-${URL}         http://127.0.0.1:5500/front-end/html/login.html
-${URL_CADASTRO_PRODUTO}  http://127.0.0.1:5500/front-end/html/cadastroProduto.html
+${URL}         http://127.0.0.1:5500/projetos/front-end/html/login.html
+${URL_CADASTRO_PRODUTO}  http://127.0.0.1:5500/projetos/front-end/html/cadastroProduto.html
 ${Nome_produto}    esp
 ${Preco_negativo}     -1
 ${Preco}     100
