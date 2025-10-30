@@ -101,12 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarFeed();
 });
 
-
-
-
-
-
-
 async function exibirMedia(idProduto) {
     try {
         const resposta = await fetch(`http://localhost:8080/avaliacoes/produto/${idProduto}/media`);

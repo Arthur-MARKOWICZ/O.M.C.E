@@ -1,4 +1,3 @@
-
 document.getElementById("resetForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = document.getElementById("email-reset").value.trim();
@@ -23,7 +22,7 @@ document.getElementById("resetForm").addEventListener("submit", async (e) => {
         if (response.ok) {
             Swal.fire({
                 text:"Email enviado com sucesso.",
-                icon: 'warning'
+                icon: 'success'
             })
         } else {
             Swal.fire({

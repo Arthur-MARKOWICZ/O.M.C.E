@@ -15,3 +15,9 @@ CT58 - Cadastro de produto sem imagem
     [Tags]     produto_sem_imagem
     Realizar login no site
     Realizar Cadastro De Produto Sem Imagem
+CT47 - Listagem de 10 produtos por página
+    [Documentation]     Esse teste verifica se a listagem de produtos exibe 10 produtos por página no feed
+    [Tags]     listagem_10_produtos
+    Realizar login no site
+    Realizar Cadastro de Produto Corretamente
+    # Ainda não acabei esse teste
