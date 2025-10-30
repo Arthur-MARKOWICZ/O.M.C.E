@@ -4,7 +4,6 @@ Resource    ${CURDIR}/../resources/Cadastro_produto_resources.robot
 Test Setup     Abrir o navegador
 Test Teardown     Fechar o navegador
 *** Test Cases ***
-
 CT49 - Cadastro de produto com preço negativo
     [Documentation]     Esse teste realiza um cadastro de produto com valor negativo
     [Tags]     produto_valor_negativo

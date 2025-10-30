@@ -18,12 +18,10 @@ ${SENHA_INCORRETA}    Omce123*
 Abrir o navegador
     Open Browser     ${URL}     ${BROWSER}
     Maximize Browser Window
-
 Acessar a pagina de cadastro do site
     Go To    ${URL}
     Wait Until Element Is Visible    xpath=//button[contains(text(),'Cadastrar-se')]    5s
     Click Button  xpath=//button[contains(text(),'Cadastrar-se')]
-
 Realizar cadastro no site
     Wait Until Element Is Visible    id=txtName    5s
     Input Text    id=txtName    ${NOME}
@@ -39,7 +37,6 @@ Realizar cadastro no site
     Sleep    1s
     Click Button    Enviar
     Wait Until Element Is Visible    id=email    5s
-    
 Realizar login no site
     Wait Until Element Is Visible    id=email    5s
     Input Text    id=email    ${EMAIL}
@@ -48,11 +45,9 @@ Realizar login no site
     Click Button    Entrar
     Wait Until Page Contains    Bem-vindo ao O.M.C.E    10s
     Sleep    3s
-
 Fechar o navegador
     Capture Page Screenshot    ${EXECDIR}/printsSelenium/screenshot_{index}.png
     Close Browser
-
 Realizar cadastro no site email existente
     Wait Until Element Is Visible    id=txtName    5s
     Input Text    id=txtName    ${NOME}
@@ -85,7 +80,6 @@ Realizar logout
     Click Element    css=button.logout
     Wait Until Element Is Visible    css=.loginBox    5s
     Element Should Contain    css=.loginBox h1    Bem-vindo ao O.M.C.E
-
 Realizar login com Senha incorreta
     Wait Until Element Is Visible    id=email    5s
     Input Text    id=email    ${EMAIL_INCORRETO}
@@ -96,7 +90,6 @@ Realizar login com Senha incorreta
     Element Should Contain    css=.swal2-title    Não foi possível realizar seu login
     Element Should Contain    css=#swal2-html-container    Verifique suas credenciais
     Click Button    css=.swal2-confirm
-
 Realizar cadastro com email em branco
     Wait Until Element Is Visible    id=txtName    5s
     Input Text    id=txtName    ${NOME}
@@ -113,4 +106,3 @@ Realizar cadastro com email em branco
     Wait Until Element Is Visible    css=.swal2-popup    10s
     Sleep    1s
     Element Should Contain    css=.swal2-title    Não foi possível realizar seu cadastro
-

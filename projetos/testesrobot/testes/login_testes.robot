@@ -23,12 +23,10 @@ CT45 - Deslogar do site pelo botão na navbar
     [Tags]    logout
     Realizar login no site
     Realizar logout
-
-CT53 - Realizar Login com Senha incorreta
-    [Documentation]     Esse teste realiza login com senha incorreto
+CT53 - Realizar login com senha incorreta
+    [Documentation]     Esse teste realiza login com senha incorreta
     [Tags]     Senha_INCORRETO
     Realizar login com Senha incorreta
-
 CT51 - Cadastro de um usuário com o campo de email em branco
     [Documentation]     Esse teste realiza um cadastro de usuário com o campo email em branco
     [Tags]     email_em_branco
