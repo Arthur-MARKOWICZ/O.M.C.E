@@ -4,7 +4,7 @@ Resource    ${CURDIR}/../resources/Colocar_produto_carrinho_resources.robot
 Test Setup     Abrir o navegador
 Test Teardown     Fechar o navegador
 *** Test Cases ***
-CT60 - Adicionar produto ao carrinho com sucesso
+CT59 - Adicionar produto ao carrinho com sucesso
     [Documentation]    
     [Tags]    adicionar_produto_carrinho
     Realizar login no site
@@ -12,7 +12,7 @@ CT60 - Adicionar produto ao carrinho com sucesso
     Adicionar produto ao carrinho
     Verificar se o produto foi adicionado ao carrinho
 
-CT61 - REMOVER PRODUTO DO CARRINHO
+CT60 - REMOVER PRODUTO DO CARRINHO
     [Documentation]    
     [Tags]    remover_produto_carrinho
     Realizar login no site
@@ -20,5 +20,16 @@ CT61 - REMOVER PRODUTO DO CARRINHO
     Adicionar produto ao carrinho
     Verificar se o produto foi adicionado ao carrinho
     Remover produto do carrinho
+
+
+CT61 -Finalizar Pedido com sucesso
+    [Documentation]    
+    [Tags]    finalizar_pedido
+    Realizar login no site
+    Entrar no feed
+    Adicionar produto ao carrinho
+    Verificar se o produto foi adicionado ao carrinho
+    Finalizar pedido
+   
     
    
