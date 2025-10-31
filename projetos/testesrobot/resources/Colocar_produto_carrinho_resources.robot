@@ -25,12 +25,14 @@ Remover produto do carrinho
     Sleep    2s
 Verificar se o produto foi removido do carrinho
     Go To    ${URL_carrinho}
-       Wait Until Page Contains    Total: R$ 0.00    timeout=10s
+    Wait Until Page Contains    Total: R$ 0.00    timeout=10s
 Finalizar pedido
     Click Button    xpath=//button[contains(text(),'Finalizar Compra')]
     Sleep    2s
-    Go To    ${URL_pedido}
-    Input Text    id=end_cep    ${CEP} 
-    Sleep    5s
-    Click Button    xpath=(//button[contains(text(),'Finalizar Pedido')])[1]
+    Location Should Be    ${URL_pedido}
+    Input Text    id=end_cep    ${CEP}
+    Execute Javascript    document.getElementById('end_cep').blur();
     Sleep    2s
+    Wait Until Element Is Visible    xpath=(//button[contains(text(),'Finalizar Pedido')])
+    Click Button    xpath=(//button[contains(text(),'Finalizar Pedido')])
+    Sleep    2s    

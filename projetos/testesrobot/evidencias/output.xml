@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3.2 (Python 3.14.0 on win32)" generated="2025-10-31T13:00:59.026832" rpa="false" schemaversion="5">
+<suite id="s1" name="Login Testes" source="c:\Users\Administrador\OneDrive\Documentos\omceclone\O.M.C.E\projetos\testesrobot\testes\login_testes.robot">
+<test id="s1-t1" name="CT42 - Deve fazer o login do usuário quando colocar a senha e emails corretos" line="6">
+<kw name="Abrir o navegador" owner="login_resources" type="SETUP">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:00:59.200253" level="INFO">Opening browser 'Chrome' to base url 'http://127.0.0.1:5500/projetos/front-end/html/login.html'.</msg>
+<arg>${URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-10-31T13:00:59.199969" elapsed="1.316779"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2025-10-31T13:01:00.517611" elapsed="0.026228"/>
+</kw>
+<status status="PASS" start="2025-10-31T13:00:59.199357" elapsed="1.344729"/>
+</kw>
+<kw name="Acessar a pagina de cadastro do site" owner="login_resources">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:01:00.545398" level="INFO">Opening url 'http://127.0.0.1:5500/projetos/front-end/html/login.html'</msg>
+<arg>${URL}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2025-10-31T13:01:00.545067" elapsed="0.040181"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=//button[contains(text(),'Cadastrar-se')]</arg>
+<arg>5s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-10-31T13:01:00.585748" elapsed="0.035408"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:01:00.621654" level="INFO">Clicking button 'xpath=//button[contains(text(),'Cadastrar-se')]'.</msg>
+<arg>xpath=//button[contains(text(),'Cadastrar-se')]</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-31T13:01:00.621405" elapsed="0.180856"/>
+</kw>
+<status status="PASS" start="2025-10-31T13:01:00.544600" elapsed="0.258073"/>
+</kw>
+<kw name="Realizar cadastro no site" owner="login_resources">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id=txtName</arg>
+<arg>5s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-10-31T13:01:00.803796" elapsed="0.018708"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:01:00.823277" level="INFO">Typing text 'OMCE' into text field 'id=txtName'.</msg>
+<arg>id=txtName</arg>
+<arg>${NOME}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-31T13:01:00.822976" elapsed="0.081764"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:01:00.905910" level="INFO">Typing text '08749058932' into text field 'id=txtCPF'.</msg>
+<arg>id=txtCPF</arg>
+<arg>${CPF}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-31T13:01:00.905321" elapsed="0.090095"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:01:00.996202" level="INFO">Typing text '2000-05-12' into text field 'id=txtNasc'.</msg>
+<arg>id=txtNasc</arg>
+<arg>2000-05-12</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-31T13:01:00.995789" elapsed="0.087533"/>
+</kw>
+<kw name="Select Radio Button" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:01:01.084347" level="INFO">Selecting 'masculino' from radio button 'optGender'.</msg>
+<arg>optGender</arg>
+<arg>masculino</arg>
+<doc>Sets the radio button group ``group_name`` to ``value``.</doc>
+<status status="PASS" start="2025-10-31T13:01:01.083929" elapsed="0.150994"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:01:01.235533" level="INFO">Typing text 'omce4952@gmail.com' into text field 'id=txtEmail'.</msg>
+<arg>id=txtEmail</arg>
+<arg>${EMAIL}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-31T13:01:01.235185" elapsed="0.071850"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:01:01.308397" level="INFO">Typing text '80215-901' into text field 'id=end_cep'.</msg>
+<arg>id=end_cep</arg>
+<arg>${CEP}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-31T13:01:01.307759" elapsed="0.061843"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:01:01.370126" level="INFO">Typing text '991849066' into text field 'id=txtTel'.</msg>
+<arg>id=txtTel</arg>
+<arg>${TELEFONE}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-31T13:01:01.369838" elapsed="0.062901"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:01:01.433244" level="INFO">Typing text 'omce4952' into text field 'id=txtNU'.</msg>
+<arg>id=txtNU</arg>
+<arg>${NOME_USER}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-31T13:01:01.432974" elapsed="0.058262"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:01:01.492165" level="INFO">Typing text 'Omce1234*' into text field 'id=txtSenha'.</msg>
+<arg>id=txtSenha</arg>
+<arg>${SENHA}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-31T13:01:01.491695" elapsed="0.053419"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:01:01.545621" level="INFO">Typing text 'Omce1234*' into text field 'id=txtSenhaConfirmar'.</msg>
+<arg>id=txtSenhaConfirmar</arg>
+<arg>${SENHA}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-31T13:01:01.545347" elapsed="0.080031"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-10-31T13:01:02.626431" level="INFO">Slept 1 second.</msg>
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-10-31T13:01:01.625709" elapsed="1.001205"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:01:02.627655" level="INFO">Clicking button 'Enviar'.</msg>
+<arg>Enviar</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-31T13:01:02.627251" elapsed="0.067087"/>
+</kw>
+<status status="PASS" start="2025-10-31T13:01:00.803349" elapsed="1.891212"/>
+</kw>
+<kw name="Realizar login no site" owner="login_resources">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id=email</arg>
+<arg>5s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-10-31T13:01:02.695708" elapsed="0.443784"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:01:03.140572" level="INFO">Typing text 'omce4952@gmail.com' into text field 'id=email'.</msg>
+<arg>id=email</arg>
+<arg>${EMAIL}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-31T13:01:03.139714" elapsed="0.066711"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:01:03.207532" level="INFO">Typing text 'Omce1234*' into text field 'id=senha'.</msg>
+<arg>id=senha</arg>
+<arg>${SENHA}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-31T13:01:03.206976" elapsed="0.057322"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=//button[text()='Entrar']</arg>
+<arg>5s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-10-31T13:01:03.264525" elapsed="0.022236"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:01:03.287202" level="INFO">Clicking button 'Entrar'.</msg>
+<arg>Entrar</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-10-31T13:01:03.286985" elapsed="0.057222"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Bem-vindo ao O.M.C.E</arg>
+<arg>10s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2025-10-31T13:01:03.344601" elapsed="0.013092"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-10-31T13:01:06.358769" level="INFO">Slept 3 seconds.</msg>
+<arg>3s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-10-31T13:01:03.357972" elapsed="3.001679"/>
+</kw>
+<status status="PASS" start="2025-10-31T13:01:02.695263" elapsed="3.664786"/>
+</kw>
+<kw name="Fechar o navegador" owner="login_resources" type="TEARDOWN">
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2025-10-31T13:01:06.450666" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="printsSelenium/screenshot_3.png"&gt;&lt;img src="printsSelenium/screenshot_3.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>${EXECDIR}/printsSelenium/screenshot_{index}.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2025-10-31T13:01:06.362227" elapsed="0.089182"/>
+</kw>
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2025-10-31T13:01:06.451689" elapsed="2.249079"/>
+</kw>
+<status status="PASS" start="2025-10-31T13:01:06.361422" elapsed="2.339913"/>
+</kw>
+<doc>Esse teste realiza um cadastro e login corretamente no sistema O.M.C.E</doc>
+<tag>login_correto</tag>
+<status status="PASS" start="2025-10-31T13:00:59.198569" elapsed="9.503524"/>
+</test>
+<status status="PASS" start="2025-10-31T13:00:59.032156" elapsed="9.671955"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="1" fail="0" skip="0">login_correto</stat>
+</tag>
+<suite>
+<stat name="Login Testes" id="s1" pass="1" fail="0" skip="0">Login Testes</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

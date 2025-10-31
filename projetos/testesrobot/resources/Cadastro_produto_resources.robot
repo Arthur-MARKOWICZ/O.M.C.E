@@ -43,7 +43,7 @@ Realizar Cadastro De Produto sem categoria
     Click Element    xpath=//input[@type='submit' and @value='Finalizar cadastro de produto']
     Sleep    1s
     Wait Until Element Is Visible    css=.swal2-popup    10s
-    Element Should Contain    css=.swal2-popup   selecione uma condicao e categoria
+    Element Should Contain    css=.swal2-popup   Selecione uma condição e categoria
 Realizar Cadastro De Produto Sem Imagem
     Wait Until Element Is Visible    xpath=//a[contains(text(),'Anunciar Produto')]    5s
     Click Element    xpath=//a[contains(text(),'Anunciar Produto')]

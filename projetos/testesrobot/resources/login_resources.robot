@@ -37,7 +37,6 @@ Realizar cadastro no site
     Input Text    id=txtSenhaConfirmar    ${SENHA}
     Sleep    1s
     Click Button    Enviar
-    Wait Until Element Is Visible    id=email    5s
 Realizar login no site
     Wait Until Element Is Visible    id=email    5s
     Input Text    id=email    ${EMAIL}
@@ -118,3 +117,6 @@ Enviar email para recuperar senha
     Wait Until Element Is Visible    id=email-reset    5s
     Input Text    id=email-reset    ${EMAIL}
     Click Button    xpath=//button[contains(text(),'Enviar Link de Redefinição')]
+    Wait Until Element Is Visible    css=.swal2-popup    15s
+    Element Should Contain    id=swal2-html-container    Email enviado com sucesso.
+    Click Button    css=.swal2-confirm

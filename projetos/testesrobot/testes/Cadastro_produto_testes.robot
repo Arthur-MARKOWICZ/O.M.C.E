@@ -24,5 +24,4 @@ CT47 - Listagem de 10 produtos por página
     [Tags]     listagem_10_produtos
     Realizar login no site
     Cadastrar Vários Produtos    20
-    Acessar a página de feed
     Verificar feed

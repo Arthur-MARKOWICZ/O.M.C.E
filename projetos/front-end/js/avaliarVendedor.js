@@ -51,7 +51,7 @@ const response = await fetch("http://localhost:8080/avaliacaoVendedor/cadastro",
                 icon: 'success'
             })
             event.target.reset();
-            window.location.href = "../html/feed.html";
+            window.location.href = "../html/historicoCompra.html";
     }); 
 function exibirErro(mensagem, campo) {
     Swal.fire({

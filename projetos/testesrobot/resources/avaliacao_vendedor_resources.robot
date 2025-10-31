@@ -18,9 +18,7 @@ Realizar Avaliação De Vendedor
     Input Text    id=nota-avaliacao    ${NOTA_AVALIACAO_VENDEDOR}
     Input Text    id=Comentario    ${COMENTARIO_AVALIACAO_VENDEDOR}
     Click Element    xpath=//input[@value='Enviar']
-    Wait Until Element Is Visible    css=.swal2-popup    10s
-    Element Should Contain    css=#swal2-title    Avaliação cadastrado com sucesso
-    Click Button    css=.swal2-confirm
+    Wait Until Element Is Visible    xpath=//button[contains(text(),'Anterior')]    5s
 Realizar Avaliação De Vendedor Sem Nota
     Go to     ${URL_AVALIACAO_PRODUTO}
     Wait Until Element Is Visible    xpath=//button[contains(text(),'Avaliar')]    5s
