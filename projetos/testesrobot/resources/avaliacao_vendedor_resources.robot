@@ -17,7 +17,7 @@ Realizar Avaliação De Vendedor
     Location Should Be    ${URL_AVALIACAO_VENDEDOR}
     Input Text    id=nota-avaliacao    ${NOTA_AVALIACAO_VENDEDOR}
     Input Text    id=Comentario    ${COMENTARIO_AVALIACAO_VENDEDOR}
-    Click Element    xpath=//button[contains(text(),'Enviar')]
+    Click Element    xpath=//input[@value='Enviar']
     Wait Until Element Is Visible    css=.swal2-popup    10s
     Element Should Contain    css=#swal2-title    Avaliação cadastrado com sucesso
     Click Button    css=.swal2-confirm
@@ -27,7 +27,17 @@ Realizar Avaliação De Vendedor Sem Nota
     Click Element    xpath=//button[contains(text(),'Avaliar Vendedor')]
     Location Should Be    ${URL_AVALIACAO_VENDEDOR}
     Input Text    id=Comentario    ${COMENTARIO_AVALIACAO_VENDEDOR}
-    Click Element    xpath=//button[contains(text(),'Enviar')]
+    Click Element    xpath=//input[@value='Enviar']
     Wait Until Element Is Visible    css=.swal2-popup    10s
     Element Should Contain    css=#swal2-title    Não foi possível realizar seu cadastro
+    Click Button    css=.swal2-confirm
+Realizar Avaliacao de vendedor Sem Comentario
+    Go to     ${URL_AVALIACAO_PRODUTO}
+    Wait Until Element Is Visible    xpath=//button[contains(text(),'Avaliar')]    5s
+    Click Element    xpath=//button[contains(text(),'Avaliar Vendedor')]
+    Location Should Be    ${URL_AVALIACAO_VENDEDOR}
+    Input Text    id=nota-avaliacao    ${NOTA_AVALIACAO_VENDEDOR}
+    Click Element    xpath=//input[@value='Enviar']
+    Wait Until Element Is Visible    css=.swal2-popup    10s
+    Element Should Contain    css=#swal2-title    Avaliação cadastrado com sucesso
     Click Button    css=.swal2-confirm

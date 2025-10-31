@@ -14,3 +14,8 @@ CT56 - Deve fazer o cadastro de uma avaliação de um vendedor sem nota
     [Tags]     avaliacao_vendedor_sem_nota
     Realizar login no site
     Realizar Avaliação De Vendedor Sem Nota
+CT57 - Deve fazer o cadastro de uma avaliação de um vendedor sem comentário
+    [Documentation]    esse teste realiza uma avaliacao de vendedor sem comentario
+    [Tags]    avaliacao_vendedor_sem_comentario
+    Realizar login no site
+    Realizar Avaliacao de vendedor Sem Comentario
