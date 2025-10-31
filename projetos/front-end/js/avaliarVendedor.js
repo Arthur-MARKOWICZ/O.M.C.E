@@ -15,11 +15,11 @@ const avaliacao ={
     vendedor_id: id_vendedor
 }
 if(nota.value == ""){
-    exibirErro("Campo de nota e obrigatório");
+    exibirErro("Campo de nota é obrigatório");
     return;
 }
 if(comentario.value == ""){
-    exibirErro("Campo de comentario e obrigatório");
+    exibirErro("Campo de comentário é obrigatório");
         return;
 
 }

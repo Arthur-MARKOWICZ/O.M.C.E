@@ -20,7 +20,6 @@ Realizar Avaliação De Produto Corretamente
     Wait Until Element Is Visible    css=.swal2-popup    10s
     Element Should Contain    css=#swal2-title    Avaliação enviada com sucesso!
     Click Button    css=.swal2-confirm
-
 Realizar Avaliação De Produto Sem Nota
     Wait Until Element Is Visible    xpath=//a[contains(text(),'Avaliar')]    5s
     Click Element    xpath=//a[contains(text(),'Avaliar')]
@@ -30,7 +29,6 @@ Realizar Avaliação De Produto Sem Nota
     Wait Until Element Is Visible    css=.swal2-popup    10s
     Element Should Contain    css=#swal2-title    Erro!
     Click Button    css=.swal2-confirm
-
 Realizar Avaliação De Produto Sem Comentário
     Wait Until Element Is Visible    xpath=//a[contains(text(),'Avaliar')]    5s
     Click Element    xpath=//a[contains(text(),'Avaliar')]

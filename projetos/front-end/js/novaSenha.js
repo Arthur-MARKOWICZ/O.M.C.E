@@ -1,4 +1,3 @@
-const { default: Swal } = require("sweetalert2");
 document.getElementById("novaSenhaForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -9,7 +8,7 @@ document.getElementById("novaSenhaForm").addEventListener("submit", async (e) =>
     Swal.fire({
       text: "As senhas não coincidem.",
       icon: 'warning'
-    })
+    });
     return;
   }
 
@@ -20,7 +19,7 @@ document.getElementById("novaSenhaForm").addEventListener("submit", async (e) =>
     Swal.fire({
       text: "Token de redefinição inválido ou ausente.",
       icon: 'warning'
-    })
+    });
     return;
   }
 
@@ -39,17 +38,17 @@ document.getElementById("novaSenhaForm").addEventListener("submit", async (e) =>
     if (response.ok) {
       window.location.href = "login.html";
     } else {
-      const erro = await response.text();
+      const erro = await response.json();
       Swal.fire({
-        text: "Erro ao redefinir a senha: " + erro,
+        text: "Erro ao redefinir a senha: " + erro.message,
         icon: 'warning'
-      })
+      });
     }
   } catch (err) {
     console.error("Erro:", err);
     Swal.fire({
       text: "Erro ao conectar com o servidor.",
       icon: 'warning'
-    })
+    });
   }
 });

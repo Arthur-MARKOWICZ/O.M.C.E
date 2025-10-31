@@ -159,11 +159,6 @@ async function carregarDados() {
         end_estado.value = endereco.estado;
         end_Logradouro.value = endereco.logradouro;
         end_cidade.value = endereco.cidade;
-
-
-
-
-
     } catch (error) {
         console.error("Erro ao carregar os dados do usuário:", error);
     }
