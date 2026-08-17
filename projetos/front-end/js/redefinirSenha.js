@@ -1,4 +1,3 @@
-
 document.getElementById("resetForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = document.getElementById("email-reset").value.trim();

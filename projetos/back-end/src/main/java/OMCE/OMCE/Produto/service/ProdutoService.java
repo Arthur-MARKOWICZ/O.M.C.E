@@ -37,7 +37,7 @@ public class ProdutoService {
         this.userService = userService;
         this.validar = validar;
     }
-    public void cadastro(DadosCadastroProduto dados){
+    public Produto cadastro(DadosCadastroProduto dados){
         validar.ValidarCadastroProduto(dados);
         User user = userService.pegarUserPorId(dados.id_usuario());
         if (user == null){
@@ -46,6 +46,7 @@ public class ProdutoService {
         Produto newproduto = new Produto(dados);
         newproduto.setUsuario(user);
         this.repository.save(newproduto);
+        return newproduto;
     }
     public  Map<String, Object> pegarDetalhesDoProduto(Long id){
 

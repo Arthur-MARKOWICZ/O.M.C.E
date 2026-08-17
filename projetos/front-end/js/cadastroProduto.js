@@ -59,7 +59,7 @@ document.getElementById("form_cadastroProduto").addEventListener("submit", async
 
         if (!condicao || !categoria) {
             Swal.fire({
-                text: "selecione uma condicao e categoria",
+                text: "Selecione uma condição e categoria",
                 icon: 'warning'
             })
             return;

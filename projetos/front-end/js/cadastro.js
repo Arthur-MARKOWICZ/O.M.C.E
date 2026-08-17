@@ -54,8 +54,7 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
           json = {};
         }
        if(!response.ok) {
-
-            mostrarErro(json.mensagem || "Erro desconhecido");
+        exibirErro(json.mensagem || "Erro desconhecido");
           return;
         }
         Swal.fire({
@@ -64,7 +63,6 @@ document.getElementById("form_cadastro").addEventListener("submit", async functi
               icon: 'success'});
             event.target.reset();
             window.location.href = "../html/login.html";
-    
 });
 
 function validarCadastro() {
@@ -125,7 +123,6 @@ function exibirErro(mensagem, campo) {
 
 
 }   
-
 
 function exibirErroEmBranco(mensagem, campo) {
     Swal.fire({

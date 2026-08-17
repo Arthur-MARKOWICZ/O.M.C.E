@@ -69,7 +69,9 @@ public class UserService {
                 link + "\n\n" +
                 "Se você não solicitou isso, ignore este e-mail.";
         emailService.enviarEmail(usuario.getEmail(), assunto, corpo);
+
         log.info("Email enviado com sucesso");
+
     }
     @Transactional
     public void novaSenha(DadosRedefinirSenha dados){

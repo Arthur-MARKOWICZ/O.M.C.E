@@ -1,6 +1,7 @@
 package OMCE.OMCE.integracao;
 
 import OMCE.OMCE.Enderco.DadosEndereco;
+import OMCE.OMCE.Produto.repository.ProdutoRepository;
 import OMCE.OMCE.User.Service.UserService;
 import OMCE.OMCE.User.User;
 import OMCE.OMCE.User.dto.*;
@@ -27,9 +28,12 @@ public class UserControllerIntegrationTest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private ProdutoRepository produtoRepository;
+    @Autowired
     private UserService service;
     @BeforeEach
     void setupAuthentication() {
+        produtoRepository.deleteAll();
         userRepository.deleteAll();
         DadosEndereco dadosEndereco = new DadosEndereco("8123434","brasil","test",
                 "test","Rua test");

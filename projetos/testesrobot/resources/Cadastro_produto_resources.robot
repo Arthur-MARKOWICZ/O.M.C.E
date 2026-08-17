@@ -1,0 +1,95 @@
+*** Settings ***
+Library     SeleniumLibrary
+
+*** Variables ***
+${BROWSER}     Chrome
+${URL}         http://127.0.0.1:5500/projetos/front-end/html/login.html
+${URL_CADASTRO_PRODUTO}  http://127.0.0.1:5500/projetos/front-end/html/cadastroProduto.html
+${URL_FEED}    http://127.0.0.1:5500/projetos/front-end/html/feed.html
+${Nome_produto}    esp
+${Preco_negativo}     -1
+${Preco}     100
+${Detalhes}    isto e um teste
+${IMAGE_PATH}    ${EXECDIR}${/}/projetos/testesrobot${/}imagem${/}test_Esp32.jpeg
+
+*** Keywords ***
+Realizar Cadastro De Produto Com Valor negativo
+    Wait Until Element Is Visible    xpath=//a[contains(text(),'Anunciar Produto')]    5s
+    Click Element    xpath=//a[contains(text(),'Anunciar Produto')]
+    Wait Until Location Contains    cadastroProduto.html    5s
+    Location Should Be    ${URL_CADASTRO_PRODUTO}
+    Input Text    id=txtName    ${Nome_produto}
+    Input Text    id=txtPreco    ${Preco_negativo}
+    Input Text    id=txtDetalhes    ${Detalhes}
+    Select Radio Button    Condicao    NOVO
+    Select Radio Button    categoria    ESP32
+    Choose File    id=productImage    ${IMAGE_PATH}
+    Sleep    2s    
+    Click Element    xpath=//input[@type='submit' and @value='Finalizar cadastro de produto']
+    Wait Until Element Is Visible    css=.swal2-popup    10s
+    Element Should Contain    css=#swal2-title    Erro no cadastro.
+    Click Button    css=.swal2-confirm
+Realizar Cadastro De Produto sem categoria
+  Wait Until Element Is Visible    xpath=//a[contains(text(),'Anunciar Produto')]    5s
+    Click Element    xpath=//a[contains(text(),'Anunciar Produto')]
+    Wait Until Location Contains    cadastroProduto.html    5s
+    Location Should Be    ${URL_CADASTRO_PRODUTO}
+    Input Text    id=txtName    ${Nome_produto}
+    Input Text    id=txtPreco    ${Preco}
+    Input Text    id=txtDetalhes    ${Detalhes}
+    Select Radio Button    Condicao    NOVO
+    Choose File    id=productImage    ${IMAGE_PATH}
+    Sleep    1s
+    Click Element    xpath=//input[@type='submit' and @value='Finalizar cadastro de produto']
+    Sleep    1s
+    Wait Until Element Is Visible    css=.swal2-popup    10s
+    Element Should Contain    css=.swal2-popup   Selecione uma condição e categoria
+Realizar Cadastro De Produto Sem Imagem
+    Wait Until Element Is Visible    xpath=//a[contains(text(),'Anunciar Produto')]    5s
+    Click Element    xpath=//a[contains(text(),'Anunciar Produto')]
+    Wait Until Location Contains    cadastroProduto.html    5s
+    Location Should Be    ${URL_CADASTRO_PRODUTO}
+    Input Text    id=txtName    ${Nome_produto}
+    Input Text    id=txtPreco    ${Preco}
+    Input Text    id=txtDetalhes    ${Detalhes}
+    Select Radio Button    Condicao    NOVO
+    Select Radio Button    categoria    ESP32
+    Sleep    1s
+    Click Element    xpath=//input[@type='submit' and @value='Finalizar cadastro de produto']
+    Sleep    1s
+    Wait Until Element Is Visible    css=.swal2-popup    10s
+    Element Should Contain    css=.swal2-popup    Preenchimento obrigatório: Imagem
+Realizar Cadastro de Produto Corretamente
+    Wait Until Element Is Visible    xpath=//a[contains(text(),'Anunciar Produto')]    5s
+    Click Element    xpath=//a[contains(text(),'Anunciar Produto')]
+    Wait Until Location Contains    cadastroProduto.html    5s
+    Location Should Be    ${URL_CADASTRO_PRODUTO}
+    Input Text    id=txtName    ${Nome_produto}
+    Input Text    id=txtPreco    ${Preco}
+    Input Text    id=txtDetalhes    ${Detalhes}
+    Select Radio Button    Condicao    NOVO
+    Select Radio Button    categoria    ESP32
+    Choose File    id=productImage    ${IMAGE_PATH}
+    Sleep    1s
+    Click Element    xpath=//input[@type='submit' and @value='Finalizar cadastro de produto']
+    Wait Until Location Contains    feed.html    5s
+    Location Should Be    ${URL_FEED}
+Verificar feed
+    Wait Until Page Contains Element    xpath=//div[contains(@class,'produto-card')]    5s
+    ${qtd_produtos_pagina1}=    Get Element Count    xpath=//div[contains(@class,'produto-card')]
+    Should Be Equal As Integers    ${qtd_produtos_pagina1}    10
+    Click Element    id=proximo
+    Sleep    2s
+    ${qtd_produtos_pagina2}=    Get Element Count    xpath=//div[contains(@class,'produto-card')]
+    Should Be Equal As Integers    ${qtd_produtos_pagina2}    10    
+    ${texto_pagina}=    Get Text    id=numero-pagina
+    Should Contain    ${texto_pagina}    Página 2
+Acessar a página de feed
+    Wait Until Element Is Visible    xpath=//a[contains(text(),'Feed')]    5s
+    Click Element    xpath=//a[contains(text(),'Feed')]
+    Wait Until Location Contains    feed.html    5s
+Cadastrar Vários Produtos
+    [Arguments]    ${quantidade}
+    FOR    ${i}    IN RANGE    ${quantidade}
+        Realizar Cadastro de Produto Corretamente
+    END

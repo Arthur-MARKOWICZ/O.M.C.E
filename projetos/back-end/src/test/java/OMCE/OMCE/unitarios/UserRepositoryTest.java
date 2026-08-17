@@ -55,7 +55,7 @@ public class UserRepositoryTest {
         assertEquals("test@gmail", result.getEmail());
     }
     @Test
-    @DisplayName("deve pefar usuario pelo token de redefinicao")
+    @DisplayName("deve pegar usuario pelo token de redefinicao")
     void PegarUserPeloTokenDeRedefinicao(){
         // Arrange
         DadosEndereco dadosEndereco = new DadosEndereco("8123434","brasil","test",
