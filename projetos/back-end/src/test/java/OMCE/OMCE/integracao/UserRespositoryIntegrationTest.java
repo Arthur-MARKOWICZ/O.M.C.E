@@ -1,6 +1,7 @@
 package OMCE.OMCE.integracao;
 
 import OMCE.OMCE.Enderco.DadosEndereco;
+import OMCE.OMCE.Produto.repository.ProdutoRepository;
 import OMCE.OMCE.User.User;
 import OMCE.OMCE.User.dto.DadosCadastroUser;
 import OMCE.OMCE.User.repository.UserRepository;
@@ -10,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 @ActiveProfiles("test")
@@ -19,12 +18,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class UserRespositoryIntegrationTest {
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private ProdutoRepository produtoRepository;
     @BeforeEach
     void setup() {
+        produtoRepository.deleteAll();
         repository.deleteAll();
     }
     @Test
-    void deveSalvarUserNoBancoDeDadosEBuscarPeloNome(){
+    void deveSalvarUserNoBancoDeDadosEBuscarPeloEmail(){
         DadosEndereco dadosEndereco = new DadosEndereco("8123434","brasil","test",
                 "test","Rua test");
         DadosCadastroUser dadosCadastroUser = new DadosCadastroUser("test","12345678912"
@@ -36,6 +38,20 @@ public class UserRespositoryIntegrationTest {
         User result = repository.findByEmail(user.getEmail());
 
         assertEquals("testUser", result.getNomeUser());
+    }
+    @Test
+    void deveSalvarUserNoBancoDeDadosEBuscarPeloId(){
+        DadosEndereco dadosEndereco = new DadosEndereco("8123434","brasil","test",
+                "test","Rua test");
+        DadosCadastroUser dadosCadastroUser = new DadosCadastroUser("test","12345678912"
+                ,"22-06-2005","test",dadosEndereco,"test@gmail","1231313139",
+                "testUser","test");
+        User user = new User(dadosCadastroUser);
+        user.setSenha(dadosCadastroUser.senha());
+        var userBanco = repository.save(user);
+        var result = repository.findById(userBanco.getId());
+
+        assertEquals("testUser", result.get().getNomeUser());
     }
 
     @Test

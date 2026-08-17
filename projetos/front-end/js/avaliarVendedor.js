@@ -15,11 +15,11 @@ const avaliacao ={
     vendedor_id: id_vendedor
 }
 if(nota.value == ""){
-    exibirErro("Campo de nota e obrigatório");
+    exibirErro("Campo de nota é obrigatório");
     return;
 }
 if(comentario.value == ""){
-    exibirErro("Campo de comentario e obrigatório");
+    exibirErro("Campo de comentário é obrigatório");
         return;
 
 }
@@ -51,7 +51,7 @@ const response = await fetch("http://localhost:8080/avaliacaoVendedor/cadastro",
                 icon: 'success'
             })
             event.target.reset();
-            window.location.href = "../html/feed.html";
+            window.location.href = "../html/historicoCompra.html";
     }); 
 function exibirErro(mensagem, campo) {
     Swal.fire({

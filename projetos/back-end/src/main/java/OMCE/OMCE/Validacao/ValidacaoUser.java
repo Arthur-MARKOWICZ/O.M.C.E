@@ -10,7 +10,7 @@ public class ValidacaoUser {
         if(dados.email() == null){
             throw  new RuntimeException("o campo de e-mail esta em branco");
         }
-        if(dados.senha() == null){
+        if(dados.senha() == null || dados.senha().isEmpty()){
             throw new RuntimeException("O campo de senha esta em branco");
         }
         if(dados.nome() == null){
