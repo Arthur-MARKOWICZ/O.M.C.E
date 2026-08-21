@@ -1,5 +1,6 @@
 package OMCE.OMCE.Pedido.service;
 
+import OMCE.OMCE.Execao.ProdutoNaoEncontrado;
 import OMCE.OMCE.Pedido.ItemPedido;
 import OMCE.OMCE.Pedido.Pedido;
 import OMCE.OMCE.Pedido.dto.PedidoCadastroDTO;
@@ -27,7 +28,8 @@ public class PedidoService {
 
         for (Long idProduto : dto.id_produtos()) {
             produtoRepository.produtoVendido(idProduto);
-            Produto produto = produtoRepository.getReferenceById(idProduto);
+            Produto produto = produtoRepository.findById(idProduto)
+                    .orElseThrow(() -> new ProdutoNaoEncontrado("Produto não encontrado com id: " + idProduto));
             ItemPedido item = new ItemPedido(pedido, produto);
             itemPedidoRepository.save(item);
         }

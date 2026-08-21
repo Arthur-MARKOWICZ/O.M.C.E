@@ -14,7 +14,7 @@ public class Endereco {
     private String logradouro;
     public Endereco(DadosEndereco dados){
         this.cep = dados.cep();
-        this.pais = dados.pais();
+        this.pais = (dados.pais() != null && !dados.pais().isBlank()) ? dados.pais() : "Brasil";
         this.estado = dados.estado();
         this.cidade = dados.cidade();
         this.logradouro = dados.logradouro();

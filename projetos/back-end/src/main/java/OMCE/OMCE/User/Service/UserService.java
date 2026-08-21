@@ -1,5 +1,6 @@
 package OMCE.OMCE.User.Service;
 
+import OMCE.OMCE.Execao.SenhaDiferenteDaOriginal;
 import OMCE.OMCE.Execao.SenhaIgualAOriginal;
 import OMCE.OMCE.Execao.UserNaoEncontrado;
 import OMCE.OMCE.User.*;
@@ -32,25 +33,31 @@ public class UserService {
     private BCryptPasswordEncoder encoder =  new BCryptPasswordEncoder();
     public void alterardados(DadosAlterarDadosUser dados){
         validar.validarAlterarUsuario(dados);
-        User user =  userRepository.getReferenceById(dados.id());
+        User user = userRepository.findById(dados.id())
+                .orElseThrow(() -> new UserNaoEncontrado("Usuário não encontrado com id: " + dados.id()));
         if(!encoder.matches(dados.senha(),user.getSenha())){
-            throw  new RuntimeException("Senha diferente da original");
+            throw new SenhaDiferenteDaOriginal("Senha diferente da original");
         }
 
         String novoHash = null;
         if (dados.novaSenha() != null && !dados.novaSenha().isEmpty()) {
+            if (encoder.matches(dados.novaSenha(), user.getSenha())) {
+                throw new SenhaIgualAOriginal("Nova senha igual a senha atual");
+            }
             novoHash = encoder.encode(dados.novaSenha());
         }
         user.alterarDados(dados,novoHash);
         userRepository.save(user);
     }
     public User pegarUserPorId(Long id){
-        User user = userRepository.getReferenceById(id);
-        return user;
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNaoEncontrado("Usuário não encontrado com id: " + id));
     }
     public void excluir(Long id){
-        User user = userRepository.getReferenceById(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNaoEncontrado("Usuário não encontrado com id: " + id));
         user.excluir();
+        userRepository.save(user);
     }
     public void redefinirSenhaPorEmail(DadosSolicitarRedefinicaoSenha dados){
         User usuario = userRepository.findByEmail(dados.email());
