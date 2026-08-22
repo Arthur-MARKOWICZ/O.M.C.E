@@ -1,17 +1,23 @@
 version: '3.8'
 services:
-  mysql_db:
+  database:
     image: mysql:8.0
-    container_name: mysql_container
     environment:
-      MYSQL_ROOT_PASSWORD: senha_root
       MYSQL_DATABASE: omce
       MYSQL_USER: usuario
       MYSQL_PASSWORD: senha
+      MYSQL_ROOT_PASSWORD: senha_root
     command: --max_allowed_packet=16M
+    volumes:
+      - mysql_data:/var/lib/mysql
     ports:
       - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql  
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-psenha_root"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+    restart: unless-stopped
 volumes:
   mysql_data:
