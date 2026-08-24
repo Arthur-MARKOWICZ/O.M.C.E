@@ -1,0 +1,4 @@
+import { Link } from 'react-router-dom';
+import { imageSource, money } from '../../api';
+
+export default function ProductCard({ product, onDelete }) { const image = imageSource(product); return <article className="product-card"><Link to={`/produto/${product.id}`} className="product-image">{image ? <img src={image} alt={product.nome} /> : <span>Sem imagem</span>}<small>{product.condicao || 'Disponível'}</small></Link><div className="product-info"><p className="category">{product.categoria || 'ELETRÔNICOS'}</p><Link to={`/produto/${product.id}`}><h2>{product.nome}</h2></Link><p className="seller">por {product.nomeUsuario || product.nome_do_usuario || 'Vendedor O.M.C.E'}</p><div className="product-footer"><strong>{money(product.preco)}</strong>{onDelete && <div className="card-actions"><Link to={`/produto/${product.id}/editar`}>Editar</Link><button className="danger-text" onClick={() => onDelete(product)}>Excluir</button></div>}</div></div></article>; }

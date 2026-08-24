@@ -50,32 +50,24 @@ public class ProdutoService {
     }
     public  Map<String, Object> pegarDetalhesDoProduto(Long id){
 
-        Optional<Produto> produto = repository.findById(id);
-        User usuario = userService.pegarUserPorId(produto.get().getUsuario().getId());
-        if(usuario == null){
-            throw  new UserNaoEncontrado("usuario nao encontrado");
-        }
+        Produto produto = repository.findById(id)
+                .orElseThrow(() -> new ProdutoNaoEncontrado("Produto não encontrado com id: " + id));
+        User usuario = userService.pegarUserPorId(produto.getUsuario().getId());
 
-        if(produto.isPresent()) {
-            byte[] imagemBytes = produto.get().getImagem();
-            String imagem = Base64.getEncoder().encodeToString(imagemBytes);
-            Map<String, Object> json = new HashMap<>();
-            json.put("id", produto.get().getId());
-            json.put("nome", produto.get().getNome());
-            json.put("preco", produto.get().getPreco());
-            json.put("Imagem", imagem);
-            json.put("Imagem_tipo", produto.get().getImageTipo());
-            json.put("condicao", produto.get().getCondicao());
-            json.put("detalhes", produto.get().getDetalhes());
-            json.put("nome_do_usuario", usuario.getNome());
-            json.put("id_vendedor", usuario.getId());
+        byte[] imagemBytes = produto.getImagem();
+        String imagem = imagemBytes != null ? Base64.getEncoder().encodeToString(imagemBytes) : null;
+        Map<String, Object> json = new HashMap<>();
+        json.put("id", produto.getId());
+        json.put("nome", produto.getNome());
+        json.put("preco", produto.getPreco());
+        json.put("Imagem", imagem);
+        json.put("Imagem_tipo", produto.getImageTipo());
+        json.put("condicao", produto.getCondicao());
+        json.put("detalhes", produto.getDetalhes());
+        json.put("nome_do_usuario", usuario.getNome());
+        json.put("id_vendedor", usuario.getId());
 
-
-            return json;
-        }
-        else{
-            throw new ProdutoNaoEncontrado("Produto nao foi encontrado");
-        }
+        return json;
     }
     public Page<ProdutoRespostaDTO> filtrarProduto(String nome, String categoria,Double precoMin, Double precoMax,
                                                   Pageable pageable){
@@ -84,8 +76,8 @@ public class ProdutoService {
         if (categoria != null && !categoria.isBlank()) {
             try {
                 catEnum = Categoria.valueOf(categoria.toUpperCase());
-            } catch (CategoriaInvalida e) {
-                throw  new   CategoriaInvalida("categoria invalida");
+            } catch (IllegalArgumentException e) {
+                throw new CategoriaInvalida("Categoria invalida: " + categoria);
             }
         }
         Page<Produto> produtos = repository.filtrarProdutos(nome, catEnum, precoMin, precoMax, pageable);
@@ -102,8 +94,10 @@ public class ProdutoService {
     }
     public void alterarDadosProduto(DadosAlterarDadosProduto dados){
         validar.ValidarAlterarProduto(dados);
-        Produto produto =  repository.getReferenceById(dados.id());
+        Produto produto = repository.findById(dados.id())
+                .orElseThrow(() -> new ProdutoNaoEncontrado("Produto não encontrado com id: " + dados.id()));
         produto.alterarDados(dados);
+        repository.save(produto);
     }
     public Page<ProdutoRespostaDTO> pegarProdutosPorUser(Long id_usuario,Pageable pageable){
         Page<Produto> produtos = repository.pegarProdutosUsuario(id_usuario,pageable);

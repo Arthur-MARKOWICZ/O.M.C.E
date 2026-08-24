@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "name": "O.M.C.E",
+    "slug": "omce-mobile",
+    "scheme": "omce",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "plugins": ["expo-router", "expo-image-picker", "expo-secure-store"],
+    "experiments": { "typedRoutes": true },
+    "android": { "package": "com.omce.mobile", "usesCleartextTraffic": true },
+    "ios": { "bundleIdentifier": "com.omce.mobile" }
+  }
+}

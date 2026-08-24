@@ -1,0 +1,1 @@
+export default function Page({ eyebrow, title, children, actions }) { return <section className="page"><div className="page-heading"><div><p className="eyebrow">{eyebrow}</p><h1>{title}</h1></div>{actions}</div>{children}</section>; }

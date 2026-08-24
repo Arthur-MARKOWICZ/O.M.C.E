@@ -5,6 +5,7 @@ import OMCE.OMCE.AvaliacaoVendedor.AvaliacaoVendedor;
 import OMCE.OMCE.AvaliacaoVendedor.dto.AvaliacaoVendedorDTO;
 import OMCE.OMCE.AvaliacaoVendedor.repository.AvaliacaoVendedorRepository;
 import OMCE.OMCE.AvaliacaoVendedor.dto.AvaliacaoVendedorRespostaDTO;
+import OMCE.OMCE.Execao.UserNaoEncontrado;
 import OMCE.OMCE.User.User;
 import OMCE.OMCE.User.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,8 @@ public class AvaliacaoVendorService {
 
     public void criar(AvaliacaoVendedorDTO dto){
         AvaliacaoVendedor avaliacao = new AvaliacaoVendedor(dto);
-        User vendedor = userRepository.getReferenceById(dto.vendedor_id());
+        User vendedor = userRepository.findById(dto.vendedor_id())
+                .orElseThrow(() -> new UserNaoEncontrado("Vendedor não encontrado com id: " + dto.vendedor_id()));
         avaliacao.setVendedor(vendedor);
         repository.save(avaliacao);
     }

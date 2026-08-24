@@ -1,0 +1,6 @@
+import { useState } from 'react';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { AuthShell } from '@/src/components/AuthShell';
+import { Button, Field, Message } from '@/src/components/ui';
+import { api } from '@/src/lib/api';
+export default function NewPassword() { const { token } = useLocalSearchParams<{ token?: string }>(); const router = useRouter(); const [senha, setSenha] = useState(''); const [confirmarSenha, setConfirmarSenha] = useState(''); const [error, setError] = useState(''); const submit = async () => { if (!token) return setError('O link de redefinição é inválido ou expirou.'); if (senha !== confirmarSenha) return setError('As senhas não coincidem.'); try { await api.resetPassword(token, senha); router.replace('/(auth)/login'); } catch (e) { setError(e instanceof Error ? e.message : 'Não foi possível atualizar a senha.'); } }; return <AuthShell title="Escolha uma nova senha" subtitle="Use uma senha forte e que você não use em outros sites.">{error && <Message>{error}</Message>}<Field label="Nova senha" value={senha} onChangeText={setSenha} secureTextEntry /><Field label="Confirme a nova senha" value={confirmarSenha} onChangeText={setConfirmarSenha} secureTextEntry /><Button onPress={submit}>Atualizar senha</Button></AuthShell>; }
