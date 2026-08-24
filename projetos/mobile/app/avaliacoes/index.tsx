@@ -1,0 +1,8 @@
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Empty, Loading, Message, Pagination, Screen } from '@/src/components/ui';
+import { api } from '@/src/lib/api';
+import { PageResult, Review } from '@/src/types/models';
+import { useApp } from '@/src/context/AppContext';
+export default function SellerReviews() { const { session, colors } = useApp(); const [page, setPage] = useState(0); const [result, setResult] = useState<PageResult<Review> | null>(null); const [error, setError] = useState(''); useEffect(() => { if (session) { setResult(null); api.sellerReviews(session.id, page).then(setResult).catch((e) => setError(e.message)); } }, [page, session]); return <Screen eyebrow="MINHAS AVALIAÇÕES" title="Sua reputação" back>{error ? <Message>{error}</Message> : !result ? <Loading /> : result.content.length ? <><View style={styles.list}>{result.content.map((review, index) => <View key={review.id || index} style={[styles.review, { backgroundColor: colors.surface, borderColor: colors.line }]}><Text style={{ color: '#b27700', fontFamily: 'Manrope_800ExtraBold' }}>★ {review.nota}/5</Text><Text style={{ color: colors.copy, fontFamily: 'Manrope_400Regular', lineHeight: 21 }}>{review.comentario || 'Sem comentário.'}</Text></View>)}</View><Pagination page={page} totalPages={result.totalPages} first={result.first} last={result.last} onPage={setPage} /></> : <Empty title="Ainda não há avaliações" text="Quando alguém avaliar, os comentários aparecerão aqui." />}</Screen>; }
+const styles = StyleSheet.create({ list: { gap: 12 }, review: { borderWidth: 1, borderRadius: 8, padding: 16, gap: 8 } });
