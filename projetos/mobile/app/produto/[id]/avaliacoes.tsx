@@ -1,0 +1,9 @@
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Button, Empty, Loading, Message, Pagination, Screen } from '@/src/components/ui';
+import { api } from '@/src/lib/api';
+import { PageResult, Review } from '@/src/types/models';
+import { useApp } from '@/src/context/AppContext';
+export default function ProductReviews() { const { id } = useLocalSearchParams<{ id: string }>(); const router = useRouter(); const { colors } = useApp(); const [page, setPage] = useState(0); const [result, setResult] = useState<PageResult<Review> | null>(null); const [error, setError] = useState(''); useEffect(() => { setResult(null); api.productReviews(id, page).then(setResult).catch((e) => setError(e.message)); }, [id, page]); return <Screen eyebrow="AVALIAÇÕES" title="O que dizem sobre o produto" back action={<Button onPress={() => router.push(`/produto/${id}/avaliar`)}>Avaliar</Button>}>{error ? <Message>{error}</Message> : !result ? <Loading /> : result.content.length ? <><View style={styles.list}>{result.content.map((review, index) => <View key={review.id || index} style={[styles.review, { backgroundColor: colors.surface, borderColor: colors.line }]}><Text style={[styles.rating, { color: '#b27700' }]}>★ {review.nota}/5</Text><Text style={[styles.comment, { color: colors.copy }]}>{review.comentario || 'Sem comentário.'}</Text></View>)}</View><Pagination page={page} totalPages={result.totalPages} first={result.first} last={result.last} onPage={setPage} /></> : <Empty title="Ainda não há avaliações" text="Seja a primeira pessoa a avaliar este produto." />}</Screen>; }
+const styles = StyleSheet.create({ list: { gap: 12 }, review: { padding: 16, gap: 8, borderWidth: 1, borderRadius: 8 }, rating: { fontFamily: 'Manrope_800ExtraBold' }, comment: { fontFamily: 'Manrope_400Regular', lineHeight: 21 } });
