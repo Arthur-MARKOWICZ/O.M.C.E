@@ -1,0 +1,1 @@
+export default function ReviewsList({ reviews }) { return <div className="reviews">{reviews.map((review, index) => <article className="review" key={review.id || index}><strong>★ {review.nota}/5</strong><p>{review.comentario || 'Sem comentário.'}</p></article>)}</div>; }

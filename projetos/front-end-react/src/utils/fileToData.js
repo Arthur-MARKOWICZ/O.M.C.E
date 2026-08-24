@@ -1,0 +1,1 @@
+export default function fileToData(file) { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve({ data: reader.result.split(',')[1], type: file.type }); reader.onerror = reject; reader.readAsDataURL(file); }); }

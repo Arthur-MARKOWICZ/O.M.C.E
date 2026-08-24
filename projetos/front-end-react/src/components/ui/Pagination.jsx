@@ -1,0 +1,1 @@
+export default function Pagination({ page, result, onPage }) { if (!result || result.totalPages <= 1) return null; return <div className="pagination"><button disabled={result.first} onClick={() => onPage(page - 1)}>← Anterior</button><span>Página {page + 1} de {result.totalPages}</span><button disabled={result.last} onClick={() => onPage(page + 1)}>Próxima →</button></div>; }
