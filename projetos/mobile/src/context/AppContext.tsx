@@ -10,6 +10,7 @@ type AppValue = {
   signIn: (value: Session) => Promise<void>; signOut: () => Promise<void>; toggleTheme: () => void;
   addToCart: (item: CartItem) => Promise<boolean>; removeFromCart: (id: number) => Promise<void>; clearCart: () => Promise<void>;
   showNotice: (message: string, type?: 'success' | 'error') => void;
+  isVendedor: boolean; isComprador: boolean;
 };
 const AppContext = createContext<AppValue | null>(null);
 
@@ -19,7 +20,10 @@ export function AppProvider({ children }: PropsWithChildren) {
   useEffect(() => { (async () => {
     const [storedSession, storedTheme] = await Promise.all([loadSession(), loadTheme()]);
     if (storedTheme === 'dark') setTheme('dark');
-    if (storedSession) { setSession(storedSession); setApiToken(storedSession.token); setCart(await loadCart(storedSession.id)); }
+    if (storedSession) {
+      const patched = storedSession.role ? storedSession : { ...storedSession, role: 'COMPRADOR' as const };
+      setSession(patched); setApiToken(patched.token); setCart(await loadCart(patched.id));
+    }
     setReady(true);
   })(); }, []);
   const signIn = async (value: Session) => { setApiToken(value.token); setSession(value); setCart(await loadCart(value.id)); await saveSession(value); };
@@ -30,7 +34,9 @@ export function AppProvider({ children }: PropsWithChildren) {
   const clearCart = () => persistCart([]);
   const toggleTheme = () => setTheme((current) => { const next = current === 'light' ? 'dark' : 'light'; void saveTheme(next); return next; });
   const showNotice = (message: string, type: 'success' | 'error' = 'success') => { setNotice({ message, type }); setTimeout(() => setNotice(null), 3500); };
-  const value = useMemo(() => ({ ready, session, cart, theme, colors: palettes[theme], notice, signIn, signOut, toggleTheme, addToCart, removeFromCart, clearCart, showNotice }), [ready, session, cart, theme, notice]);
+  const isVendedor = session?.role === 'VENDEDOR' || session?.role === 'MISTO';
+  const isComprador = session?.role === 'COMPRADOR' || session?.role === 'MISTO';
+  const value = useMemo(() => ({ ready, session, cart, theme, colors: palettes[theme], notice, signIn, signOut, toggleTheme, addToCart, removeFromCart, clearCart, showNotice, isVendedor, isComprador }), [ready, session, cart, theme, notice, isVendedor, isComprador]);
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
 export function useApp() { const value = useContext(AppContext); if (!value) throw new Error('useApp must be used inside AppProvider'); return value; }

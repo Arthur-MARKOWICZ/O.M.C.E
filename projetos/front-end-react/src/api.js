@@ -4,13 +4,18 @@ export const auth = {
   get token() { return localStorage.getItem('jwt'); },
   get userId() { return localStorage.getItem('id_usuario'); },
   get name() { return localStorage.getItem('nome'); },
+  get role() { return localStorage.getItem('role'); },
   loggedIn() { return Boolean(this.token && this.userId); },
-  save({ token, id, nome }) {
+  isVendedor() { return this.role === 'VENDEDOR' || this.role === 'MISTO'; },
+  isComprador() { return this.role === 'COMPRADOR' || this.role === 'MISTO'; },
+  hasRole(role) { return this.role === role || this.role === 'MISTO'; },
+  save({ token, id, nome, role }) {
     localStorage.setItem('jwt', token);
     localStorage.setItem('id_usuario', id);
     localStorage.setItem('nome', nome);
+    if (role) localStorage.setItem('role', role);
   },
-  clear() { ['jwt', 'id_usuario', 'nome'].forEach((key) => localStorage.removeItem(key)); },
+  clear() { ['jwt', 'id_usuario', 'nome', 'role'].forEach((key) => localStorage.removeItem(key)); },
 };
 
 export async function request(path, options = {}) {

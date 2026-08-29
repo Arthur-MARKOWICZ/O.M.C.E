@@ -59,6 +59,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/produto/filtro/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/avaliacaoVendedor/media/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/avaliacoes/produto/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/produto/cadastroProduto").hasRole("VENDEDOR")
+                        .requestMatchers(HttpMethod.PUT, "/produto/alterarDadosProduto").hasRole("VENDEDOR")
+                        .requestMatchers(HttpMethod.DELETE, "/produto/deletar/**").hasRole("VENDEDOR")
+                        .requestMatchers(HttpMethod.GET, "/produto/todosProdutosUsuario/**").hasRole("VENDEDOR")
+                        .requestMatchers(HttpMethod.GET, "/historico/vendas/**").hasRole("VENDEDOR")
+                        .requestMatchers(HttpMethod.GET, "/avaliacaoVendedor/**").hasRole("VENDEDOR")
                         .anyRequest().authenticated())
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, authException) -> {

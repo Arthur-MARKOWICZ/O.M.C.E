@@ -48,7 +48,8 @@ public class AuthorizationService implements UserDetailsService {
         String token = tokenService.generateToken(user);
         long idUser = user.getId();
         String nome = user.getNomeUser();
-        return new LoginResponseDTO(token,idUser,nome);
+        String role = user.getRole() != null ? user.getRole().name() : "COMPRADOR";
+        return new LoginResponseDTO(token,idUser,nome,role);
     }
     public void redefinirSenha(DadosRedefinirSenha dados){
         User user = userRepository.findByTokenRedefinicao(dados.token());

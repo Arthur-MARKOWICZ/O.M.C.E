@@ -7,10 +7,10 @@ import { clearSession, loadCart, loadSession, saveCart, saveSession } from '@/sr
 describe('persistent app data', () => {
   beforeEach(() => jest.clearAllMocks());
   it('stores the login session securely', async () => {
-    await saveSession({ token: 'jwt', id: 4, nome: 'Ana' });
-    expect(SecureStore.setItemAsync).toHaveBeenCalledWith('omce_session', JSON.stringify({ token: 'jwt', id: 4, nome: 'Ana' }));
-    (SecureStore.getItemAsync as jest.Mock).mockResolvedValue(JSON.stringify({ token: 'jwt', id: 4, nome: 'Ana' }));
-    await expect(loadSession()).resolves.toEqual({ token: 'jwt', id: 4, nome: 'Ana' });
+    await saveSession({ token: 'jwt', id: 4, nome: 'Ana', role: 'COMPRADOR' });
+    expect(SecureStore.setItemAsync).toHaveBeenCalledWith('omce_session', JSON.stringify({ token: 'jwt', id: 4, nome: 'Ana', role: 'COMPRADOR' }));
+    (SecureStore.getItemAsync as jest.Mock).mockResolvedValue(JSON.stringify({ token: 'jwt', id: 4, nome: 'Ana', role: 'COMPRADOR' }));
+    await expect(loadSession()).resolves.toEqual({ token: 'jwt', id: 4, nome: 'Ana', role: 'COMPRADOR' });
     await clearSession();
     expect(SecureStore.deleteItemAsync).toHaveBeenCalledWith('omce_session');
   });
