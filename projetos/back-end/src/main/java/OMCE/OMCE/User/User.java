@@ -36,6 +36,9 @@ public class User  implements UserDetails {
     private String nomeUser;
     private String senha;
     private boolean ativo;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
     @Column(name = "token_redefinicao")
     private String tokenRedefinicao;
     @Column(name = "token_expiracao")
@@ -51,6 +54,7 @@ public class User  implements UserDetails {
         this.email = dados.email();
         this.telefone = dados.telefone();
         this.nomeUser = dados.nomeUser();
+        this.role = dados.role() != null ? dados.role() : Role.COMPRADOR;
     }
 
 
@@ -181,9 +185,23 @@ public class User  implements UserDetails {
         this.tokenExpiracao = tokenExpiracao; 
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        if (role == null) {
+            return List.of(new SimpleGrantedAuthority("ROLE_COMPRADOR"));
+        }
+        if (role == Role.MISTO) {
+            return List.of(new SimpleGrantedAuthority("ROLE_COMPRADOR"), new SimpleGrantedAuthority("ROLE_VENDEDOR"));
+        }
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override

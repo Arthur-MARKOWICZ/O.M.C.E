@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
-import { Guest, Protected } from '../components/layout/RouteGuards';
+import { Guest, Protected, RequireRole } from '../components/layout/RouteGuards';
 import Home from '../pages/Home';
 import Login from '../pages/auth/Login';
 import NewPassword from '../pages/auth/NewPassword';
@@ -24,15 +24,15 @@ function PrivateRoutes() {
   return <Layout><Routes>
     <Route index element={<Home />} />
     <Route path="feed" element={<Feed />} />
-    <Route path="produto/novo" element={<ProductForm />} />
-    <Route path="produto/:id/editar" element={<ProductForm edit />} />
+    <Route path="produto/novo" element={<RequireRole roles={['VENDEDOR']}><ProductForm /></RequireRole>} />
+    <Route path="produto/:id/editar" element={<RequireRole roles={['VENDEDOR']}><ProductForm edit /></RequireRole>} />
     <Route path="produto/:id" element={<ProductDetail />} />
     <Route path="carrinho" element={<Cart />} />
     <Route path="pedido" element={<Checkout />} />
     <Route path="minha-conta" element={<Profile />} />
-    <Route path="meus-produtos" element={<MyProducts />} />
+    <Route path="meus-produtos" element={<RequireRole roles={['VENDEDOR']}><MyProducts /></RequireRole>} />
     <Route path="historico/:type" element={<History />} />
-    <Route path="avaliacoes" element={<SellerReviews />} />
+    <Route path="avaliacoes" element={<RequireRole roles={['VENDEDOR']}><SellerReviews /></RequireRole>} />
     <Route path="produto/:id/avaliacoes" element={<ProductReviews />} />
     <Route path="vendedor/:id/avaliar" element={<SellerReviewForm />} />
     <Route path="*" element={<Navigate to="/" replace />} />

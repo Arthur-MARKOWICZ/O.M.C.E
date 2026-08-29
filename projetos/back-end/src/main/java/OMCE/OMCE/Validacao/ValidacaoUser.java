@@ -34,6 +34,9 @@ public class ValidacaoUser {
         if(dados.sexo() == null){
             throw  new RuntimeException("o campo de sexo esta em branco");
         }
+        if(dados.role() == null){
+            throw  new RuntimeException("o campo de perfil esta em branco");
+        }
     }
     public void validarAlterarUsuario(DadosAlterarDadosUser dados){
         if(dados.email() == null){
