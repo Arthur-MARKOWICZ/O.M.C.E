@@ -27,8 +27,8 @@ function PrivateRoutes() {
     <Route path="produto/novo" element={<RequireRole roles={['VENDEDOR']}><ProductForm /></RequireRole>} />
     <Route path="produto/:id/editar" element={<RequireRole roles={['VENDEDOR']}><ProductForm edit /></RequireRole>} />
     <Route path="produto/:id" element={<ProductDetail />} />
-    <Route path="carrinho" element={<Cart />} />
-    <Route path="pedido" element={<Checkout />} />
+    <Route path="carrinho" element={<RequireRole roles={['COMPRADOR']}><Cart /></RequireRole>} />
+    <Route path="pedido" element={<RequireRole roles={['COMPRADOR']}><Checkout /></RequireRole>} />
     <Route path="minha-conta" element={<Profile />} />
     <Route path="meus-produtos" element={<RequireRole roles={['VENDEDOR']}><MyProducts /></RequireRole>} />
     <Route path="historico/:type" element={<History />} />

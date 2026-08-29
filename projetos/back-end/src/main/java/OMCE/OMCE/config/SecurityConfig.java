@@ -65,6 +65,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/produto/todosProdutosUsuario/**").hasRole("VENDEDOR")
                         .requestMatchers(HttpMethod.GET, "/historico/vendas/**").hasRole("VENDEDOR")
                         .requestMatchers(HttpMethod.GET, "/avaliacaoVendedor/**").hasRole("VENDEDOR")
+                        .requestMatchers(HttpMethod.GET, "/historico/compra/**").hasRole("COMPRADOR")
+                        .requestMatchers(HttpMethod.POST, "/pedido/cadastro").hasRole("COMPRADOR")
                         .anyRequest().authenticated())
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, authException) -> {
