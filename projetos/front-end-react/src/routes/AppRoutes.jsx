@@ -17,6 +17,7 @@ import ProductReviews from '../pages/reviews/ProductReviews';
 import SellerReviewForm from '../pages/reviews/SellerReviewForm';
 import SellerReviews from '../pages/reviews/SellerReviews';
 import Profile from '../pages/user/Profile';
+import AdminDashboard from '../pages/admin/AdminDashboard';
 
 function GuestRoute({ children }) { return <Guest>{children}</Guest>; }
 
@@ -36,6 +37,8 @@ function PrivateRoutes() {
     <Route path="produto/:id/avaliacoes" element={<ProductReviews />} />
     <Route path="vendedor/:id/avaliar" element={<SellerReviewForm />} />
     <Route path="*" element={<Navigate to="/" replace />} />
+    <Route path="admin" element={<RequireRole roles={['ADMIN']}><AdminDashboard /></RequireRole>}
+    />
   </Routes></Layout>;
 }
 
