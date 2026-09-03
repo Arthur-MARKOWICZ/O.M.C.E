@@ -2,6 +2,7 @@ import { Navigate } from 'react-router-dom';
 import { auth } from '../../api';
 
 export function Guest({ children }) { return auth.loggedIn() ? <Navigate to="/" replace /> : children; }
+
 export function Protected({ children }) { return auth.loggedIn() ? children : <Navigate to="/login" replace />; }
 
 export function RequireRole({ roles, children }) {
@@ -15,6 +16,10 @@ export function RequireRole({ roles, children }) {
     return children;
   }
 
+  if (role === 'MISTO') {
+    return children;
+  }
+
   return roles.includes(role)
       ? children
       : <Navigate to="/feed" replace />;
@@ -25,5 +30,5 @@ export function RequireVendedor({ children }) {
 }
 
 export function RequireComprador({ children }) {
-  return <RequireRole roles={['COMPRADOR', 'VENDEDOR']}>{children}</RequireRole>;
+  return <RequireRole roles={['COMPRADOR']}>{children}</RequireRole>;
 }
