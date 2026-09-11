@@ -4,6 +4,8 @@ import OMCE.OMCE.Enderco.Endereco;
 import OMCE.OMCE.Pedido.dto.PedidoCadastroDTO;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "pedido")
 public class Pedido {
@@ -15,6 +17,8 @@ public class Pedido {
     private double valor;
     @Embedded
     private Endereco enderecoEntrega;
+    @Column(name = "data_pedido")
+    private LocalDateTime dataPedido;
 
     public Pedido() {
     }
@@ -22,6 +26,7 @@ public class Pedido {
         this.compradorId = dados.id_comprador();
         this.valor = dados.valor();
         this.enderecoEntrega = new Endereco(dados.endereco());
+        this.dataPedido = LocalDateTime.now();
     }
 
 
@@ -56,5 +61,13 @@ public class Pedido {
 
     public void setEnderecoEntrega(Endereco enderecoEntrega) {
         this.enderecoEntrega = enderecoEntrega;
+    }
+
+    public LocalDateTime getDataPedido() {
+        return dataPedido;
+    }
+
+    public void setDataPedido(LocalDateTime dataPedido) {
+        this.dataPedido = dataPedido;
     }
 }
