@@ -36,6 +36,39 @@ export async function request(path, options = {}) {
   return body;
 }
 
+export async function requestFile(path, options = {}) {
+  const headers = { ...options.headers };
+  if (auth.token) headers.Authorization = `Bearer ${auth.token}`;
+  let response;
+  try {
+    response = await fetch(`${API_URL}${path}`, { ...options, headers });
+  } catch (error) {
+    if (error instanceof TypeError) {
+      throw new Error('Não foi possível conectar à API. Verifique se ela está em execução e se o CORS permite este endereço.');
+    }
+    throw error;
+  }
+  if (!response.ok) {
+    const contentType = response.headers.get('content-type') || '';
+    const body = contentType.includes('application/json') ? await response.json() : await response.text();
+    throw new Error(body?.messagem || body?.mensagem || body?.message || (typeof body === 'string' && body) || 'Não foi possível gerar o arquivo.');
+  }
+  const disposition = response.headers.get('content-disposition') || '';
+  const match = disposition.match(/filename\*?=(?:UTF-8'')?"?([^";]+)"?/i);
+  return { blob: await response.blob(), filename: match ? decodeURIComponent(match[1]) : '' };
+}
+
+export function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
 export const imageSource = (product) => {
   const image = product.imagem ?? product.Imagem;
   const type = product.imagem_tipo ?? product.Imagem_tipo;

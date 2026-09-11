@@ -1,5 +1,8 @@
 package OMCE.OMCE.Historico;
 
+import OMCE.OMCE.Historico.exportacao.ExportacaoContext;
+import OMCE.OMCE.Historico.exportacao.FormatoExportacao;
+import OMCE.OMCE.Historico.exportacao.dto.ArquivoExportado;
 import OMCE.OMCE.Pedido.repository.ItemPedidoRepository;
 import OMCE.OMCE.Pedido.repository.PedidoRepository;
 import OMCE.OMCE.Produto.Produto;
@@ -12,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class HistoricoService {
     @Autowired
@@ -22,6 +27,8 @@ public class HistoricoService {
     private PedidoRepository pedidoRepository;
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
+    @Autowired
+    private ExportacaoContext exportacaoContext;
 
     public Page<ProdutoRespostaDTO> pegarHistoricoDeVenda(Long id_usuario, Pageable pageable){
         Page<Produto> historicoVenda = produtoRepository.pegarVendas(id_usuario, pageable);
@@ -31,6 +38,11 @@ public class HistoricoService {
     public Page<ProdutoRespostaDTO>pegarHistoricoDeCompra(Long idUsuario,@PageableDefault(size=10) Pageable pageable) {
         Page<Produto> produtos = itemPedidoRepository.pegarProdutosDoUsuario(idUsuario, pageable);
         return produtos.map(ProdutoRespostaDTO::new);
+    }
+
+    public ArquivoExportado exportarHistoricoDeCompra(Long compradorId, FormatoExportacao formato,
+                                                     LocalDate dataInicio, LocalDate dataFim) {
+        return exportacaoContext.escolher(formato).exportar(compradorId, dataInicio, dataFim);
     }
 
 
