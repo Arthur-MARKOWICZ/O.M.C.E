@@ -13,6 +13,7 @@ import Feed from '../pages/product/Feed';
 import ProductDetail from '../pages/product/ProductDetail';
 import ProductForm from '../pages/product/ProductForm';
 import MyProducts from '../pages/product/MyProducts';
+import ProductReviewForm from '../pages/reviews/ProductReviewForm';
 import ProductReviews from '../pages/reviews/ProductReviews';
 import SellerReviewForm from '../pages/reviews/SellerReviewForm';
 import SellerReviews from '../pages/reviews/SellerReviews';
@@ -37,6 +38,7 @@ function PrivateRoutes() {
     <Route path="historico/:type" element={<History />} />
     <Route path="avaliacoes" element={<RequireRole roles={['VENDEDOR']}><SellerReviews /></RequireRole>} />
     <Route path="produto/:id/avaliacoes" element={<ProductReviews />} />
+    <Route path="produto/:id/avaliar" element={<ProductReviewForm />} />
     <Route path="vendedor/:id/avaliar" element={<SellerReviewForm />} />
     <Route path="admin" element={<RequireRole roles={['ADMIN']}><AdminDashboard /></RequireRole>} />
     <Route path="admin/usuarios" element={<RequireRole roles={['ADMIN']}><AdminUsuarios /></RequireRole>} />
