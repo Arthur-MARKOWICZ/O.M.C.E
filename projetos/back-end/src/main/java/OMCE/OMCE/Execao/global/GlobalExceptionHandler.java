@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -37,6 +39,10 @@ public class GlobalExceptionHandler {
     public  ResponseEntity<Object> handleSenhaDiferenteDaOriginal(SenhaDiferenteDaOriginal ex){
         return  buildResponse(HttpStatus.CONFLICT,ex.getMessage());
     }
+    @ExceptionHandler(PeriodoInvalido.class)
+    public  ResponseEntity<Object> handlePeriodoInvalido(PeriodoInvalido ex){
+        return  buildResponse(HttpStatus.BAD_REQUEST,ex.getMessage());
+    }
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex){
         return buildResponse(HttpStatus.NOT_FOUND, "Recurso não encontrado: " + ex.getMessage());
@@ -54,6 +60,19 @@ public class GlobalExceptionHandler {
         ex.getBindingResult().getFieldErrors().forEach(e ->
                 sb.append(e.getField()).append(": ").append(e.getDefaultMessage()).append("; "));
         return buildResponse(HttpStatus.BAD_REQUEST, "Campos inválidos: " + sb);
+    }
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<Object> handleParametroAusente(MissingServletRequestParameterException ex){
+        return buildResponse(HttpStatus.BAD_REQUEST, "Parâmetro obrigatório ausente: " + ex.getParameterName());
+    }
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<Object> handleTipoInvalido(MethodArgumentTypeMismatchException ex){
+        Class<?> tipo = ex.getRequiredType();
+        String aceitos = tipo != null && tipo.isEnum()
+                ? " Valores aceitos: " + String.join(", ", java.util.Arrays.stream(tipo.getEnumConstants()).map(String::valueOf).toList()) + "."
+                : "";
+        return buildResponse(HttpStatus.BAD_REQUEST,
+                "Valor inválido para o parâmetro '" + ex.getName() + "': " + ex.getValue() + "." + aceitos);
     }
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Object> handleNotReadable(HttpMessageNotReadableException ex){
