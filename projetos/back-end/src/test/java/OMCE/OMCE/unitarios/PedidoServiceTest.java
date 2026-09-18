@@ -1,6 +1,7 @@
 package OMCE.OMCE.unitarios;
 
 import OMCE.OMCE.Enderco.DadosEndereco;
+import OMCE.OMCE.Pagamento.enums.MetodoPagamento;
 import OMCE.OMCE.Pedido.ItemPedido;
 import OMCE.OMCE.Pedido.Pedido;
 import OMCE.OMCE.Pedido.dto.PedidoCadastroDTO;
@@ -51,7 +52,8 @@ public class PedidoServiceTest {
                 idsProdutos,
                 10L,
                 250.75,
-                endereco
+                endereco,
+                MetodoPagamento.CARTAO_CREDITO
         );
 
         Pedido pedidoSalvo = new Pedido(dto);

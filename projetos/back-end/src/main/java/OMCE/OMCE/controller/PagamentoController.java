@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +18,7 @@ public class PagamentoController {
     private PagamentoService pagamentoService;
 
     @GetMapping("/pedido/{pedidoId}")
-    public ResponseEntity<PagamentoRespostaDTO> buscarPorPedido(@PathVariable Long pedidoId) {
-        return ResponseEntity.ok(pagamentoService.buscarPorPedido(pedidoId));
+    public ResponseEntity<PagamentoRespostaDTO> buscarPorPedido(@PathVariable Long pedidoId, @RequestHeader("Id-Usuario") Long idUsuario) {
+        return ResponseEntity.ok(pagamentoService.buscarPorPedido(pedidoId, idUsuario));
     }
 }

@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import { Address, PageResult, Product, Review, Session, User } from '@/src/types/models';
+import { Address, MetodoPagamento, PageResult, Product, Review, Session, User } from '@/src/types/models';
 
 const defaultUrl = Platform.OS === 'android' ? 'http://10.0.2.2:8080' : 'http://localhost:8080';
 export const API_URL = (process.env.EXPO_PUBLIC_API_URL || defaultUrl).replace(/\/$/, '');
@@ -37,7 +37,7 @@ export const api = {
   myProducts: (page: number, userId: string | number) => request<PageResult<Product>>(`/produto/todosProdutosUsuario?page=${page}`, { headers: { 'Id-Usuario': String(userId) } }),
   user: (id: string | number) => request<User>(`/user/${id}`),
   updateUser: (body: object) => request<void>('/user/alterardados', { method: 'PUT', body: JSON.stringify(body) }),
-  checkout: (body: { id_produtos: number[]; id_comprador: number; valor: number; endereco: Address }) => request<void>('/pedido/cadastro', { method: 'POST', body: JSON.stringify(body) }),
+  checkout: (body: { id_produtos: number[]; id_comprador: number; valor: number; endereco: Address; metodoPagamento: MetodoPagamento }) => request<void>('/pedido/cadastro', { method: 'POST', body: JSON.stringify(body) }),
   history: (type: 'compra' | 'vendas', page: number, userId: string | number) => request<PageResult<Product>>(`/historico/${type}?page=${page}`, { headers: { 'Id-Usuario': String(userId) } }),
   productReviews: (id: string | number, page: number) => request<PageResult<Review>>(`/avaliacoes/produto/${id}?page=${page}`),
   createProductReview: (body: { nota: number; comentario: string; idProduto: number }) => request<void>('/avaliacoes/criar', { method: 'POST', body: JSON.stringify(body) }),

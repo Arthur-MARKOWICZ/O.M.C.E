@@ -1,4 +1,5 @@
 export type Role = 'COMPRADOR' | 'VENDEDOR' | 'MISTO';
+export type MetodoPagamento = 'CARTAO_CREDITO' | 'PIX';
 export type Address = { cep?: string; logradouro?: string; estado?: string; cidade?: string; pais?: string };
 export type Session = { token: string; id: number | string; nome: string; role: Role };
 export type Product = {

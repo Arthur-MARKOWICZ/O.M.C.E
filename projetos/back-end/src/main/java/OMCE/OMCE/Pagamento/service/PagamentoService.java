@@ -1,5 +1,6 @@
 package OMCE.OMCE.Pagamento.service;
 
+import OMCE.OMCE.Execao.AcessoNegado;
 import OMCE.OMCE.Execao.PagamentoNaoEncontrado;
 import OMCE.OMCE.Pagamento.Pagamento;
 import OMCE.OMCE.Pagamento.dto.PagamentoRespostaDTO;
@@ -24,9 +25,12 @@ public class PagamentoService {
         return pagamentoRepository.save(pagamento);
     }
 
-    public PagamentoRespostaDTO buscarPorPedido(Long pedidoId) {
+    public PagamentoRespostaDTO buscarPorPedido(Long pedidoId, Long idUsuario) {
         Pagamento pagamento = pagamentoRepository.findByPedidoId(pedidoId)
                 .orElseThrow(() -> new PagamentoNaoEncontrado("Pagamento não encontrado para o pedido: " + pedidoId));
+        if (!pagamento.getPedido().getCompradorId().equals(idUsuario)) {
+            throw new AcessoNegado("Você não tem permissão para visualizar o pagamento deste pedido.");
+        }
         return toDTO(pagamento);
     }
 

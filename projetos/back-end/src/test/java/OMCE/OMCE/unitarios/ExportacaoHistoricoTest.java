@@ -8,6 +8,7 @@ import OMCE.OMCE.Historico.exportacao.ExportacaoPdfStrategy;
 import OMCE.OMCE.Historico.exportacao.ExportacaoXlsxStrategy;
 import OMCE.OMCE.Historico.exportacao.FormatoExportacao;
 import OMCE.OMCE.Historico.exportacao.dto.ArquivoExportado;
+import OMCE.OMCE.Pagamento.enums.MetodoPagamento;
 import OMCE.OMCE.Pedido.ItemPedido;
 import OMCE.OMCE.Pedido.Pedido;
 import OMCE.OMCE.Pedido.dto.PedidoCadastroDTO;
@@ -82,7 +83,7 @@ class ExportacaoHistoricoTest {
         produto.setUsuario(vendedor);
         produto.setImagem(pngDeTeste());
 
-        Pedido pedido = new Pedido(new PedidoCadastroDTO(new ArrayList<>(List.of(1L)), 3L, 25.5, dadosEndereco));
+        Pedido pedido = new Pedido(new PedidoCadastroDTO(new ArrayList<>(List.of(1L)),3L,25.5,dadosEndereco,MetodoPagamento.CARTAO_CREDITO));
         pedido.setId(99L);
         pedido.setDataPedido(LocalDateTime.of(2025, 1, 15, 10, 30));
 
