@@ -1,6 +1,7 @@
 package OMCE.OMCE.Pedido.service;
 
 import OMCE.OMCE.Execao.ProdutoNaoEncontrado;
+import OMCE.OMCE.Pagamento.service.PagamentoService;
 import OMCE.OMCE.Pedido.ItemPedido;
 import OMCE.OMCE.Pedido.Pedido;
 import OMCE.OMCE.Pedido.dto.PedidoCadastroDTO;
@@ -21,6 +22,8 @@ public class PedidoService {
     private ProdutoRepository produtoRepository;
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
+    @Autowired
+    private PagamentoService pagamentoService;
 
 @Transactional
     public void CadastroCompra(PedidoCadastroDTO dto) {
@@ -33,5 +36,7 @@ public class PedidoService {
             ItemPedido item = new ItemPedido(pedido, produto);
             itemPedidoRepository.save(item);
         }
+
+        pagamentoService.registrarPagamento(pedido, dto.metodoPagamento(), dto.valor());
     }
 }

@@ -35,6 +35,10 @@ public class GlobalExceptionHandler {
     public  ResponseEntity<Object> handleProdutoNaoEncontrado(ProdutoNaoEncontrado ex){
         return  buildResponse(HttpStatus.NOT_FOUND,ex.getMessage());
     }
+    @ExceptionHandler(PagamentoNaoEncontrado.class)
+    public  ResponseEntity<Object> handlePagamentoNaoEncontrado(PagamentoNaoEncontrado ex){
+        return  buildResponse(HttpStatus.NOT_FOUND,ex.getMessage());
+    }
     @ExceptionHandler(SenhaDiferenteDaOriginal.class)
     public  ResponseEntity<Object> handleSenhaDiferenteDaOriginal(SenhaDiferenteDaOriginal ex){
         return  buildResponse(HttpStatus.CONFLICT,ex.getMessage());
