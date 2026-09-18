@@ -14,7 +14,7 @@ public interface AvaliacaoProdutoRepositorio
         extends JpaRepository<AvaliacaoProduto, Long> {
 
     Page<AvaliacaoProduto> findByProdutoId(
-            Long id_produto,
+            Long idProduto,
             Pageable pageable);
 
     @Query("""
@@ -25,4 +25,3 @@ public interface AvaliacaoProdutoRepositorio
     List<Integer> buscarTodasNotas(
             @Param("idProduto") Long idProduto);
 }
-

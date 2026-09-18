@@ -17,7 +17,9 @@ import java.util.List;
 
 @Service
 public class AvaliacaoProdutoServico
-        extends AvaliacaoTemplateService<AvaliacaoProdutoDTO, AvaliacaoProduto> {
+        extends AvaliacaoTemplateService<
+                AvaliacaoProdutoDTO,
+                AvaliacaoProduto> {
 
     @Autowired
     private AvaliacaoProdutoRepositorio repository;
@@ -52,7 +54,8 @@ public class AvaliacaoProdutoServico
     }
 
     @Override
-    protected List<Integer> buscarNotas(Long idProduto) {
+    protected List<Integer> buscarNotas(
+            Long idProduto) {
 
         return repository.buscarTodasNotas(idProduto);
     }
@@ -62,7 +65,9 @@ public class AvaliacaoProdutoServico
             Pageable pageable) {
 
         Page<AvaliacaoProduto> avaliacoes =
-                repository.findByProdutoId(idProduto, pageable);
+                repository.findByProdutoId(
+                        idProduto,
+                        pageable);
 
         return avaliacoes.map(
                 AvaliacaoProdutoRespostaDTO::new

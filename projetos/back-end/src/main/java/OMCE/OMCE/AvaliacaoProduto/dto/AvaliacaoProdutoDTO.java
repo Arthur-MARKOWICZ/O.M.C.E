@@ -9,7 +9,11 @@ public class AvaliacaoProdutoDTO {
     public AvaliacaoProdutoDTO() {
     }
 
-    public AvaliacaoProdutoDTO(int nota, String comentario, Long idProduto) {
+    public AvaliacaoProdutoDTO(
+            int nota,
+            String comentario,
+            Long idProduto) {
+
         this.nota = nota;
         this.comentario = comentario;
         this.idProduto = idProduto;

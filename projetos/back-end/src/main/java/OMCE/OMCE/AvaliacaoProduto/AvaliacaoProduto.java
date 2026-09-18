@@ -25,12 +25,12 @@ public class AvaliacaoProduto {
 
     private LocalDateTime data = LocalDateTime.now();
 
+    public AvaliacaoProduto() {
+    }
+
     public AvaliacaoProduto(AvaliacaoProdutoDTO dto) {
         this.nota = dto.getNota();
         this.comentario = dto.getComentario();
-    }
-
-    public AvaliacaoProduto() {
     }
 
     public Long getId() {
