@@ -2,16 +2,13 @@ package OMCE.OMCE.AvaliacaoProduto;
 
 import OMCE.OMCE.AvaliacaoProduto.dto.AvaliacaoProdutoDTO;
 import OMCE.OMCE.Produto.Produto;
+
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@NoArgsConstructor
 @Entity
+@Table(name = "avaliacao_produto")
 public class AvaliacaoProduto {
 
     @Id
@@ -22,16 +19,57 @@ public class AvaliacaoProduto {
 
     private String comentario;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "produto_id")
     private Produto produto;
 
-    @Column(name = "criado_em")
-    private LocalDateTime dataCriacao = LocalDateTime.now();
-    public AvaliacaoProduto(AvaliacaoProdutoDTO dto, Produto produto){
+    private LocalDateTime data = LocalDateTime.now();
+
+    public AvaliacaoProduto(AvaliacaoProdutoDTO dto) {
         this.nota = dto.getNota();
         this.comentario = dto.getComentario();
+    }
+
+    public AvaliacaoProduto() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getNota() {
+        return nota;
+    }
+
+    public void setNota(int nota) {
+        this.nota = nota;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
         this.produto = produto;
     }
-}
 
+    public LocalDateTime getData() {
+        return data;
+    }
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
+    }
+}
