@@ -3,6 +3,7 @@ package OMCE.OMCE.AvaliacaoProduto.service;
 import OMCE.OMCE.Avaliacao.service.AvaliacaoTemplateService;
 import OMCE.OMCE.AvaliacaoProduto.AvaliacaoProduto;
 import OMCE.OMCE.AvaliacaoProduto.dto.AvaliacaoProdutoDTO;
+import OMCE.OMCE.AvaliacaoProduto.dto.AvaliacaoProdutoRespostaDTO;
 import OMCE.OMCE.AvaliacaoProduto.repository.AvaliacaoProdutoRepositorio;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.repository.ProdutoRepository;
@@ -56,10 +57,15 @@ public class AvaliacaoProdutoServico
         return repository.buscarTodasNotas(idProduto);
     }
 
-    public Page<AvaliacaoProduto> pegarAvaliacao(
-            Pageable pageable,
-            Long id) {
+    public Page<AvaliacaoProdutoRespostaDTO> listarPorProduto(
+            Long idProduto,
+            Pageable pageable) {
 
-        return repository.findByProdutoId(id, pageable);
+        Page<AvaliacaoProduto> avaliacoes =
+                repository.findByProdutoId(idProduto, pageable);
+
+        return avaliacoes.map(
+                AvaliacaoProdutoRespostaDTO::new
+        );
     }
 }
