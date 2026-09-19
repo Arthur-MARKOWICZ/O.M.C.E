@@ -8,7 +8,9 @@ import OMCE.OMCE.Historico.exportacao.ExportacaoPdfStrategy;
 import OMCE.OMCE.Historico.exportacao.ExportacaoXlsxStrategy;
 import OMCE.OMCE.Historico.exportacao.FormatoExportacao;
 import OMCE.OMCE.Historico.exportacao.dto.ArquivoExportado;
+import OMCE.OMCE.Pagamento.Pagamento;
 import OMCE.OMCE.Pagamento.enums.MetodoPagamento;
+import OMCE.OMCE.Pagamento.repository.PagamentoRepository;
 import OMCE.OMCE.Pedido.ItemPedido;
 import OMCE.OMCE.Pedido.Pedido;
 import OMCE.OMCE.Pedido.dto.PedidoCadastroDTO;
@@ -58,6 +60,8 @@ class ExportacaoHistoricoTest {
 
     @Mock
     private ItemPedidoRepository itemPedidoRepository;
+    @Mock
+    private PagamentoRepository pagamentoRepository;
 
     private ExportacaoCsvStrategy csv;
     private ExportacaoXlsxStrategy xlsx;
@@ -66,9 +70,9 @@ class ExportacaoHistoricoTest {
 
     @BeforeEach
     void setup() throws Exception {
-        csv = new ExportacaoCsvStrategy(itemPedidoRepository);
-        xlsx = new ExportacaoXlsxStrategy(itemPedidoRepository);
-        pdf = new ExportacaoPdfStrategy(itemPedidoRepository);
+        csv = new ExportacaoCsvStrategy(itemPedidoRepository, pagamentoRepository);
+        xlsx = new ExportacaoXlsxStrategy(itemPedidoRepository, pagamentoRepository);
+        pdf = new ExportacaoPdfStrategy(itemPedidoRepository, pagamentoRepository);
 
         DadosEndereco dadosEndereco = new DadosEndereco("8123434", "brasil", "test", "test", "Rua test");
         User vendedor = new User(new DadosCadastroUser(
@@ -83,14 +87,17 @@ class ExportacaoHistoricoTest {
         produto.setUsuario(vendedor);
         produto.setImagem(pngDeTeste());
 
-        Pedido pedido = new Pedido(new PedidoCadastroDTO(new ArrayList<>(List.of(1L)),3L,25.5,dadosEndereco,MetodoPagamento.CARTAO_CREDITO));
+        Pedido pedido = new Pedido(new PedidoCadastroDTO(new ArrayList<>(List.of(1L)), 3L, 25.5, dadosEndereco, MetodoPagamento.PIX));
         pedido.setId(99L);
         pedido.setDataPedido(LocalDateTime.of(2025, 1, 15, 10, 30));
 
         item = new ItemPedido(pedido, produto);
 
+        Pagamento pagamento = new Pagamento(pedido, MetodoPagamento.PIX, 25.5);
+
         lenient().when(itemPedidoRepository.pegarComprasNoPeriodo(eq(3L), any(), any()))
                 .thenReturn(List.of(item));
+        lenient().when(pagamentoRepository.findByPedidoIdIn(any())).thenReturn(List.of(pagamento));
     }
 
     private byte[] pngDeTeste() throws Exception {
@@ -128,10 +135,11 @@ class ExportacaoHistoricoTest {
         ArquivoExportado arquivo = csv.exportar(3L, INICIO, FIM);
         String conteudo = new String(arquivo.conteudo(), StandardCharsets.UTF_8);
 
-        assertTrue(conteudo.contains("Pedido;Data;Produto"));
+        assertTrue(conteudo.contains("Pedido;Data;Meio de pagamento;Produto"));
         assertTrue(conteudo.contains("Sensor de teste"));
         assertTrue(conteudo.contains("vendedor teste"));
         assertTrue(conteudo.contains("15/01/2025 10:30"));
+        assertTrue(conteudo.contains("Pix"));
         assertTrue(conteudo.contains("Total geral;25,50"));
         assertEquals("historico-compras_2025-01-01_a_2025-01-31.csv", arquivo.nomeArquivo());
     }
@@ -154,9 +162,10 @@ class ExportacaoHistoricoTest {
             assertEquals("Pedido", planilha.getRow(0).getCell(0).getStringCellValue());
             Row primeira = planilha.getRow(1);
             assertEquals(99d, primeira.getCell(0).getNumericCellValue());
-            assertEquals("Sensor de teste", primeira.getCell(2).getStringCellValue());
+            assertEquals("Pix", primeira.getCell(2).getStringCellValue());
+            assertEquals("Sensor de teste", primeira.getCell(3).getStringCellValue());
             assertEquals(25.5, primeira.getCell(8).getNumericCellValue());
-            assertEquals("Total geral", planilha.getRow(2).getCell(7).getStringCellValue());
+            assertEquals("Total geral", planilha.getRow(2).getCell(8).getStringCellValue());
         }
         assertEquals("historico-compras_2025-01-01_a_2025-01-31.xlsx", arquivo.nomeArquivo());
     }
@@ -192,7 +201,7 @@ class ExportacaoHistoricoTest {
 
         String conteudo = new String(csv.exportar(4L, INICIO, FIM).conteudo(), StandardCharsets.UTF_8);
 
-        assertTrue(conteudo.contains("Pedido;Data;Produto"));
+        assertTrue(conteudo.contains("Pedido;Data;Meio de pagamento;Produto"));
         assertTrue(conteudo.contains("Total geral;0,00"));
     }
 

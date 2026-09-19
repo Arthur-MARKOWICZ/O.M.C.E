@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import OMCE.OMCE.User.dto.DadosAdminUser;
-import OMCE.OMCE.Produto.dto.DadosAdminProduto;
+import OMCE.OMCE.User.dto.DadosAdminProduto;
 
 import java.util.List;
 

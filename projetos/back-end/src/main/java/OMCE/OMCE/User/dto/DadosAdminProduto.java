@@ -1,4 +1,4 @@
-package OMCE.OMCE.Produto.dto;
+package OMCE.OMCE.User.dto;
 
 import OMCE.OMCE.Produto.enums.Categoria;
 
