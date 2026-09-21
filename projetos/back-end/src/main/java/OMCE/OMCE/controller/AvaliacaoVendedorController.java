@@ -3,7 +3,6 @@ package OMCE.OMCE.controller;
 import OMCE.OMCE.AvaliacaoVendedor.dto.AvaliacaoVendedorDTO;
 import OMCE.OMCE.AvaliacaoVendedor.dto.AvaliacaoVendedorRespostaDTO;
 import OMCE.OMCE.AvaliacaoVendedor.service.AvaliacaoVendorService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,32 +17,19 @@ public class AvaliacaoVendedorController {
     private AvaliacaoVendorService service;
 
     @PostMapping("/cadastro")
-    public ResponseEntity<Void> cadastro(
-            @RequestBody AvaliacaoVendedorDTO dto) {
-
+    public ResponseEntity<Void> cadastro(@RequestBody AvaliacaoVendedorDTO dto){
         service.criar(dto);
-
         return ResponseEntity.ok().build();
     }
-
     @GetMapping("/media/{id}")
-    public ResponseEntity<Double> pegarMedia(
-            @PathVariable Long id) {
-
-        double media = service.calcularMedia(id);
-
+    public  ResponseEntity<Double> pegarMedia(@PathVariable Long id){
+        double media=  service.mediaAvaliacao(id);
         return ResponseEntity.ok(media);
     }
-
     @GetMapping("/{id}")
-    public ResponseEntity<Page<AvaliacaoVendedorRespostaDTO>>
-    pegarAvaliacoes(
-            @PathVariable Long id,
-            Pageable pageable) {
-
-        Page<AvaliacaoVendedorRespostaDTO> avaliacoes =
-                service.pegarAvaliaca(pageable, id);
-
+    public  ResponseEntity<Page<AvaliacaoVendedorRespostaDTO>> pegarAvaliacoes(@PathVariable Long id, Pageable pageable){
+        Page<AvaliacaoVendedorRespostaDTO> avaliacoes = service.pegarAvaliaca(pageable,id);
         return ResponseEntity.ok(avaliacoes);
     }
+
 }

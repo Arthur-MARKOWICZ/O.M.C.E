@@ -1,15 +1,16 @@
 package OMCE.OMCE.controller;
 
 import OMCE.OMCE.AvaliacaoProduto.dto.AvaliacaoProdutoDTO;
-import OMCE.OMCE.AvaliacaoProduto.dto.AvaliacaoProdutoRespostaDTO;
+import OMCE.OMCE.AvaliacaoProduto.AvaliacaoProduto;
 import OMCE.OMCE.AvaliacaoProduto.service.AvaliacaoProdutoServico;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequestMapping("/avaliacoes")
@@ -19,49 +20,42 @@ public class AvaliacaoProdutoController {
     private AvaliacaoProdutoServico servico;
 
     @PostMapping("/criar")
-    public ResponseEntity<Void> criar(
-            @RequestBody AvaliacaoProdutoDTO dto) {
-
+    public ResponseEntity<Void> criar(@RequestBody AvaliacaoProdutoDTO dto) {
         servico.criar(dto);
-
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/produto/{idProduto}")
-    public ResponseEntity<Page<AvaliacaoProdutoRespostaDTO>>
-    listarPorProduto(
-            @PathVariable Long idProduto,
-            Pageable pageable) {
-
-        return ResponseEntity.ok(
-                servico.listarPorProduto(
-                        idProduto,
-                        pageable)
-        );
+    public ResponseEntity<Page<AvaliacaoProduto>> listarPorProduto(@PathVariable Long idProduto,Pageable pageable) {
+        var avaliacoes = servico.listarPorProduto(idProduto,pageable);
+        System.out.println(avaliacoes);
+        return ResponseEntity.ok(avaliacoes);
     }
 
     @GetMapping("/produto/{idProduto}/media")
-    public ResponseEntity<Double> mediaNotas(
-            @PathVariable Long idProduto) {
-
-        return ResponseEntity.ok(
-                servico.calcularMedia(idProduto)
-        );
+    public ResponseEntity<Double> mediaNotas(@PathVariable Long idProduto) {
+        return ResponseEntity.ok(servico.mediaNotas(idProduto));
     }
 
+    
     @GetMapping("/produto/{idProduto}/pagina")
-    public ResponseEntity<Page<AvaliacaoProdutoRespostaDTO>>
-    listarPorProdutoPaginado(
-            @PathVariable Long idProduto,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<Page<AvaliacaoProdutoDTO>> listarPorProdutoPaginado(
+        @PathVariable Long idProduto,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size) {
 
         Pageable pageable = PageRequest.of(page, size);
+        Page<AvaliacaoProduto> avaliacoesPage = servico.listarPorProduto(idProduto, pageable);
 
-        return ResponseEntity.ok(
-                servico.listarPorProduto(
-                        idProduto,
-                        pageable)
-        );
+        Page<AvaliacaoProdutoDTO> dtoPage = avaliacoesPage.map(av -> new AvaliacaoProdutoDTO(
+            av.getNota(),
+            av.getComentario(),
+            av.getProduto().getId()
+        ));
+
+        return ResponseEntity.ok(dtoPage);
     }
 }
+
+
+
