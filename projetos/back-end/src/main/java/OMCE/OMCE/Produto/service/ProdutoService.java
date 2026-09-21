@@ -129,6 +129,11 @@ public class ProdutoService {
         json.put("detalhes", produto.getDetalhes());
         json.put("nome_do_usuario", usuario.getNome());
         json.put("id_vendedor", usuario.getId());
+        json.put("modelo", produto.getModelo());
+        json.put("voltagem", produto.getVoltagem());
+        json.put("carga", produto.getCarga());
+        json.put("comprimento", produto.getComprimento());
+        json.put("tipo", produto.getTipo());
 
         return json;
     }
