@@ -1,6 +1,8 @@
 package OMCE.OMCE.unitarios;
 
 import OMCE.OMCE.Enderco.DadosEndereco;
+import OMCE.OMCE.Pagamento.enums.MetodoPagamento;
+import OMCE.OMCE.Pagamento.service.PagamentoService;
 import OMCE.OMCE.Pedido.ItemPedido;
 import OMCE.OMCE.Pedido.Pedido;
 import OMCE.OMCE.Pedido.dto.PedidoCadastroDTO;
@@ -33,6 +35,9 @@ public class PedidoServiceTest {
     @Mock
     private ItemPedidoRepository itemPedidoRepository;
 
+    @Mock
+    private PagamentoService pagamentoService;
+
     @Test
     public void DeveCadastrarPedidoComTodosOsDadosCorretos() {
         ArrayList<Long> idsProdutos = new ArrayList<>();
@@ -51,7 +56,8 @@ public class PedidoServiceTest {
                 idsProdutos,
                 10L,
                 250.75,
-                endereco
+                endereco,
+                MetodoPagamento.PIX
         );
 
         Pedido pedidoSalvo = new Pedido(dto);
@@ -68,5 +74,7 @@ public class PedidoServiceTest {
         verify(produtoRepository, times(2)).produtoVendido(any(Long.class));
 
         verify(itemPedidoRepository, times(2)).save(any(ItemPedido.class));
+
+        verify(pagamentoService, times(1)).registrarPagamento(pedidoSalvo, MetodoPagamento.PIX, 250.75);
     }
 }

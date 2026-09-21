@@ -2,6 +2,7 @@ package OMCE.OMCE.Historico.exportacao;
 
 import OMCE.OMCE.Historico.exportacao.dto.LinhaHistoricoDTO;
 import OMCE.OMCE.Historico.exportacao.dto.PeriodoExportacao;
+import OMCE.OMCE.Pagamento.repository.PagamentoRepository;
 import OMCE.OMCE.Pedido.repository.ItemPedidoRepository;
 import org.springframework.stereotype.Component;
 
@@ -16,18 +17,19 @@ public class ExportacaoCsvStrategy extends ExportacaoHistoricoBase {
     private static final String SEPARADOR = ";";
     private static final String BOM = "﻿";
 
-    public ExportacaoCsvStrategy(ItemPedidoRepository itemPedidoRepository) {
-        super(itemPedidoRepository);
+    public ExportacaoCsvStrategy(ItemPedidoRepository itemPedidoRepository, PagamentoRepository pagamentoRepository) {
+        super(itemPedidoRepository, pagamentoRepository);
     }
 
     @Override
     protected byte[] gerar(List<LinhaHistoricoDTO> linhas, PeriodoExportacao periodo) {
         StringBuilder csv = new StringBuilder(BOM);
-        linha(csv, "Pedido", "Data", "Produto", "Vendedor", "Categoria", "Condição", "Qtd", "Preço unitário", "Total");
+        linha(csv, "Pedido", "Data", "Meio de pagamento", "Produto", "Vendedor", "Categoria", "Condição", "Qtd", "Preço unitário", "Total");
         for (LinhaHistoricoDTO item : linhas) {
             linha(csv,
                     String.valueOf(item.pedidoId()),
                     item.dataCompra() != null ? item.dataCompra().format(DATA_HORA_BR) : "",
+                    item.metodoPagamento(),
                     item.produto(),
                     item.vendedor(),
                     item.categoria(),
@@ -36,7 +38,7 @@ public class ExportacaoCsvStrategy extends ExportacaoHistoricoBase {
                     numero(item.precoUnitario()),
                     numero(item.total()));
         }
-        linha(csv, "", "", "", "", "", "", "", "Total geral", numero(totalGeral(linhas)));
+        linha(csv, "", "", "", "", "", "", "", "", "Total geral", numero(totalGeral(linhas)));
         return csv.toString().getBytes(StandardCharsets.UTF_8);
     }
 
