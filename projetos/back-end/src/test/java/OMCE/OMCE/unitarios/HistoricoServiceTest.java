@@ -8,6 +8,7 @@ import OMCE.OMCE.Pedido.repository.PedidoRepository;
 import OMCE.OMCE.Pedido.service.PedidoService;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.dto.DadosCadastroProduto;
+import OMCE.OMCE.utils.ProdutoTestFactory;
 import OMCE.OMCE.Produto.dto.ProdutoRespostaDTO;
 import OMCE.OMCE.Produto.repository.ProdutoRepository;
 import OMCE.OMCE.Produto.service.ProdutoService;
@@ -76,12 +77,13 @@ class HistoricoServiceTest {
         usuarioCadastro.setId(1L);
 
 
-        DadosCadastroProduto dadosProduto = new DadosCadastroProduto(
+        DadosCadastroProduto dadosProduto = ProdutoTestFactory.dados(
                 "test", 10, "test", 1L, "10", "10", ESP32, USADO
         );
 
-        produtoCadastro = new Produto(dadosProduto);
+        produtoCadastro = ProdutoTestFactory.produto(dadosProduto);
         produtoCadastro.setId(1L);
+        produtoCadastro.setUsuario(usuarioCadastro);
         Page<Produto> pageVendas = new PageImpl<>(List.of(produtoCadastro));
         lenient().when(produtoRepository.pegarVendas(1L, Pageable.unpaged())).thenReturn(pageVendas);
         Page<Produto> pageCompras = new PageImpl<>(List.of(produtoCadastro));

@@ -2,6 +2,7 @@ package OMCE.OMCE.unitarios;
 
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.dto.DadosCadastroProduto;
+import OMCE.OMCE.utils.ProdutoTestFactory;
 import OMCE.OMCE.Produto.repository.ProdutoRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,11 +33,11 @@ public class ProdutoRepositoryTest {
     @DisplayName("deve pegar os produtos pelo id")
     void PegarProdutoPeloId() {
         // Arrange
-        DadosCadastroProduto dados = new DadosCadastroProduto(
+        DadosCadastroProduto dados = ProdutoTestFactory.dados(
                 "test", 10, "test", 1L,
                 "10", "10", ESP32, USADO
         );
-        Produto produto = new Produto(dados);
+        Produto produto = ProdutoTestFactory.produto(dados);
         produto.setId(1L);
         when(repository.findById(1L)).thenReturn(Optional.of(produto));
         // Act
@@ -51,11 +52,11 @@ public class ProdutoRepositoryTest {
     void DeveObterDetalhesProdutoPeloId() {
         String imagemBase64 = "dGVzdA==";
         String imagemTipo = "image/png";
-        DadosCadastroProduto dados = new DadosCadastroProduto(
+        DadosCadastroProduto dados = ProdutoTestFactory.dados(
                 "test", 10.0, "test", 1L,
                 imagemBase64, imagemTipo, ESP32, USADO
         );
-        Produto produto = new Produto(dados);
+        Produto produto = ProdutoTestFactory.produto(dados);
         produto.setId(1L);
         when(repository.findById(1L)).thenReturn(Optional.of(produto));
         Optional<Produto> result = repository.findById(1L);
@@ -69,11 +70,11 @@ public class ProdutoRepositoryTest {
     void PegarProdutosPorUsuario() {
         // Arrange
         Pageable pageable = PageRequest.of(0, 10);
-        DadosCadastroProduto dados = new DadosCadastroProduto(
+        DadosCadastroProduto dados = ProdutoTestFactory.dados(
                 "test", 10, "test", 1L,
                 "10", "10", ESP32, USADO
         );
-        Produto produto = new Produto(dados);
+        Produto produto = ProdutoTestFactory.produto(dados);
         produto.setId(1L);
         Page<Produto> produtoPage = new PageImpl<>(List.of(produto));
         when(repository.pegarProdutosUsuario(1L, pageable)).thenReturn(produtoPage);
@@ -89,11 +90,11 @@ public class ProdutoRepositoryTest {
     @DisplayName("Deve aplicar o filtro de nome do produto")
     void DeveAplicarFiltroNomeProduto() {
         Pageable pageable = PageRequest.of(0, 10);
-        DadosCadastroProduto dados = new DadosCadastroProduto(
+        DadosCadastroProduto dados = ProdutoTestFactory.dados(
                 "Test Product Name", 100.0, "Detalhes do produto", 1L,
                 "dGVzdA==", "image/png", ESP32, USADO
         );
-        Produto produto = new Produto(dados);
+        Produto produto = ProdutoTestFactory.produto(dados);
         produto.setId(1L);
         produto.setVendido(false);
         Page<Produto> produtoPage = new PageImpl<>(List.of(produto));

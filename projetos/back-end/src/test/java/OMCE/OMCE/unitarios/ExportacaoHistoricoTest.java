@@ -17,6 +17,7 @@ import OMCE.OMCE.Pedido.dto.PedidoCadastroDTO;
 import OMCE.OMCE.Pedido.repository.ItemPedidoRepository;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.dto.DadosCadastroProduto;
+import OMCE.OMCE.utils.ProdutoTestFactory;
 import OMCE.OMCE.User.User;
 import OMCE.OMCE.User.dto.DadosCadastroUser;
 import org.apache.poi.ss.usermodel.Row;
@@ -80,7 +81,7 @@ class ExportacaoHistoricoTest {
                 dadosEndereco, "test@gmail.com", "1231313139", "testUser", "test"));
         vendedor.setId(7L);
 
-        Produto produto = new Produto(new DadosCadastroProduto(
+        Produto produto = ProdutoTestFactory.produto(ProdutoTestFactory.dados(
                 "Sensor de teste", 10, "test", 7L, "10", "image/png", ESP32, USADO));
         produto.setId(1L);
         produto.setPreco(25.5);
