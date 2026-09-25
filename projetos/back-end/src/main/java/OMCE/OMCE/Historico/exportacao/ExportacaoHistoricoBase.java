@@ -4,12 +4,18 @@ import OMCE.OMCE.Execao.PeriodoInvalido;
 import OMCE.OMCE.Historico.exportacao.dto.ArquivoExportado;
 import OMCE.OMCE.Historico.exportacao.dto.LinhaHistoricoDTO;
 import OMCE.OMCE.Historico.exportacao.dto.PeriodoExportacao;
+import OMCE.OMCE.Pagamento.Pagamento;
+import OMCE.OMCE.Pagamento.repository.PagamentoRepository;
+import OMCE.OMCE.Pedido.ItemPedido;
 import OMCE.OMCE.Pedido.repository.ItemPedidoRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Classe base das estrategias de exportacao. Concentra o filtro de data da compra
@@ -23,9 +29,11 @@ public abstract class ExportacaoHistoricoBase implements ExportacaoStrategy {
     private static final DateTimeFormatter DATA_ARQUIVO = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     private final ItemPedidoRepository itemPedidoRepository;
+    private final PagamentoRepository pagamentoRepository;
 
-    protected ExportacaoHistoricoBase(ItemPedidoRepository itemPedidoRepository) {
+    protected ExportacaoHistoricoBase(ItemPedidoRepository itemPedidoRepository, PagamentoRepository pagamentoRepository) {
         this.itemPedidoRepository = itemPedidoRepository;
+        this.pagamentoRepository = pagamentoRepository;
     }
 
     @Override
@@ -47,9 +55,17 @@ public abstract class ExportacaoHistoricoBase implements ExportacaoStrategy {
     }
 
     protected List<LinhaHistoricoDTO> buscarCompras(Long compradorId, PeriodoExportacao periodo) {
-        return itemPedidoRepository.pegarComprasNoPeriodo(compradorId, periodo.inicio(), periodo.fim())
-                .stream()
-                .map(LinhaHistoricoDTO::new)
+        List<ItemPedido> itens = itemPedidoRepository.pegarComprasNoPeriodo(compradorId, periodo.inicio(), periodo.fim());
+
+        List<Long> pedidoIds = itens.stream().map(item -> item.getPedido().getId()).distinct().toList();
+        Map<Long, String> metodoPorPedido = pagamentoRepository.findByPedidoIdIn(pedidoIds).stream()
+                .collect(Collectors.toMap(
+                        pagamento -> pagamento.getPedido().getId(),
+                        pagamento -> pagamento.getMetodoPagamento().getDescricao(),
+                        (primeiro, segundo) -> primeiro));
+
+        return itens.stream()
+                .map(item -> new LinhaHistoricoDTO(item, metodoPorPedido.getOrDefault(item.getPedido().getId(), "")))
                 .toList();
     }
 

@@ -2,6 +2,7 @@ package OMCE.OMCE.Historico.exportacao;
 
 import OMCE.OMCE.Historico.exportacao.dto.LinhaHistoricoDTO;
 import OMCE.OMCE.Historico.exportacao.dto.PeriodoExportacao;
+import OMCE.OMCE.Pagamento.repository.PagamentoRepository;
 import OMCE.OMCE.Pedido.repository.ItemPedidoRepository;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -27,8 +28,8 @@ import java.util.Locale;
 public class ExportacaoPdfStrategy extends ExportacaoHistoricoBase {
 
     private static final String[] COLUNAS =
-            {"Imagem", "Pedido", "Data", "Produto", "Vendedor", "Categoria", "Condição", "Qtd", "Preço unitário", "Total"};
-    private static final float[] LARGURAS = {1.1f, 0.8f, 1.5f, 2.6f, 1.7f, 1.3f, 1f, 0.6f, 1.3f, 1.2f};
+            {"Imagem", "Pedido", "Data", "Meio de pagamento", "Produto", "Vendedor", "Categoria", "Condição", "Qtd", "Preço unitário", "Total"};
+    private static final float[] LARGURAS = {1.1f, 0.8f, 1.5f, 1.3f, 2.6f, 1.7f, 1.3f, 1f, 0.6f, 1.3f, 1.2f};
     private static final float TAMANHO_IMAGEM = 55f;
 
     private static final Font FONTE_TITULO = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16);
@@ -37,8 +38,8 @@ public class ExportacaoPdfStrategy extends ExportacaoHistoricoBase {
     private static final Font FONTE_CELULA = FontFactory.getFont(FontFactory.HELVETICA, 8);
     private static final Font FONTE_VAZIA = FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 7, Color.GRAY);
 
-    public ExportacaoPdfStrategy(ItemPedidoRepository itemPedidoRepository) {
-        super(itemPedidoRepository);
+    public ExportacaoPdfStrategy(ItemPedidoRepository itemPedidoRepository, PagamentoRepository pagamentoRepository) {
+        super(itemPedidoRepository, pagamentoRepository);
     }
 
     @Override
@@ -68,6 +69,7 @@ public class ExportacaoPdfStrategy extends ExportacaoHistoricoBase {
                 tabela.addCell(celulaImagem(item));
                 tabela.addCell(celulaTexto(String.valueOf(item.pedidoId())));
                 tabela.addCell(celulaTexto(item.dataCompra() != null ? item.dataCompra().format(DATA_HORA_BR) : ""));
+                tabela.addCell(celulaTexto(item.metodoPagamento()));
                 tabela.addCell(celulaTexto(item.produto()));
                 tabela.addCell(celulaTexto(item.vendedor()));
                 tabela.addCell(celulaTexto(item.categoria()));

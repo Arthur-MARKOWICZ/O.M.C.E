@@ -4,8 +4,18 @@ import OMCE.OMCE.Enderco.DadosEndereco;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.dto.DadosAlterarDadosProduto;
 import OMCE.OMCE.Produto.dto.DadosCadastroProduto;
+import OMCE.OMCE.utils.ProdutoTestFactory;
 import OMCE.OMCE.Produto.repository.ProdutoRepository;
 import OMCE.OMCE.Produto.service.ProdutoService;
+import OMCE.OMCE.Produto.service.template.CadastroArduino;
+import OMCE.OMCE.Produto.service.template.CadastroBateria;
+import OMCE.OMCE.Produto.service.template.CadastroCabo;
+import OMCE.OMCE.Produto.service.template.CadastroConector;
+import OMCE.OMCE.Produto.service.template.CadastroESP32;
+import OMCE.OMCE.Produto.service.template.CadastroMotor;
+import OMCE.OMCE.Produto.service.template.CadastroOutro;
+import OMCE.OMCE.Produto.service.template.CadastroResistor;
+import OMCE.OMCE.Produto.service.template.CadastroSensor;
 import OMCE.OMCE.User.Service.UserService;
 import OMCE.OMCE.User.User;
 import OMCE.OMCE.User.dto.DadosCadastroUser;
@@ -15,11 +25,11 @@ import OMCE.OMCE.Validacao.ValidacaoUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static OMCE.OMCE.Produto.enums.Categoria.ESP32;
 import static OMCE.OMCE.Produto.enums.Condicao.USADO;
@@ -30,7 +40,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ProdutoServiceTest {
-    @InjectMocks
     private ProdutoService service;
     @Mock
     private ProdutoRepository repository;
@@ -53,13 +62,27 @@ public class ProdutoServiceTest {
         usuarioCadastro = new User(dadosCadastroUser);
         usuarioCadastro.setId(1L);
 
+        // os cadastros por categoria sao reais: quem valida e salva continua sendo o Template Method
+        service = new ProdutoService(
+                repository,
+                userService,
+                new CadastroESP32(repository, userService, validacao),
+                new CadastroArduino(repository, userService, validacao),
+                new CadastroResistor(repository, userService, validacao),
+                new CadastroSensor(repository, userService, validacao),
+                new CadastroBateria(repository, userService, validacao),
+                new CadastroCabo(repository, userService, validacao),
+                new CadastroMotor(repository, userService, validacao),
+                new CadastroConector(repository, userService, validacao),
+                new CadastroOutro(repository, userService, validacao)
+        );
     }
     @Test
     public void DeveCadastrarProduto(){
         when(userService.pegarUserPorId(1L)).thenReturn(usuarioCadastro);
-        DadosCadastroProduto dados = new DadosCadastroProduto("test",10,"test",1l,
+        DadosCadastroProduto dados = ProdutoTestFactory.dados("test",10,"test",1l,
                 "10", "10",ESP32,USADO);
-        Produto produto = new Produto(dados);
+        Produto produto = ProdutoTestFactory.produto(dados);
         when(repository.save(any(Produto.class))).thenReturn(produto);
         Produto produtoCadastro = service.cadastro(dados);
         assertEquals("test", produtoCadastro.getNome());
@@ -67,9 +90,9 @@ public class ProdutoServiceTest {
     }
     @Test
     public void DeveCadastrarProdutoComPrecoNegativo(){
-        DadosCadastroProduto dados = new DadosCadastroProduto("test",-1,"test",1l,
+        DadosCadastroProduto dados = ProdutoTestFactory.dados("test",-1,"test",1l,
                 "10", "10",ESP32,USADO);
-        Produto produto = new Produto(dados);
+        Produto produto = ProdutoTestFactory.produto(dados);
         doThrow(new RuntimeException("O produto esta com um preco invalido"))
                 .when(validacao).ValidarCadastroProduto(dados);
         assertThrows(RuntimeException.class,
@@ -78,17 +101,21 @@ public class ProdutoServiceTest {
     @Test
     public  void DeveAlterarONomeDoProduto(){
         when(userService.pegarUserPorId(1L)).thenReturn(usuarioCadastro);
-        DadosCadastroProduto dados = new DadosCadastroProduto("test",10,"test",1l,
+        DadosCadastroProduto dados = ProdutoTestFactory.dados("test",10,"test",1l,
                 "10", "10",ESP32,USADO);
-        Produto produto = new Produto(dados);
+        Produto produto = ProdutoTestFactory.produto(dados);
         produto.setId(1L);
+        AtomicReference<Produto> produtoSalvo = new AtomicReference<>();
+
         when(repository.save(any(Produto.class))).thenAnswer(invocation -> {
             Produto p = invocation.getArgument(0);
             p.setId(1L);
-
-            when(repository.getReferenceById(1L)).thenReturn(p);
+            produtoSalvo.set(p);
             return p;
         });
+
+        when(repository.findById(1L))
+                .thenAnswer(invocation -> Optional.ofNullable(produtoSalvo.get()));
 
         Produto produtoCadastro = service.cadastro(dados);
 
@@ -104,9 +131,9 @@ public class ProdutoServiceTest {
     @Test
     void DeveDeletarProduto(){
         when(userService.pegarUserPorId(1L)).thenReturn(usuarioCadastro);
-        DadosCadastroProduto dados = new DadosCadastroProduto("test", 10, "test", 1L,
+        DadosCadastroProduto dados = ProdutoTestFactory.dados("test", 10, "test", 1L,
                 "10", "10", ESP32, USADO);
-        Produto produto = new Produto(dados);
+        Produto produto = ProdutoTestFactory.produto(dados);
         produto.setId(1L);
         when(repository.save(any(Produto.class))).thenReturn(produto);
         when(repository.findById(1L)).thenReturn(Optional.of(produto));

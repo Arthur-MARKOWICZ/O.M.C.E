@@ -8,13 +8,14 @@ import java.time.LocalDateTime;
 /**
  * Uma linha do relatorio. A quantidade e fixa em 1 porque o PedidoService grava
  * um ItemPedido por produto, e o preco unitario e lido do produto (nao ha snapshot
- * de preco no momento da compra).
+ * de preco no momento da compra). O meio de pagamento vem do Pagamento associado ao
+ * pedido (buscado em lote pelo ExportacaoHistoricoBase para evitar N+1 consultas).
  */
 public record LinhaHistoricoDTO(Long pedidoId, LocalDateTime dataCompra, String produto, String vendedor,
                                 String categoria, String condicao, int quantidade, double precoUnitario,
-                                double total, byte[] imagem, String imagemTipo) {
+                                double total, byte[] imagem, String imagemTipo, String metodoPagamento) {
 
-    public LinhaHistoricoDTO(ItemPedido item) {
+    public LinhaHistoricoDTO(ItemPedido item, String metodoPagamento) {
         this(item.getPedido().getId(),
                 item.getPedido().getDataPedido(),
                 item.getProduto().getNome(),
@@ -25,7 +26,8 @@ public record LinhaHistoricoDTO(Long pedidoId, LocalDateTime dataCompra, String 
                 precoDe(item.getProduto()),
                 precoDe(item.getProduto()),
                 item.getProduto().getImagem(),
-                item.getProduto().getImageTipo());
+                item.getProduto().getImageTipo(),
+                metodoPagamento);
     }
 
     private static String nomeEnum(Produto produto) {
