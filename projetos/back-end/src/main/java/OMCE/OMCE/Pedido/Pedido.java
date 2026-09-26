@@ -1,6 +1,8 @@
 package OMCE.OMCE.Pedido;
 
 import OMCE.OMCE.Enderco.Endereco;
+import OMCE.OMCE.Entrega.EntregaCalculada;
+import OMCE.OMCE.Entrega.TipoEntrega;
 import OMCE.OMCE.Pedido.dto.PedidoCadastroDTO;
 import jakarta.persistence.*;
 
@@ -19,14 +21,24 @@ public class Pedido {
     private Endereco enderecoEntrega;
     @Column(name = "data_pedido")
     private LocalDateTime dataPedido;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_entrega")
+    private TipoEntrega tipoEntrega;
+    @Column(name = "valor_frete")
+    private double valorFrete;
+    @Column(name = "prazo_entrega_dias")
+    private int prazoEntregaDias;
 
     public Pedido() {
     }
-    public Pedido(PedidoCadastroDTO dados){
+    public Pedido(PedidoCadastroDTO dados, EntregaCalculada entrega){
         this.compradorId = dados.id_comprador();
-        this.valor = dados.valor();
         this.enderecoEntrega = new Endereco(dados.endereco());
         this.dataPedido = LocalDateTime.now();
+        this.tipoEntrega = entrega.tipo();
+        this.valorFrete = entrega.valorFrete();
+        this.prazoEntregaDias = entrega.prazoDias();
+        this.valor = dados.valor() + entrega.valorFrete();
     }
 
 
@@ -69,5 +81,29 @@ public class Pedido {
 
     public void setDataPedido(LocalDateTime dataPedido) {
         this.dataPedido = dataPedido;
+    }
+
+    public TipoEntrega getTipoEntrega() {
+        return tipoEntrega;
+    }
+
+    public void setTipoEntrega(TipoEntrega tipoEntrega) {
+        this.tipoEntrega = tipoEntrega;
+    }
+
+    public double getValorFrete() {
+        return valorFrete;
+    }
+
+    public void setValorFrete(double valorFrete) {
+        this.valorFrete = valorFrete;
+    }
+
+    public int getPrazoEntregaDias() {
+        return prazoEntregaDias;
+    }
+
+    public void setPrazoEntregaDias(int prazoEntregaDias) {
+        this.prazoEntregaDias = prazoEntregaDias;
     }
 }
