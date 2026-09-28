@@ -19,5 +19,18 @@ public record ProdutoRespostaDTO(Long id, String nome, Double preco, String deta
         ;
     }
 
+    
+    public ProdutoRespostaDTO(Produto produto, Double valorPago){
+        this(produto.getId(),
+                produto.getNome(),
+                valorPago,
+                produto.getDetalhes(),
+                produto.getImagem(),
+                produto.getImageTipo(),
+                produto.getUsuario().getNome(),
+                produto.getCondicao(),
+                produto.getUsuario().getId())
+        ;
+    }
 
 }
