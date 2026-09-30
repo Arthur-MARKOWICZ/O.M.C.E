@@ -3,6 +3,7 @@ package OMCE.OMCE.Historico;
 import OMCE.OMCE.Historico.exportacao.ExportacaoContext;
 import OMCE.OMCE.Historico.exportacao.FormatoExportacao;
 import OMCE.OMCE.Historico.exportacao.dto.ArquivoExportado;
+import OMCE.OMCE.Pedido.ItemPedido;
 import OMCE.OMCE.Pedido.repository.ItemPedidoRepository;
 import OMCE.OMCE.Pedido.repository.PedidoRepository;
 import OMCE.OMCE.Produto.Produto;
@@ -36,8 +37,8 @@ public class HistoricoService {
         return dtosVenda;
     }
     public Page<ProdutoRespostaDTO>pegarHistoricoDeCompra(Long idUsuario,@PageableDefault(size=10) Pageable pageable) {
-        Page<Produto> produtos = itemPedidoRepository.pegarProdutosDoUsuario(idUsuario, pageable);
-        return produtos.map(ProdutoRespostaDTO::new);
+        Page<ItemPedido> compras = itemPedidoRepository.pegarComprasDoUsuario(idUsuario, pageable);
+        return compras.map(item -> new ProdutoRespostaDTO(item.getProduto(), item.getPedido().getValor()));
     }
 
     public ArquivoExportado exportarHistoricoDeCompra(Long compradorId, FormatoExportacao formato,

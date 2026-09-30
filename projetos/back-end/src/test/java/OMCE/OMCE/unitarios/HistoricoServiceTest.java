@@ -2,6 +2,8 @@ package OMCE.OMCE.unitarios;
 
 import OMCE.OMCE.Enderco.DadosEndereco;
 import OMCE.OMCE.Historico.HistoricoService;
+import OMCE.OMCE.Pedido.ItemPedido;
+import OMCE.OMCE.Pedido.Pedido;
 import OMCE.OMCE.Pedido.dto.PedidoCadastroDTO;
 import OMCE.OMCE.Pedido.repository.ItemPedidoRepository;
 import OMCE.OMCE.Pedido.repository.PedidoRepository;
@@ -86,8 +88,13 @@ class HistoricoServiceTest {
         produtoCadastro.setUsuario(usuarioCadastro);
         Page<Produto> pageVendas = new PageImpl<>(List.of(produtoCadastro));
         lenient().when(produtoRepository.pegarVendas(1L, Pageable.unpaged())).thenReturn(pageVendas);
-        Page<Produto> pageCompras = new PageImpl<>(List.of(produtoCadastro));
-        lenient().when(itemPedidoRepository.pegarProdutosDoUsuario(1L, Pageable.unpaged()))
+
+        Pedido pedidoCompra = new Pedido();
+        pedidoCompra.setId(1L);
+        pedidoCompra.setValor(37.90);
+        ItemPedido itemCompra = new ItemPedido(pedidoCompra, produtoCadastro);
+        Page<ItemPedido> pageCompras = new PageImpl<>(List.of(itemCompra));
+        lenient().when(itemPedidoRepository.pegarComprasDoUsuario(1L, Pageable.unpaged()))
                 .thenReturn(pageCompras);
     }
 
@@ -107,5 +114,6 @@ class HistoricoServiceTest {
         assertNotNull(historicoCompra);
         assertEquals(1, historicoCompra.getContent().size());
         assertEquals(produtoCadastro.getId(), historicoCompra.getContent().get(0).id());
+        assertEquals(37.90, historicoCompra.getContent().get(0).preco());
     }
 }

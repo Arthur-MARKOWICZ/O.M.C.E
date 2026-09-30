@@ -1,5 +1,8 @@
 package OMCE.OMCE.Pedido.service;
 
+import OMCE.OMCE.Enderco.Endereco;
+import OMCE.OMCE.Entrega.EntregaCalculada;
+import OMCE.OMCE.Entrega.EntregaContext;
 import OMCE.OMCE.Execao.ProdutoNaoEncontrado;
 import OMCE.OMCE.Pagamento.service.PagamentoService;
 import OMCE.OMCE.Pedido.ItemPedido;
@@ -24,10 +27,14 @@ public class PedidoService {
     private ItemPedidoRepository itemPedidoRepository;
     @Autowired
     private PagamentoService pagamentoService;
+    @Autowired
+    private EntregaContext entregaContext;
 
 @Transactional
     public void CadastroCompra(PedidoCadastroDTO dto) {
-        Pedido pedido = pedidoRepository.save(new Pedido(dto));
+        Endereco endereco = new Endereco(dto.endereco());
+        EntregaCalculada entrega = entregaContext.escolher(dto.tipoEntrega()).calcular(dto.valor(), endereco);
+        Pedido pedido = pedidoRepository.save(new Pedido(dto, entrega));
 
         for (Long idProduto : dto.id_produtos()) {
             produtoRepository.produtoVendido(idProduto);
@@ -37,6 +44,6 @@ public class PedidoService {
             itemPedidoRepository.save(item);
         }
 
-        pagamentoService.registrarPagamento(pedido, dto.metodoPagamento(), dto.valor());
+        pagamentoService.registrarPagamento(pedido, dto.metodoPagamento(), pedido.getValor());
     }
 }

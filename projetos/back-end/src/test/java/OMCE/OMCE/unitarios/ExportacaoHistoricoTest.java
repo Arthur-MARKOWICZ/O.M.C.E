@@ -1,6 +1,8 @@
 package OMCE.OMCE.unitarios;
 
 import OMCE.OMCE.Enderco.DadosEndereco;
+import OMCE.OMCE.Entrega.EntregaCalculada;
+import OMCE.OMCE.Entrega.TipoEntrega;
 import OMCE.OMCE.Execao.PeriodoInvalido;
 import OMCE.OMCE.Historico.exportacao.ExportacaoContext;
 import OMCE.OMCE.Historico.exportacao.ExportacaoCsvStrategy;
@@ -88,7 +90,8 @@ class ExportacaoHistoricoTest {
         produto.setUsuario(vendedor);
         produto.setImagem(pngDeTeste());
 
-        Pedido pedido = new Pedido(new PedidoCadastroDTO(new ArrayList<>(List.of(1L)), 3L, 25.5, dadosEndereco, MetodoPagamento.PIX));
+        EntregaCalculada entrega = new EntregaCalculada(TipoEntrega.PADRAO, "Entrega padrão", 0.0, 7);
+        Pedido pedido = new Pedido(new PedidoCadastroDTO(new ArrayList<>(List.of(1L)), 3L, 25.5, dadosEndereco, TipoEntrega.PADRAO, MetodoPagamento.PIX), entrega);
         pedido.setId(99L);
         pedido.setDataPedido(LocalDateTime.of(2025, 1, 15, 10, 30));
 
