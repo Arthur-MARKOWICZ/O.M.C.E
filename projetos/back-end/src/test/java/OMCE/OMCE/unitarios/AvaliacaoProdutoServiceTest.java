@@ -6,6 +6,7 @@ import OMCE.OMCE.AvaliacaoProduto.repository.AvaliacaoProdutoRepositorio;
 import OMCE.OMCE.AvaliacaoProduto.service.AvaliacaoProdutoServico;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.dto.DadosCadastroProduto;
+import OMCE.OMCE.utils.ProdutoTestFactory;
 import OMCE.OMCE.Produto.enums.Categoria;
 import OMCE.OMCE.Produto.enums.Condicao;
 import OMCE.OMCE.Produto.repository.ProdutoRepository;
@@ -34,7 +35,7 @@ public class AvaliacaoProdutoServiceTest {
 
     @Test
     public void DeveCadastrarAvaliacaoProdutoComDadosCorretos() {
-        DadosCadastroProduto dadosProduto = new DadosCadastroProduto(
+        DadosCadastroProduto dadosProduto = ProdutoTestFactory.dados(
                 "Teclado Mecânico",
                 80.90,
                 "Teclado RGB com switches azuis",
@@ -45,7 +46,7 @@ public class AvaliacaoProdutoServiceTest {
                 Condicao.NOVO
         );
 
-        Produto produto = new Produto(dadosProduto);
+        Produto produto = ProdutoTestFactory.produto(dadosProduto);
         produto.setId(10L);
 
         when(produtoRepository.findById(10L)).thenReturn(Optional.of(produto));

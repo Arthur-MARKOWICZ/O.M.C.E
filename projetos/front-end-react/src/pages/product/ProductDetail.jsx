@@ -13,5 +13,18 @@ export default function ProductDetail() {
   if (error) return <Page eyebrow="PRODUTO" title="Não foi possível abrir o produto"><ErrorMessage error={error} /></Page>;
   if (!product) return <Loading />;
   const image = imageSource(product);
-  return <section className="detail-page"><Link className="back-link" to="/feed">← Voltar ao catálogo</Link><div className="product-detail"><div className="detail-image">{image ? <img src={image} alt={product.nome} /> : 'Sem imagem'}</div><div className="detail-content"><p className="eyebrow">{product.categoria || 'ELETRÔNICOS'} · {product.condicao}</p><h1>{product.nome}</h1><strong className="detail-price">{money(product.preco)}</strong><p className="detail-description">{product.detalhes || 'Este vendedor ainda não adicionou detalhes a este anúncio.'}</p><div className="seller-box"><span>Vendido por</span><b>{product.nome_do_usuario || product.nomeUsuario || 'Vendedor O.M.C.E'}</b>{rating !== null && <small>★ {Number(rating).toFixed(1)} de avaliação</small>}</div><div className="detail-actions"><button className="button primary" onClick={addToCart}>Adicionar ao carrinho</button><Link className="button secondary" to={`/produto/${id}/avaliacoes`}>Ver avaliações</Link></div></div></div></section>;
+
+  return <section className="detail-page"><Link className="back-link" to="/feed">← Voltar ao catálogo</Link><div className="product-detail"><div className="detail-image">{image ? <img src={image} alt={product.nome} /> : 'Sem imagem'}</div><div className="detail-content"><p className="eyebrow">{product.categoria || 'ELETRÔNICOS'} · {product.condicao}</p><h1>{product.nome}</h1><strong className="detail-price">{money(product.preco)}</strong><p className="detail-description">{product.detalhes || 'Este vendedor ainda não adicionou detalhes a este anúncio.'}</p>
+
+    {product.categoria === 'ESP32' && product.modelo && <p>Modelo: {product.modelo}</p>}
+    {product.categoria === 'ARDUINO' && product.modelo && <p>Modelo: {product.modelo}</p>}
+    {product.categoria === 'REGISTORES' && product.voltagem && <p>Voltagem: {product.voltagem}</p>}
+    {product.categoria === 'SENSORES' && product.tipo && <p>Tipo: {product.tipo}</p>}
+    {product.categoria === 'BATERIA' && product.carga && <p>Carga: {product.carga}</p>}
+    {product.categoria === 'CABOS' && product.comprimento && <p>Comprimento: {product.comprimento}</p>}
+    {product.categoria === 'CABOS' && product.tipo && <p>Tipo: {product.tipo}</p>}
+    {product.categoria === 'MOTORES' && product.tipo && <p>Tipo: {product.tipo}</p>}
+    {product.categoria === 'CONECTORES' && product.tipo && <p>Tipo: {product.tipo}</p>}
+
+    <div className="seller-box"><span>Vendido por</span><b>{product.nome_do_usuario || product.nomeUsuario || 'Vendedor O.M.C.E'}</b>{rating !== null && <small>★ {Number(rating).toFixed(1)} de avaliação</small>}</div><div className="detail-actions"><button className="button primary" onClick={addToCart}>Adicionar ao carrinho</button><Link className="button secondary" to={`/produto/${id}/avaliacoes`}>Ver avaliações</Link></div></div></div></section>;
 }

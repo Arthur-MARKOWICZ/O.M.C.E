@@ -26,6 +26,14 @@ public interface ItemPedidoRepository extends JpaRepository<ItemPedido,Long> {
         FROM ItemPedido i
         JOIN FETCH i.pedido p
         JOIN FETCH i.produto prod
+        WHERE p.compradorId = :id_usuario
+    """)
+    Page<ItemPedido> pegarComprasDoUsuario(@Param("id_usuario") Long idUsuario, Pageable pageable);
+    @Query("""
+        SELECT i
+        FROM ItemPedido i
+        JOIN FETCH i.pedido p
+        JOIN FETCH i.produto prod
         JOIN FETCH prod.usuario
         WHERE p.compradorId = :id_usuario
           AND p.dataPedido BETWEEN :inicio AND :fim

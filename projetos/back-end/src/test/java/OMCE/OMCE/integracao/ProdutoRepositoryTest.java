@@ -3,6 +3,7 @@ package OMCE.OMCE.integracao;
 import OMCE.OMCE.Enderco.DadosEndereco;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.dto.DadosCadastroProduto;
+import OMCE.OMCE.utils.ProdutoTestFactory;
 import OMCE.OMCE.Produto.repository.ProdutoRepository;
 
 import OMCE.OMCE.User.User;
@@ -43,9 +44,9 @@ public class ProdutoRepositoryTest {
 
     @Test
     void    deveSalvarProdutoNoBanco(){
-        DadosCadastroProduto dados = new DadosCadastroProduto("test",10,"test", user.getId(),
+        DadosCadastroProduto dados = ProdutoTestFactory.dados("test",10,"test", user.getId(),
                 "10", "10",ESP32,USADO);
-        Produto produto = new Produto(dados);
+        Produto produto = ProdutoTestFactory.produto(dados);
         produto.setUsuario(user);
        var produtoBanco = repository.save(produto);
         var produtoRetornadoBanco = repository.findById(produtoBanco.getId())
@@ -54,9 +55,9 @@ public class ProdutoRepositoryTest {
     }
     @Test
     void deveSalvarProdutoEObterPorIdDoUSer(){
-        DadosCadastroProduto dados = new DadosCadastroProduto("test",10,"test", user.getId(),
+        DadosCadastroProduto dados = ProdutoTestFactory.dados("test",10,"test", user.getId(),
                 "10", "10",ESP32,USADO);
-        Produto produto = new Produto(dados);
+        Produto produto = ProdutoTestFactory.produto(dados);
         produto.setUsuario(user);
         var produtoBanco = repository.save(produto);
         var produtosRetornadoBanco = repository.pegarProdutosUsuario(user.getId(), Pageable.unpaged());

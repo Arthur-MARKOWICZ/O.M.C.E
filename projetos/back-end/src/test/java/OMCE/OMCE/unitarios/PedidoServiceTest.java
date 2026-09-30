@@ -1,6 +1,10 @@
 package OMCE.OMCE.unitarios;
 
 import OMCE.OMCE.Enderco.DadosEndereco;
+import OMCE.OMCE.Entrega.EntregaCalculada;
+import OMCE.OMCE.Entrega.EntregaContext;
+import OMCE.OMCE.Entrega.EntregaStrategy;
+import OMCE.OMCE.Entrega.TipoEntrega;
 import OMCE.OMCE.Pagamento.enums.MetodoPagamento;
 import OMCE.OMCE.Pagamento.service.PagamentoService;
 import OMCE.OMCE.Pedido.ItemPedido;
@@ -38,6 +42,12 @@ public class PedidoServiceTest {
     @Mock
     private PagamentoService pagamentoService;
 
+    @Mock
+    private EntregaContext entregaContext;
+
+    @Mock
+    private EntregaStrategy entregaStrategy;
+
     @Test
     public void DeveCadastrarPedidoComTodosOsDadosCorretos() {
         ArrayList<Long> idsProdutos = new ArrayList<>();
@@ -57,10 +67,15 @@ public class PedidoServiceTest {
                 10L,
                 250.75,
                 endereco,
+                TipoEntrega.PADRAO,
                 MetodoPagamento.PIX
         );
 
-        Pedido pedidoSalvo = new Pedido(dto);
+        EntregaCalculada entrega = new EntregaCalculada(TipoEntrega.PADRAO, "Entrega padrão", 19.90, 7);
+        when(entregaContext.escolher(TipoEntrega.PADRAO)).thenReturn(entregaStrategy);
+        when(entregaStrategy.calcular(any(Double.class), any())).thenReturn(entrega);
+
+        Pedido pedidoSalvo = new Pedido(dto, entrega);
         pedidoSalvo.setId(99L);
 
         when(pedidoRepository.save(any(Pedido.class))).thenReturn(pedidoSalvo);
@@ -75,6 +90,6 @@ public class PedidoServiceTest {
 
         verify(itemPedidoRepository, times(2)).save(any(ItemPedido.class));
 
-        verify(pagamentoService, times(1)).registrarPagamento(pedidoSalvo, MetodoPagamento.PIX, 250.75);
+        verify(pagamentoService, times(1)).registrarPagamento(pedidoSalvo, MetodoPagamento.PIX, pedidoSalvo.getValor());
     }
 }

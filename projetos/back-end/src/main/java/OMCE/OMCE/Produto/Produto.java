@@ -22,6 +22,11 @@ public class Produto {
     private String nome;
     private Double preco;
     private String detalhes;
+    private String modelo;
+    private String voltagem;
+    private String carga;
+    private String comprimento;
+    private String tipo;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario")
     @JsonBackReference
@@ -35,18 +40,6 @@ public class Produto {
     private Condicao condicao;
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
-
-    public Produto(DadosCadastroProduto dados){
-        this.vendido = false;
-        this.nome = dados.nome();
-        this.preco = dados.preco();
-        this.detalhes = dados.detalhes();
-        this.usuario = new User();
-        this.imagem = Base64.getDecoder().decode(dados.imagem());
-        this.imageTipo = dados.imagem_tipo();
-        this.condicao = dados.condicao();
-        this.categoria = dados.categoria();
-    }
 
     @Override
     public String toString() {
@@ -133,6 +126,46 @@ public class Produto {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public String getVoltagem() {
+        return voltagem;
+    }
+
+    public void setVoltagem(String voltagem) {
+        this.voltagem = voltagem;
+    }
+
+    public String getCarga() {
+        return carga;
+    }
+
+    public void setCarga(String carga) {
+        this.carga = carga;
+    }
+
+    public String getComprimento() {
+        return comprimento;
+    }
+
+    public void setComprimento(String comprimento) {
+        this.comprimento = comprimento;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public void alterarDados(DadosAlterarDadosProduto dados) {

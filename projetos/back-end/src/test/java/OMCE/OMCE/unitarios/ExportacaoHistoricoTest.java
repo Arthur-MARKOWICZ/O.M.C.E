@@ -1,6 +1,8 @@
 package OMCE.OMCE.unitarios;
 
 import OMCE.OMCE.Enderco.DadosEndereco;
+import OMCE.OMCE.Entrega.EntregaCalculada;
+import OMCE.OMCE.Entrega.TipoEntrega;
 import OMCE.OMCE.Execao.PeriodoInvalido;
 import OMCE.OMCE.Historico.exportacao.ExportacaoContext;
 import OMCE.OMCE.Historico.exportacao.ExportacaoCsvStrategy;
@@ -17,6 +19,7 @@ import OMCE.OMCE.Pedido.dto.PedidoCadastroDTO;
 import OMCE.OMCE.Pedido.repository.ItemPedidoRepository;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.dto.DadosCadastroProduto;
+import OMCE.OMCE.utils.ProdutoTestFactory;
 import OMCE.OMCE.User.User;
 import OMCE.OMCE.User.dto.DadosCadastroUser;
 import org.apache.poi.ss.usermodel.Row;
@@ -80,14 +83,15 @@ class ExportacaoHistoricoTest {
                 dadosEndereco, "test@gmail.com", "1231313139", "testUser", "test"));
         vendedor.setId(7L);
 
-        Produto produto = new Produto(new DadosCadastroProduto(
+        Produto produto = ProdutoTestFactory.produto(ProdutoTestFactory.dados(
                 "Sensor de teste", 10, "test", 7L, "10", "image/png", ESP32, USADO));
         produto.setId(1L);
         produto.setPreco(25.5);
         produto.setUsuario(vendedor);
         produto.setImagem(pngDeTeste());
 
-        Pedido pedido = new Pedido(new PedidoCadastroDTO(new ArrayList<>(List.of(1L)), 3L, 25.5, dadosEndereco, MetodoPagamento.PIX));
+        EntregaCalculada entrega = new EntregaCalculada(TipoEntrega.PADRAO, "Entrega padrão", 0.0, 7);
+        Pedido pedido = new Pedido(new PedidoCadastroDTO(new ArrayList<>(List.of(1L)), 3L, 25.5, dadosEndereco, TipoEntrega.PADRAO, MetodoPagamento.PIX), entrega);
         pedido.setId(99L);
         pedido.setDataPedido(LocalDateTime.of(2025, 1, 15, 10, 30));
 
