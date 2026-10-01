@@ -114,6 +114,6 @@ class HistoricoServiceTest {
         assertNotNull(historicoCompra);
         assertEquals(1, historicoCompra.getContent().size());
         assertEquals(produtoCadastro.getId(), historicoCompra.getContent().get(0).id());
-        assertEquals(37.90, historicoCompra.getContent().get(0).preco());
+        assertEquals(produtoCadastro.getPreco(), historicoCompra.getContent().get(0).preco());
     }
 }
