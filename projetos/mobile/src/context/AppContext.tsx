@@ -1,4 +1,4 @@
-import { PropsWithChildren, createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { PropsWithChildren, createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { CartItem, Session } from '@/src/types/models';
 import { clearSession, loadCart, loadSession, loadTheme, saveCart, saveSession, saveTheme } from '@/src/lib/storage';
 import { setApiToken } from '@/src/lib/api';
@@ -17,6 +17,7 @@ const AppContext = createContext<AppValue | null>(null);
 export function AppProvider({ children }: PropsWithChildren) {
   const [ready, setReady] = useState(false); const [session, setSession] = useState<Session | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]); const [theme, setTheme] = useState<ThemeName>('light'); const [notice, setNotice] = useState<Notice>(null);
+  const noticeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => { (async () => {
     const [storedSession, storedTheme] = await Promise.all([loadSession(), loadTheme()]);
     if (storedTheme === 'dark') setTheme('dark');
@@ -27,13 +28,13 @@ export function AppProvider({ children }: PropsWithChildren) {
     setReady(true);
   })(); }, []);
   const signIn = async (value: Session) => { setApiToken(value.token); setSession(value); setCart(await loadCart(value.id)); await saveSession(value); };
-  const signOut = async () => { setApiToken(null); setSession(null); setCart([]); await clearSession(); };
+  const signOut = async () => { setApiToken(null); setSession(null); setCart([]); if (noticeTimer.current) clearTimeout(noticeTimer.current); setNotice(null); await clearSession(); };
   const persistCart = async (items: CartItem[]) => { setCart(items); if (session) await saveCart(session.id, items); };
   const addToCart = async (item: CartItem) => { if (cart.some((current) => current.id === item.id)) return false; await persistCart([...cart, item]); return true; };
   const removeFromCart = (id: number) => persistCart(cart.filter((item) => item.id !== id));
   const clearCart = () => persistCart([]);
   const toggleTheme = () => setTheme((current) => { const next = current === 'light' ? 'dark' : 'light'; void saveTheme(next); return next; });
-  const showNotice = (message: string, type: 'success' | 'error' = 'success') => { setNotice({ message, type }); setTimeout(() => setNotice(null), 3500); };
+  const showNotice = (message: string, type: 'success' | 'error' = 'success') => { if (noticeTimer.current) clearTimeout(noticeTimer.current); setNotice({ message, type }); noticeTimer.current = setTimeout(() => setNotice(null), 5000); };
   const isVendedor = session?.role === 'VENDEDOR' || session?.role === 'MISTO';
   const isComprador = session?.role === 'COMPRADOR' || session?.role === 'MISTO';
   const value = useMemo(() => ({ ready, session, cart, theme, colors: palettes[theme], notice, signIn, signOut, toggleTheme, addToCart, removeFromCart, clearCart, showNotice, isVendedor, isComprador }), [ready, session, cart, theme, notice, isVendedor, isComprador]);

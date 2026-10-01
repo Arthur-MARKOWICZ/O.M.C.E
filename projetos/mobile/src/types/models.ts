@@ -5,7 +5,7 @@ export type Session = { token: string; id: number | string; nome: string; role: 
 export type Product = {
   id: number; nome: string; preco: number; detalhes?: string; categoria?: string; condicao?: string;
   imagem?: string; Imagem?: string; imagem_tipo?: string; Imagem_tipo?: string;
-  id_vendedor?: number; id_usuario?: number; nomeUsuario?: string; nome_do_usuario?: string;
+  id_vendedor?: number; id_usuario?: number; nomeUsuario?: string; nome_do_usuario?: string; valorFrete?: number;
 };
 export type PageResult<T> = { content: T[]; totalPages: number; first: boolean; last: boolean; number?: number };
 export type Review = { id?: number; nota: number; comentario?: string };

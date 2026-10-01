@@ -10,10 +10,15 @@ import java.time.LocalDateTime;
  * um ItemPedido por produto, e o preco unitario e lido do produto (nao ha snapshot
  * de preco no momento da compra). O meio de pagamento vem do Pagamento associado ao
  * pedido (buscado em lote pelo ExportacaoHistoricoBase para evitar N+1 consultas).
+ * O frete e do pedido (ja carregado junto com o ItemPedido, sem consulta extra) e e
+ * o mesmo valor em todas as linhas de um pedido com varios itens - e informativo,
+ * nao entra na soma de "total" nem no total geral do relatorio, para nao ser
+ * contado mais de uma vez quando o pedido tem mais de um produto.
  */
 public record LinhaHistoricoDTO(Long pedidoId, LocalDateTime dataCompra, String produto, String vendedor,
                                 String categoria, String condicao, int quantidade, double precoUnitario,
-                                double total, byte[] imagem, String imagemTipo, String metodoPagamento) {
+                                double total, byte[] imagem, String imagemTipo, String metodoPagamento,
+                                double valorFrete) {
 
     public LinhaHistoricoDTO(ItemPedido item, String metodoPagamento) {
         this(item.getPedido().getId(),
@@ -27,7 +32,8 @@ public record LinhaHistoricoDTO(Long pedidoId, LocalDateTime dataCompra, String 
                 precoDe(item.getProduto()),
                 item.getProduto().getImagem(),
                 item.getProduto().getImageTipo(),
-                metodoPagamento);
+                metodoPagamento,
+                item.getPedido().getValorFrete());
     }
 
     private static String nomeEnum(Produto produto) {

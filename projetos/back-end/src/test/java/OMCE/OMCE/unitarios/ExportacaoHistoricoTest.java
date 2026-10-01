@@ -90,7 +90,7 @@ class ExportacaoHistoricoTest {
         produto.setUsuario(vendedor);
         produto.setImagem(pngDeTeste());
 
-        EntregaCalculada entrega = new EntregaCalculada(TipoEntrega.PADRAO, "Entrega padrão", 0.0, 7);
+        EntregaCalculada entrega = new EntregaCalculada(TipoEntrega.PADRAO, "Entrega padrão", 9.90, 7);
         Pedido pedido = new Pedido(new PedidoCadastroDTO(new ArrayList<>(List.of(1L)), 3L, 25.5, dadosEndereco, TipoEntrega.PADRAO, MetodoPagamento.PIX), entrega);
         pedido.setId(99L);
         pedido.setDataPedido(LocalDateTime.of(2025, 1, 15, 10, 30));
@@ -139,11 +139,12 @@ class ExportacaoHistoricoTest {
         ArquivoExportado arquivo = csv.exportar(3L, INICIO, FIM);
         String conteudo = new String(arquivo.conteudo(), StandardCharsets.UTF_8);
 
-        assertTrue(conteudo.contains("Pedido;Data;Meio de pagamento;Produto"));
+        assertTrue(conteudo.contains("Pedido;Data;Meio de pagamento;Frete;Produto"));
         assertTrue(conteudo.contains("Sensor de teste"));
         assertTrue(conteudo.contains("vendedor teste"));
         assertTrue(conteudo.contains("15/01/2025 10:30"));
         assertTrue(conteudo.contains("Pix"));
+        assertTrue(conteudo.contains("Pix;9,90;Sensor de teste"));
         assertTrue(conteudo.contains("Total geral;25,50"));
         assertEquals("historico-compras_2025-01-01_a_2025-01-31.csv", arquivo.nomeArquivo());
     }
@@ -167,9 +168,10 @@ class ExportacaoHistoricoTest {
             Row primeira = planilha.getRow(1);
             assertEquals(99d, primeira.getCell(0).getNumericCellValue());
             assertEquals("Pix", primeira.getCell(2).getStringCellValue());
-            assertEquals("Sensor de teste", primeira.getCell(3).getStringCellValue());
-            assertEquals(25.5, primeira.getCell(8).getNumericCellValue());
-            assertEquals("Total geral", planilha.getRow(2).getCell(8).getStringCellValue());
+            assertEquals(9.90, primeira.getCell(3).getNumericCellValue());
+            assertEquals("Sensor de teste", primeira.getCell(4).getStringCellValue());
+            assertEquals(25.5, primeira.getCell(9).getNumericCellValue());
+            assertEquals("Total geral", planilha.getRow(2).getCell(9).getStringCellValue());
         }
         assertEquals("historico-compras_2025-01-01_a_2025-01-31.xlsx", arquivo.nomeArquivo());
     }
@@ -205,7 +207,7 @@ class ExportacaoHistoricoTest {
 
         String conteudo = new String(csv.exportar(4L, INICIO, FIM).conteudo(), StandardCharsets.UTF_8);
 
-        assertTrue(conteudo.contains("Pedido;Data;Meio de pagamento;Produto"));
+        assertTrue(conteudo.contains("Pedido;Data;Meio de pagamento;Frete;Produto"));
         assertTrue(conteudo.contains("Total geral;0,00"));
     }
 

@@ -24,12 +24,13 @@ public class ExportacaoCsvStrategy extends ExportacaoHistoricoBase {
     @Override
     protected byte[] gerar(List<LinhaHistoricoDTO> linhas, PeriodoExportacao periodo) {
         StringBuilder csv = new StringBuilder(BOM);
-        linha(csv, "Pedido", "Data", "Meio de pagamento", "Produto", "Vendedor", "Categoria", "Condição", "Qtd", "Preço unitário", "Total");
+        linha(csv, "Pedido", "Data", "Meio de pagamento", "Frete", "Produto", "Vendedor", "Categoria", "Condição", "Qtd", "Preço unitário", "Total");
         for (LinhaHistoricoDTO item : linhas) {
             linha(csv,
                     String.valueOf(item.pedidoId()),
                     item.dataCompra() != null ? item.dataCompra().format(DATA_HORA_BR) : "",
                     item.metodoPagamento(),
+                    numero(item.valorFrete()),
                     item.produto(),
                     item.vendedor(),
                     item.categoria(),
@@ -38,7 +39,7 @@ public class ExportacaoCsvStrategy extends ExportacaoHistoricoBase {
                     numero(item.precoUnitario()),
                     numero(item.total()));
         }
-        linha(csv, "", "", "", "", "", "", "", "", "Total geral", numero(totalGeral(linhas)));
+        linha(csv, "", "", "", "", "", "", "", "", "", "Total geral", numero(totalGeral(linhas)));
         return csv.toString().getBytes(StandardCharsets.UTF_8);
     }
 

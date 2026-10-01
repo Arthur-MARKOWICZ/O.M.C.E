@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { auth, getCart } from '../../api';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useNotice } from '../../contexts/NoticeContext';
 import ThemeToggle from './ThemeToggle';
 
 export default function Layout({ children }) {
   const navigate = useNavigate();
+  const notice = useNotice();
   const { theme, toggleTheme } = useTheme();
   const [cartSize, setCartSize] = useState(getCart().length);
   useEffect(() => {
@@ -14,7 +16,7 @@ export default function Layout({ children }) {
     window.addEventListener('cart-updated', update);
     return () => { window.removeEventListener('storage', update); window.removeEventListener('cart-updated', update); };
   }, []);
-  const logout = () => { auth.clear(); navigate('/login'); };
+  const logout = () => { auth.clear(); notice(null); navigate('/login'); };
   const canSell = auth.isVendedor();
   const canBuy = auth.isComprador();
   const nav = [['/', 'Início'], ['/feed', 'Explorar'], ...(canSell ? [['/produto/novo', 'Anunciar']] : []), ['/minha-conta', 'Minha conta']];
