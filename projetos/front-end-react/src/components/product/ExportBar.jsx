@@ -10,9 +10,12 @@ export default function ExportBar() {
   const [dataFim, setDataFim] = useState(() => iso(new Date()));
   const [exportando, setExportando] = useState('');
   const [error, setError] = useState('');
+  const hoje = iso(new Date());
+  const dataValida = (valor) => /^\d{4}-\d{2}-\d{2}$/.test(valor || '');
 
   async function exportar(formato) {
     setError('');
+    if (!dataValida(dataInicio) || !dataValida(dataFim)) return setError('Informe um período de data válido.');
     setExportando(formato);
     try {
       const { blob, filename } = await requestFile(`/historico/compra/exportar?formato=${formato}&dataInicio=${dataInicio}&dataFim=${dataFim}`, { headers: { 'Id-Usuario': auth.userId } });
@@ -26,8 +29,8 @@ export default function ExportBar() {
 
   return <>
     <div className="export-bar">
-      <label>De<input type="date" value={dataInicio} max={dataFim} onChange={(event) => setDataInicio(event.target.value)} /></label>
-      <label>Até<input type="date" value={dataFim} min={dataInicio} onChange={(event) => setDataFim(event.target.value)} /></label>
+      <label>De<input type="date" value={dataInicio} min="2000-01-01" max={dataFim} onChange={(event) => setDataInicio(event.target.value)} /></label>
+      <label>Até<input type="date" value={dataFim} min={dataInicio} max={hoje} onChange={(event) => setDataFim(event.target.value)} /></label>
       <div className="export-actions">{Object.keys(FORMATOS).map((formato) => <button key={formato} type="button" className="button secondary" disabled={Boolean(exportando) || !dataInicio || !dataFim} onClick={() => exportar(formato)}>{exportando === formato ? 'Gerando…' : formato}</button>)}</div>
     </div>
     {error && <ErrorMessage error={error} />}
