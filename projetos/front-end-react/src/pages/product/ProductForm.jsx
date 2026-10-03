@@ -16,7 +16,6 @@ export default function ProductForm({ edit = false }) {
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
 
-  // NOVO: controla a categoria selecionada
   const [categoria, setCategoria] = useState('');
 
   useEffect(() => {
@@ -203,17 +202,13 @@ export default function ProductForm({ edit = false }) {
 
           </div>
 
-
-          {/* ============================= */}
-          {/* CAMPOS ESPECÍFICOS DA CATEGORIA */}
-          {/* ============================= */}
-
           {(categoria === 'ESP32' || categoria === 'ARDUINO') && (
               <label>
                 Modelo
 
                 <input
                     name="modelo"
+                    required
                     defaultValue={current?.modelo || ''}
                     placeholder="Ex.: ESP32-WROOM-32"
                 />
@@ -227,6 +222,7 @@ export default function ProductForm({ edit = false }) {
 
                 <input
                     name="voltagem"
+                    required
                     defaultValue={current?.voltagem || ''}
                     placeholder="Ex.: 5V"
                 />
@@ -240,6 +236,7 @@ export default function ProductForm({ edit = false }) {
 
                 <input
                     name="tipo"
+                    required
                     defaultValue={current?.tipo || ''}
                     placeholder="Ex.: Temperatura, umidade, presença..."
                 />
@@ -253,6 +250,7 @@ export default function ProductForm({ edit = false }) {
 
                 <input
                     name="carga"
+                    required
                     defaultValue={current?.carga || ''}
                     placeholder="Ex.: 5000mAh"
                 />
@@ -268,6 +266,7 @@ export default function ProductForm({ edit = false }) {
 
                   <input
                       name="comprimento"
+                      required
                       defaultValue={current?.comprimento || ''}
                       placeholder="Ex.: 2 metros"
                   />
@@ -278,6 +277,7 @@ export default function ProductForm({ edit = false }) {
 
                   <input
                       name="tipo"
+                      required
                       defaultValue={current?.tipo || ''}
                       placeholder="Ex.: USB-C, HDMI..."
                   />
@@ -293,6 +293,7 @@ export default function ProductForm({ edit = false }) {
 
                 <input
                     name="tipo"
+                    required
                     defaultValue={current?.tipo || ''}
                     placeholder="Ex.: Motor DC, Servo, Passo..."
                 />
@@ -306,6 +307,7 @@ export default function ProductForm({ edit = false }) {
 
                 <input
                     name="tipo"
+                    required
                     defaultValue={current?.tipo || ''}
                     placeholder="Ex.: P2, USB, borne..."
                 />

@@ -17,7 +17,8 @@ export default function AdminDashboard() {
     if (!data && !error) return <Loading />;
 
     return <Page eyebrow="ADMINISTRAÇÃO" title="Dashboard">
-        {error ? <ErrorMessage error={error} /> : <>
+        {error && <ErrorMessage error={error} />}
+        {data && <>
             <div className="admin-dashboard">
                 <div className="admin-card">
                     <h2>Usuários</h2>

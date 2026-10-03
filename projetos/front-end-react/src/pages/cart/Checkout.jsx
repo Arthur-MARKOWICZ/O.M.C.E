@@ -56,11 +56,16 @@ export default function Checkout() {
   const semNumeros = (valor) => valor.replace(/[0-9]/g, '');
   const cartaoExpirado = (validade) => {
     if (!validade) return true;
-    const [ano, mes] = validade.split('-').map(Number);
+    const [anoStr, mesStr] = validade.split('-');
+    if (!anoStr || anoStr.length !== 4) return true;
+    const ano = Number(anoStr);
+    const mes = Number(mesStr);
     const agora = new Date();
+    if (ano > agora.getFullYear() + 15) return true;
     return ano < agora.getFullYear() || (ano === agora.getFullYear() && mes < agora.getMonth() + 1);
   };
   const mesAtual = new Date().toISOString().slice(0, 7);
+  const mesMaximo = `${new Date().getFullYear() + 15}-12`;
   const submit = async (event) => {
     event.preventDefault();
     if (!items.length) return navigate('/carrinho');
@@ -142,7 +147,6 @@ export default function Checkout() {
               />
             </label>
           </div>
-          {/* Opções de Entrega */}
           <label>
             Entrega
             <div className="delivery-options">
@@ -162,7 +166,6 @@ export default function Checkout() {
               ))}
             </div>
           </label>
-          {/* Select de Pagamento */}
           <label>
             Forma de pagamento
             <select
@@ -181,7 +184,6 @@ export default function Checkout() {
               <option value="PIX">Pix</option>
             </select>
           </label>
-          {/* Campos do Cartão */}
           {(metodoPagamento === 'CARTAO_CREDITO' || metodoPagamento === 'CARTAO_DEBITO') && (
             <>
               <label>
@@ -210,6 +212,7 @@ export default function Checkout() {
                     required
                     type="month"
                     min={mesAtual}
+                    max={mesMaximo}
                     value={cartao.validade}
                     onChange={setCartaoCampo('validade')}
                   />
@@ -228,7 +231,6 @@ export default function Checkout() {
               </div>
             </>
           )}
-          {/* QR Code Pix */}
           {metodoPagamento === 'PIX' && (
             <div className="empty pix-box">
               <a href={PIX_DESTINO} target="_blank" rel="noreferrer">
@@ -238,7 +240,6 @@ export default function Checkout() {
               <small>Escaneie o código para concluir o pagamento via Pix.</small>
             </div>
           )}
-          {/* Valores Totais */}
           <div className="checkout-total">
             Frete <strong>{money(frete)}</strong>
           </div>
