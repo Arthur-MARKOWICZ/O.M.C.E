@@ -22,7 +22,7 @@ import java.util.List;
 public class ExportacaoXlsxStrategy extends ExportacaoHistoricoBase {
 
     private static final String[] COLUNAS =
-            {"Pedido", "Data", "Meio de pagamento", "Produto", "Vendedor", "Categoria", "Condição", "Qtd", "Preço unitário", "Total"};
+            {"Pedido", "Data", "Meio de pagamento", "Frete", "Produto", "Vendedor", "Categoria", "Condição", "Qtd", "Preço unitário", "Total"};
 
     public ExportacaoXlsxStrategy(ItemPedidoRepository itemPedidoRepository, PagamentoRepository pagamentoRepository) {
         super(itemPedidoRepository, pagamentoRepository);
@@ -48,24 +48,27 @@ public class ExportacaoXlsxStrategy extends ExportacaoHistoricoBase {
                 linha.createCell(0).setCellValue(item.pedidoId() != null ? item.pedidoId() : 0);
                 linha.createCell(1).setCellValue(item.dataCompra() != null ? item.dataCompra().format(DATA_HORA_BR) : "");
                 linha.createCell(2).setCellValue(item.metodoPagamento());
-                linha.createCell(3).setCellValue(item.produto());
-                linha.createCell(4).setCellValue(item.vendedor());
-                linha.createCell(5).setCellValue(item.categoria());
-                linha.createCell(6).setCellValue(item.condicao());
-                linha.createCell(7).setCellValue(item.quantidade());
-                var precoUnitario = linha.createCell(8);
+                var frete = linha.createCell(3);
+                frete.setCellValue(item.valorFrete());
+                frete.setCellStyle(estiloMoeda);
+                linha.createCell(4).setCellValue(item.produto());
+                linha.createCell(5).setCellValue(item.vendedor());
+                linha.createCell(6).setCellValue(item.categoria());
+                linha.createCell(7).setCellValue(item.condicao());
+                linha.createCell(8).setCellValue(item.quantidade());
+                var precoUnitario = linha.createCell(9);
                 precoUnitario.setCellValue(item.precoUnitario());
                 precoUnitario.setCellStyle(estiloMoeda);
-                var total = linha.createCell(9);
+                var total = linha.createCell(10);
                 total.setCellValue(item.total());
                 total.setCellStyle(estiloMoeda);
             }
 
             Row rodape = planilha.createRow(numeroLinha);
-            var rotulo = rodape.createCell(8);
+            var rotulo = rodape.createCell(9);
             rotulo.setCellValue("Total geral");
             rotulo.setCellStyle(estiloCabecalho);
-            var celulaTotalGeral = rodape.createCell(9);
+            var celulaTotalGeral = rodape.createCell(10);
             celulaTotalGeral.setCellValue(totalGeral(linhas));
             celulaTotalGeral.setCellStyle(estiloMoeda);
 

@@ -28,9 +28,9 @@ import java.util.Locale;
 public class ExportacaoPdfStrategy extends ExportacaoHistoricoBase {
 
     private static final String[] COLUNAS =
-            {"Imagem", "Pedido", "Data", "Meio de pagamento", "Produto", "Vendedor", "Categoria", "Condição", "Qtd", "Preço unitário", "Total"};
-    private static final float[] LARGURAS = {1.1f, 0.8f, 1.5f, 1.3f, 2.6f, 1.7f, 1.3f, 1f, 0.6f, 1.3f, 1.2f};
-    private static final float TAMANHO_IMAGEM = 55f;
+            {"Imagem", "Pedido", "Data", "Meio de pagamento", "Frete", "Produto", "Vendedor", "Categoria", "Condição", "Qtd", "Preço unitário", "Total"};
+    private static final float[] LARGURAS = {1.6f, 0.8f, 1.5f, 1.3f, 1.1f, 2.6f, 1.7f, 1.3f, 1f, 0.6f, 1.3f, 1.2f};
+    private static final float TAMANHO_IMAGEM = 48f;
 
     private static final Font FONTE_TITULO = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16);
     private static final Font FONTE_SUBTITULO = FontFactory.getFont(FontFactory.HELVETICA, 10, Color.DARK_GRAY);
@@ -70,6 +70,7 @@ public class ExportacaoPdfStrategy extends ExportacaoHistoricoBase {
                 tabela.addCell(celulaTexto(String.valueOf(item.pedidoId())));
                 tabela.addCell(celulaTexto(item.dataCompra() != null ? item.dataCompra().format(DATA_HORA_BR) : ""));
                 tabela.addCell(celulaTexto(item.metodoPagamento()));
+                tabela.addCell(celulaTexto(moeda(item.valorFrete())));
                 tabela.addCell(celulaTexto(item.produto()));
                 tabela.addCell(celulaTexto(item.vendedor()));
                 tabela.addCell(celulaTexto(item.categoria()));

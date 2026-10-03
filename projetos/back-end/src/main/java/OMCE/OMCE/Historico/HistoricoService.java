@@ -38,13 +38,12 @@ public class HistoricoService {
     }
     public Page<ProdutoRespostaDTO>pegarHistoricoDeCompra(Long idUsuario,@PageableDefault(size=10) Pageable pageable) {
         Page<ItemPedido> compras = itemPedidoRepository.pegarComprasDoUsuario(idUsuario, pageable);
-        return compras.map(item -> new ProdutoRespostaDTO(item.getProduto(), item.getPedido().getValor()));
+        return compras.map(item -> new ProdutoRespostaDTO( item.getProduto(), item.getProduto().getPreco(), item.getPedido().getValorFrete() ));
     }
 
     public ArquivoExportado exportarHistoricoDeCompra(Long compradorId, FormatoExportacao formato,
                                                      LocalDate dataInicio, LocalDate dataFim) {
         return exportacaoContext.escolher(formato).exportar(compradorId, dataInicio, dataFim);
     }
-
 
 }
