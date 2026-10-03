@@ -1,9 +1,10 @@
+# syntax=docker/dockerfile:1.7
 FROM maven:3.9.9-eclipse-temurin-23 AS build
 
 WORKDIR /app
 COPY pom.xml .
-RUN mvn -q -DskipTests dependency:go-offline
 COPY src ./src
+# O cache mount mantem o ~/.m2 entre builds, inclusive quando o pom.xml muda.
 RUN mvn -q -DskipTests package
 
 FROM eclipse-temurin:23-jre

@@ -1,0 +1,156 @@
+name: Testes Back-end
+
+# Roda em todo pull request que tenha `main` como branch de destino.
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+# Um PR novo com push em sequência cancela a execução anterior.
+concurrency:
+  group: testes-back-end-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  testes:
+    name: Testes unitários e de integração
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    defaults:
+      run:
+        working-directory: projetos/back-end
+
+    # Dois MySQL, espelhando o setup local documentado em AGENTS.md:
+    #  - 3306/omce       -> perfil padrão (src/main/resources/application.properties),
+    #                       usado pelos testes @SpringBootTest sem @ActiveProfiles("test")
+    #  - 3307/omce_test  -> perfil de teste (src/test/resources/application-test.yml)
+    # As credenciais abaixo apenas reproduzem as que já estão versionadas no projeto;
+    # são bancos descartáveis do runner, sem acesso externo. Segredos novos devem usar
+    # `secrets:` em vez de valores literais.
+    services:
+      mysql_dev:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: senha_root
+          MYSQL_DATABASE: omce
+          MYSQL_USER: usuario
+          MYSQL_PASSWORD: senha
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -psenha_root"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=15
+          --health-start-period=30s
+
+      mysql_test:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: senha_root
+          MYSQL_DATABASE: omce_test
+          MYSQL_USER: usuario
+          MYSQL_PASSWORD: senha
+        ports:
+          - 3307:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -psenha_root"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=15
+          --health-start-period=30s
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 23
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '23'
+          cache: maven
+
+      - name: Aguardar os bancos aceitarem conexão
+        run: |
+          for porta in 3306 3307; do
+            echo "Aguardando MySQL em 127.0.0.1:$porta ..."
+            for tentativa in $(seq 1 30); do
+              if timeout 1 bash -c "cat < /dev/null > /dev/tcp/127.0.0.1/$porta" 2>/dev/null; then
+                echo "  porta $porta pronta"
+                break
+              fi
+              if [ "$tentativa" -eq 30 ]; then
+                echo "::error::MySQL em 127.0.0.1:$porta não respondeu"
+                exit 1
+              fi
+              sleep 2
+            done
+          done
+
+      # `mvnw test` executa a suíte completa: src/test/java/OMCE/OMCE/unitarios/**
+      # e src/test/java/OMCE/OMCE/integracao/** (os testes de integração usam
+      # `replace: none`, ou seja, batem no MySQL real, não em H2).
+      - name: Rodar testes (unitários + integração)
+        run: ./mvnw -B -ntp test
+
+      - name: Resumo dos testes
+        if: always()
+        continue-on-error: true
+        run: |
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import glob, xml.etree.ElementTree as ET
+
+          grupos = {"Unitários": [0, 0, 0, 0.0], "Integração": [0, 0, 0, 0.0], "Outros": [0, 0, 0, 0.0]}
+          falhas = []
+
+          for caminho in sorted(glob.glob("target/surefire-reports/TEST-*.xml")):
+              try:
+                  raiz = ET.parse(caminho).getroot()
+              except ET.ParseError:
+                  continue
+              nome = raiz.get("name", "")
+              if ".unitarios." in nome:
+                  grupo = "Unitários"
+              elif ".integracao." in nome:
+                  grupo = "Integração"
+              else:
+                  grupo = "Outros"
+              g = grupos[grupo]
+              g[0] += int(raiz.get("tests", 0))
+              g[1] += int(raiz.get("failures", 0)) + int(raiz.get("errors", 0))
+              g[2] += int(raiz.get("skipped", 0))
+              g[3] += float(raiz.get("time", 0) or 0)
+              for caso in raiz.iter("testcase"):
+                  for tipo in ("failure", "error"):
+                      if caso.find(tipo) is not None:
+                          falhas.append(f"{nome}#{caso.get('name')}")
+
+          print("## Testes do back-end\n")
+          if not any(g[0] for g in grupos.values()):
+              print("Nenhum relatório do Surefire encontrado (a compilação provavelmente falhou).")
+          else:
+              print("| Grupo | Testes | Falhas/Erros | Ignorados | Tempo |")
+              print("|---|---:|---:|---:|---:|")
+              for rotulo, g in grupos.items():
+                  if g[0]:
+                      icone = "✅" if g[1] == 0 else "❌"
+                      print(f"| {icone} {rotulo} | {g[0]} | {g[1]} | {g[2]} | {g[3]:.1f}s |")
+              if falhas:
+                  print("\n### Testes que falharam\n")
+                  for f in falhas:
+                      print(f"- `{f}`")
+          PY
+
+      - name: Publicar relatórios do Surefire
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: projetos/back-end/target/surefire-reports/
+          if-no-files-found: ignore
+          retention-days: 7

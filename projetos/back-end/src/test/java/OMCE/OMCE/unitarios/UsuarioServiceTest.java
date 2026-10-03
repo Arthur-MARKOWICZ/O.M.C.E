@@ -78,12 +78,14 @@ public class UsuarioServiceTest {
         User usuario = new User(dadosCadastroUser);
         when(repository.save(any(User.class))).thenReturn(usuario);
         var usuarioCadastro = service.cadastro(dadosCadastroUser);
-        when(repository.getReferenceById(usuario.getId())).thenReturn(usuario);
-
         assertEquals("test", usuarioCadastro.getNome());
+
+        // service.excluir busca via findById e marca ativo=false na propria entidade
+        when(repository.findById(usuarioCadastro.getId())).thenReturn(Optional.of(usuario));
         service.excluir(usuarioCadastro.getId());
-        User usuarioExcluido = repository.getReferenceById(usuarioCadastro.getId());
-        assertEquals(false, usuarioExcluido.isAtivo());
+
+        assertEquals(false, usuario.isAtivo());
+        verify(repository).save(usuario);
 
     }
 }
