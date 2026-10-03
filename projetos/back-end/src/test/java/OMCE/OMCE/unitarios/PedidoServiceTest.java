@@ -21,6 +21,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
+import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -79,7 +80,7 @@ public class PedidoServiceTest {
         pedidoSalvo.setId(99L);
 
         when(pedidoRepository.save(any(Pedido.class))).thenReturn(pedidoSalvo);
-        when(produtoRepository.getReferenceById(any(Long.class))).thenReturn(new Produto());
+        when(produtoRepository.findById(any(Long.class))).thenReturn(Optional.of(new Produto()));
         doNothing().when(produtoRepository).produtoVendido(any(Long.class));
 
         pedidoService.CadastroCompra(dto);
