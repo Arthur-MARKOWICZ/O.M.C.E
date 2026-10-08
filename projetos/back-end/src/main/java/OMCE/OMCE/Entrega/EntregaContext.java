@@ -1,32 +1,23 @@
 package OMCE.OMCE.Entrega;
 
+import OMCE.reuso.strategy.StrategyRegistry;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
+/**
+ * Context do Strategy de entrega, baseado no {@link StrategyRegistry} do omce-reuso.
+ * Mantem a regra propria do dominio: sem tipo informado, usa a entrega padrao.
+ */
 @Component
-public class EntregaContext {
-
-    private final Map<TipoEntrega, EntregaStrategy> estrategias;
+public class EntregaContext extends StrategyRegistry<TipoEntrega, EntregaStrategy> {
 
     public EntregaContext(List<EntregaStrategy> estrategias) {
-        this.estrategias = estrategias.stream()
-                .collect(Collectors.toMap(EntregaStrategy::getTipo, Function.identity()));
+        super(estrategias, EntregaStrategy::getTipo, "Tipo de entrega");
     }
 
+    @Override
     public EntregaStrategy escolher(TipoEntrega tipo) {
-        TipoEntrega tipoEscolhido = tipo != null ? tipo : TipoEntrega.PADRAO;
-        EntregaStrategy estrategia = estrategias.get(tipoEscolhido);
-        if (estrategia == null) {
-            throw new IllegalArgumentException("Tipo de entrega nao suportado: " + tipoEscolhido);
-        }
-        return estrategia;
-    }
-
-    public List<EntregaStrategy> todas() {
-        return List.copyOf(estrategias.values());
+        return super.escolher(tipo != null ? tipo : TipoEntrega.PADRAO);
     }
 }

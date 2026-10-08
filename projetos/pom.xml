@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  POM agregador (reactor) do O.M.C.E.
+  Serve apenas para compilar os modulos juntos com um unico comando:
+      mvn clean install
+  Cada modulo continua independente (a lib nao herda deste pom), assim
+  o omce-reuso pode ser publicado e consumido por outros projetos.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>OMCE</groupId>
+    <artifactId>omce-parent</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>OMCE - Agregador</name>
+
+    <modules>
+        <module>omce-reuso</module>
+        <module>back-end</module>
+    </modules>
+</project>

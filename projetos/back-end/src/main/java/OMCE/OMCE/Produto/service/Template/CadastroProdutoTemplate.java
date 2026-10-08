@@ -7,10 +7,11 @@ import OMCE.OMCE.Produto.repository.ProdutoRepository;
 import OMCE.OMCE.User.Service.UserService;
 import OMCE.OMCE.User.User;
 import OMCE.OMCE.Validacao.ValidacaoProduto;
+import OMCE.reuso.template.CadastroTemplate;
 
 import java.util.Base64;
 
-public abstract class CadastroProdutoTemplate {
+public abstract class CadastroProdutoTemplate extends CadastroTemplate<DadosCadastroProduto, User, Produto> {
 
     protected final ProdutoRepository repository;
     protected final UserService userService;
@@ -26,26 +27,16 @@ public abstract class CadastroProdutoTemplate {
         this.validar = validar;
     }
 
-    // TEMPLATE METHOD
-    public Produto cadastrar(DadosCadastroProduto dados) {
-
+    @Override
+    protected void validar(DadosCadastroProduto dados) {
         validarCadastro(dados);
-
-        User usuario = buscarUsuario(dados);
-
-        Produto produto = criarProduto(dados);
-
-        definirUsuario(produto, usuario);
-
-        configurarCategoria(produto, dados);
-
-        return salvar(produto);
     }
 
     protected void validarCadastro(DadosCadastroProduto dados) {
         validar.ValidarCadastroProduto(dados);
     }
 
+    @Override
     protected User buscarUsuario(DadosCadastroProduto dados) {
 
         User user = userService.pegarUserPorId(dados.id_usuario());
@@ -55,6 +46,11 @@ public abstract class CadastroProdutoTemplate {
         }
 
         return user;
+    }
+
+    @Override
+    protected Produto criar(DadosCadastroProduto dados) {
+        return criarProduto(dados);
     }
 
     protected Produto criarProduto(DadosCadastroProduto dados) {
@@ -78,8 +74,14 @@ public abstract class CadastroProdutoTemplate {
         return produto;
     }
 
+    @Override
     protected void definirUsuario(Produto produto, User usuario) {
         produto.setUsuario(usuario);
+    }
+
+    @Override
+    protected void configurar(Produto produto, DadosCadastroProduto dados) {
+        configurarCategoria(produto, dados);
     }
 
     protected abstract void configurarCategoria(
@@ -87,6 +89,7 @@ public abstract class CadastroProdutoTemplate {
             DadosCadastroProduto dados
     );
 
+    @Override
     protected Produto salvar(Produto produto) {
         return repository.save(produto);
     }
