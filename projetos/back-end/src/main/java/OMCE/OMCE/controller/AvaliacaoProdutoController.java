@@ -1,5 +1,6 @@
 package OMCE.OMCE.controller;
 
+import OMCE.OMCE.AvaliacaoProduto.dto.AvaliacaoProdutoAtualizacaoDTO;
 import OMCE.OMCE.AvaliacaoProduto.dto.AvaliacaoProdutoDTO;
 import OMCE.OMCE.AvaliacaoProduto.dto.AvaliacaoProdutoRespostaDTO;
 import OMCE.OMCE.AvaliacaoProduto.service.AvaliacaoProdutoServico;
@@ -24,6 +25,28 @@ public class AvaliacaoProdutoController {
 
         servico.criar(dto);
 
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/minhas")
+    public ResponseEntity<Page<AvaliacaoProdutoRespostaDTO>> listarMinhas(
+            Pageable pageable) {
+
+        return ResponseEntity.ok(servico.listarMinhas(pageable));
+    }
+
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<Void> atualizar(
+            @PathVariable Long id,
+            @RequestBody AvaliacaoProdutoAtualizacaoDTO dto) {
+
+        servico.atualizar(id, dto);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        servico.deletar(id);
         return ResponseEntity.ok().build();
     }
 

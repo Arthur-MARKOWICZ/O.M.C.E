@@ -13,8 +13,11 @@ import Feed from '../pages/product/Feed';
 import ProductDetail from '../pages/product/ProductDetail';
 import ProductForm from '../pages/product/ProductForm';
 import MyProducts from '../pages/product/MyProducts';
+import MyReviews from '../pages/reviews/MyReviews';
+import ProductReviewEdit from '../pages/reviews/ProductReviewEdit';
 import ProductReviewForm from '../pages/reviews/ProductReviewForm';
 import ProductReviews from '../pages/reviews/ProductReviews';
+import SellerReviewEdit from '../pages/reviews/SellerReviewEdit';
 import SellerReviewForm from '../pages/reviews/SellerReviewForm';
 import SellerReviews from '../pages/reviews/SellerReviews';
 import Profile from '../pages/user/Profile';
@@ -37,6 +40,9 @@ function PrivateRoutes() {
     <Route path="meus-produtos" element={<RequireRole roles={['VENDEDOR']}><MyProducts /></RequireRole>} />
     <Route path="historico/:type" element={<History />} />
     <Route path="avaliacoes" element={<RequireRole roles={['VENDEDOR']}><SellerReviews /></RequireRole>} />
+    <Route path="suas-avaliacoes" element={<RequireRole roles={['COMPRADOR']}><MyReviews /></RequireRole>} />
+    <Route path="suas-avaliacoes/produto/:id/editar" element={<RequireRole roles={['COMPRADOR']}><ProductReviewEdit /></RequireRole>} />
+    <Route path="suas-avaliacoes/vendedor/:id/editar" element={<RequireRole roles={['COMPRADOR']}><SellerReviewEdit /></RequireRole>} />
     <Route path="produto/:id/avaliacoes" element={<ProductReviews />} />
     <Route path="produto/:id/avaliar" element={<ProductReviewForm />} />
     <Route path="vendedor/:id/avaliar" element={<SellerReviewForm />} />

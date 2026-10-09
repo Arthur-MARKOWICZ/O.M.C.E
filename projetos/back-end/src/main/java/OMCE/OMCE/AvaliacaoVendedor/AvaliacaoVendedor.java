@@ -19,6 +19,11 @@ public class AvaliacaoVendedor {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vendedor_id")
     private User vendedor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "avaliador_id")
+    private User avaliador;
+
     private LocalDateTime data = LocalDateTime.now();
     public AvaliacaoVendedor(AvaliacaoVendedorDTO dto){
         this.nota = dto.nota();;
@@ -58,6 +63,14 @@ public class AvaliacaoVendedor {
 
     public void setVendedor(User vendedor) {
         this.vendedor = vendedor;
+    }
+
+    public User getAvaliador() {
+        return avaliador;
+    }
+
+    public void setAvaliador(User avaliador) {
+        this.avaliador = avaliador;
     }
 
     public LocalDateTime getData() {
