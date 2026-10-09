@@ -53,11 +53,20 @@ public class UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNaoEncontrado("Usuário não encontrado com id: " + id));
     }
-    public void excluir(Long id){
+    @Transactional
+    public void excluir(Long id, String senha){
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNaoEncontrado("Usuário não encontrado com id: " + id));
-        user.excluir();
-        userRepository.save(user);
+        if (!encoder.matches(senha, user.getSenha())) {
+            throw new SenhaDiferenteDaOriginal("Senha diferente da original");
+        }
+        userRepository.deletePagamentosDosPedidosDoUsuario(id);
+        userRepository.deleteItensDosPedidosDoUsuario(id);
+        userRepository.deletePedidosDoUsuario(id);
+        userRepository.deleteAvaliacoesDoVendedor(id);
+        userRepository.deleteItensDosProdutosDoUsuario(id);
+        userRepository.deleteProdutosDoUsuario(id);
+        userRepository.delete(user);
     }
     public void redefinirSenhaPorEmail(DadosSolicitarRedefinicaoSenha dados){
         User usuario = userRepository.findByEmail(dados.email());

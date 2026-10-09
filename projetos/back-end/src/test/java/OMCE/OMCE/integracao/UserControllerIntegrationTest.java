@@ -16,6 +16,7 @@ import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -96,6 +97,7 @@ public class UserControllerIntegrationTest {
     void deveExcluirUser(){
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(jwtToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
         DadosEndereco dadosEndereco = new DadosEndereco("8123434", "brasil", "test",
                 "test", "Rua test");
         DadosCadastroUser dadosCadastroUser = new DadosCadastroUser("test", "12345678912"
@@ -103,7 +105,7 @@ public class UserControllerIntegrationTest {
                 "USERTEST", "test");
         User user = service.cadastro(dadosCadastroUser);
         Long userIdToDelete = user.getId();
-        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+        HttpEntity<DadosExcluirUser> requestEntity = new HttpEntity<>(new DadosExcluirUser("test"), headers);
         ResponseEntity<Void> response = restTemplate.exchange(
                 "/user/deletar/{id}",
                 HttpMethod.DELETE,
@@ -112,6 +114,7 @@ public class UserControllerIntegrationTest {
                 userIdToDelete
         );
         assertEquals(HttpStatus.NO_CONTENT,response.getStatusCode());
+        assertTrue(userRepository.findById(userIdToDelete).isEmpty());
     }
     @Test
     void deveMudarASenhaDoUser(){
