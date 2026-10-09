@@ -13,9 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -24,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 class AvaliacaoVendedorControllerTest {
 
     @Autowired
@@ -46,7 +50,7 @@ class AvaliacaoVendedorControllerTest {
         vendedor.setId(1L);
         vendedor.setNome("Carlos Vendedor");
 
-        when(userRepository.getReferenceById(1L)).thenReturn(vendedor);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(vendedor));
 
         when(avaliacaoVendedorRepository.save(any(AvaliacaoVendedor.class)))
                 .thenAnswer(invocation -> {

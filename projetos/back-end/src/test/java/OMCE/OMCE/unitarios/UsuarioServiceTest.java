@@ -106,6 +106,7 @@ public class UsuarioServiceTest {
         assertThrows(UserNaoEncontrado.class, () -> service.excluir(99L, "qualquer"));
     }
 
+
     private User usuarioComSenha(String senha) {
         DadosEndereco dadosEndereco = new DadosEndereco("8123434", "brasil", "test",
                 "test", "Rua test");
