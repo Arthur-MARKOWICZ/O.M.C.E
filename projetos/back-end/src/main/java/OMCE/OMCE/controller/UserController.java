@@ -6,6 +6,7 @@ import OMCE.OMCE.User.*;
 import OMCE.OMCE.User.Service.UserService;
 import OMCE.OMCE.User.dto.DadosAlterarDadosUser;
 import OMCE.OMCE.User.dto.DadosCadastroUser;
+import OMCE.OMCE.User.dto.DadosExcluirUser;
 import OMCE.OMCE.User.dto.DadosRedefinirSenha;
 import OMCE.OMCE.User.repository.UserRepository;
 import OMCE.OMCE.Validacao.ValidacaoUser;
@@ -40,8 +41,8 @@ public class UserController {
     }
     @DeleteMapping("deletar/{id}")
     @Transactional
-    public ResponseEntity<Void> excluir(@PathVariable Long id) {
-        userService.excluir(id);
+    public ResponseEntity<Void> excluir(@PathVariable Long id, @RequestBody DadosExcluirUser dados) {
+        userService.excluir(id, dados.senha());
         return ResponseEntity.noContent().build();
     }
     @PostMapping("/cadastro")
