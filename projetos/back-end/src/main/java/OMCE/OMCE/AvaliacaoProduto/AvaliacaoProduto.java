@@ -2,6 +2,7 @@ package OMCE.OMCE.AvaliacaoProduto;
 
 import OMCE.OMCE.AvaliacaoProduto.dto.AvaliacaoProdutoDTO;
 import OMCE.OMCE.Produto.Produto;
+import OMCE.OMCE.User.User;
 
 import jakarta.persistence.*;
 
@@ -22,6 +23,10 @@ public class AvaliacaoProduto {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "produto_id")
     private Produto produto;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "avaliador_id")
+    private User avaliador;
 
     @Column(name = "criado_em")
     private LocalDateTime data = LocalDateTime.now();
@@ -64,6 +69,14 @@ public class AvaliacaoProduto {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
+    }
+
+    public User getAvaliador() {
+        return avaliador;
+    }
+
+    public void setAvaliador(User avaliador) {
+        this.avaliador = avaliador;
     }
 
     public LocalDateTime getData() {

@@ -44,13 +44,21 @@ class AvaliacaoVendedorControllerTest {
 
     private User vendedor;
 
+    private User avaliador;
+
     @BeforeEach
     void setup() {
         vendedor = new User();
         vendedor.setId(1L);
         vendedor.setNome("Carlos Vendedor");
 
+        avaliador = new User();
+        avaliador.setId(7L);
+        avaliador.setEmail("user");
+        avaliador.setNome("Comprador");
+
         when(userRepository.findById(1L)).thenReturn(Optional.of(vendedor));
+        when(userRepository.findByEmail("user")).thenReturn(avaliador);
 
         when(avaliacaoVendedorRepository.save(any(AvaliacaoVendedor.class)))
                 .thenAnswer(invocation -> {

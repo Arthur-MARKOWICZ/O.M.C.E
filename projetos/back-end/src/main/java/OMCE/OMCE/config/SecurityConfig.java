@@ -59,6 +59,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/produto/filtro/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/avaliacaoVendedor/media/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/avaliacoes/produto/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/avaliacaoVendedor/minhas").authenticated()
                         .requestMatchers(HttpMethod.POST, "/produto/cadastroProduto").hasRole("VENDEDOR")
                         .requestMatchers(HttpMethod.PUT, "/produto/alterarDadosProduto").hasRole("VENDEDOR")
                         .requestMatchers(HttpMethod.DELETE, "/produto/deletar/**").hasRole("VENDEDOR")

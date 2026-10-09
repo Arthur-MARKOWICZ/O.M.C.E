@@ -17,6 +17,10 @@ public interface AvaliacaoProdutoRepositorio
             Long idProduto,
             Pageable pageable);
 
+    Page<AvaliacaoProduto> findByAvaliadorId(
+            Long avaliadorId,
+            Pageable pageable);
+
     @Query("""
         SELECT a.nota
         FROM AvaliacaoProduto a
