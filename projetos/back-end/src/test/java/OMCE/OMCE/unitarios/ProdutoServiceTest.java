@@ -28,12 +28,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static OMCE.OMCE.Produto.enums.Categoria.ESP32;
 import static OMCE.OMCE.Produto.enums.Condicao.USADO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -140,6 +142,38 @@ public class ProdutoServiceTest {
         Produto produtoCadastro = service.cadastro(dados);
         service.deletar(produto.getId());
         verify(repository).deleteById(1L);
+    }
+
+    @Test
+    void DevePegarDetalhesDoProdutoComOVendedor(){
+        DadosCadastroProduto dados = ProdutoTestFactory.dados("test", 10, "test", 1L,
+                "10", "10", ESP32, USADO);
+        Produto produto = ProdutoTestFactory.produto(dados);
+        produto.setId(5L);
+        produto.setUsuario(usuarioCadastro);
+        when(repository.findById(5L)).thenReturn(Optional.of(produto));
+        when(userService.pegarUserPorId(1L)).thenReturn(usuarioCadastro);
+
+        Map<String, Object> json = service.pegarDetalhesDoProduto(5L);
+
+        assertEquals(usuarioCadastro.getNome(), json.get("nome_do_usuario"));
+        assertEquals(1L, json.get("id_vendedor"));
+    }
+
+    @Test
+    void DevePegarDetalhesDoProdutoVendidoPorUsuarioQueExcluiuAConta(){
+        DadosCadastroProduto dados = ProdutoTestFactory.dados("test", 10, "test", 1L,
+                "10", "10", ESP32, USADO);
+        Produto produto = ProdutoTestFactory.produto(dados);
+        produto.setId(6L);
+        produto.setUsuario(null);
+        when(repository.findById(6L)).thenReturn(Optional.of(produto));
+
+        Map<String, Object> json = service.pegarDetalhesDoProduto(6L);
+
+        assertEquals("Usuário removido", json.get("nome_do_usuario"));
+        assertNull(json.get("id_vendedor"));
+        verify(userService, never()).pegarUserPorId(any());
     }
 
 }

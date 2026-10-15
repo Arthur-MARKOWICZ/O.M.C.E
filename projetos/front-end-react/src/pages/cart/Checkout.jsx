@@ -4,6 +4,7 @@ import { auth, cartKey, getCart, money, request } from '../../api';
 import { useNotice } from '../../contexts/NoticeContext';
 import { Empty, ErrorMessage } from '../../components/ui/Feedback';
 import Page from '../../components/ui/Page';
+import { formatarCep, cepValido, PATTERN_CEP } from '../../utils/validation';
 
 const PIX_DESTINO = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
 const PIX_QR = `https://api.qrserver.com/v1/create-qr-code/?size=190x190&data=${encodeURIComponent(PIX_DESTINO)}`;
@@ -69,6 +70,7 @@ export default function Checkout() {
   const submit = async (event) => {
     event.preventDefault();
     if (!items.length) return navigate('/carrinho');
+    if (!cepValido(address.cep)) return setError('Informe o CEP completo, com 8 dígitos.');
     if (
       (metodoPagamento === 'CARTAO_CREDITO' || metodoPagamento === 'CARTAO_DEBITO') &&
       cartaoExpirado(cartao.validade)
@@ -110,15 +112,17 @@ export default function Checkout() {
       ) : (
         <form className="form-card checkout-form" onSubmit={submit}>
           {error && <ErrorMessage error={error} />}
-          {/* Endereço */}
           <label>
             CEP
             <input
               required
               value={address.cep || ''}
-              onChange={(event) => setAddress({ ...address, cep: event.target.value })}
+              onChange={(event) => setAddress({ ...address, cep: formatarCep(event.target.value) })}
               onBlur={(event) => lookupCep(event.target.value)}
               placeholder="00000-000"
+              maxLength={9}
+              pattern={PATTERN_CEP}
+              title="Informe o CEP completo (00000-000)."
             />
           </label>
           <label>

@@ -39,6 +39,10 @@ public class GlobalExceptionHandler {
     public  ResponseEntity<Object> handlePagamentoNaoEncontrado(PagamentoNaoEncontrado ex){
         return  buildResponse(HttpStatus.NOT_FOUND,ex.getMessage());
     }
+    @ExceptionHandler(TokenRedefinicaoInvalido.class)
+    public  ResponseEntity<Object> handleTokenRedefinicaoInvalido(TokenRedefinicaoInvalido ex){
+        return  buildResponse(HttpStatus.BAD_REQUEST,ex.getMessage());
+    }
     @ExceptionHandler(AcessoNegado.class)
     public  ResponseEntity<Object> handleAcessoNegado(AcessoNegado ex){
         return  buildResponse(HttpStatus.FORBIDDEN,ex.getMessage());

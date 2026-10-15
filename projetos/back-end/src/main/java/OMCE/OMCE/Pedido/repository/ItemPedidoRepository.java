@@ -34,7 +34,7 @@ public interface ItemPedidoRepository extends JpaRepository<ItemPedido,Long> {
         FROM ItemPedido i
         JOIN FETCH i.pedido p
         JOIN FETCH i.produto prod
-        JOIN FETCH prod.usuario
+        LEFT JOIN FETCH prod.usuario
         WHERE p.compradorId = :id_usuario
           AND p.dataPedido BETWEEN :inicio AND :fim
         ORDER BY p.dataPedido DESC, i.itemPedidoId

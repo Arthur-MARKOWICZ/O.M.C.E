@@ -107,9 +107,10 @@ public class ProdutoService {
                         )
                 );
 
-        User usuario = userService.pegarUserPorId(
-                produto.getUsuario().getId()
-        );
+        // vendedor nulo = conta excluida; o produto (ja vendido) continua existindo
+        User usuario = produto.getUsuario() != null
+                ? userService.pegarUserPorId(produto.getUsuario().getId())
+                : null;
 
         byte[] imagemBytes = produto.getImagem();
 
@@ -127,8 +128,8 @@ public class ProdutoService {
         json.put("condicao", produto.getCondicao());
         json.put("categoria", produto.getCategoria());
         json.put("detalhes", produto.getDetalhes());
-        json.put("nome_do_usuario", usuario.getNome());
-        json.put("id_vendedor", usuario.getId());
+        json.put("nome_do_usuario", usuario != null ? usuario.getNome() : Produto.VENDEDOR_REMOVIDO);
+        json.put("id_vendedor", usuario != null ? usuario.getId() : null);
         json.put("modelo", produto.getModelo());
         json.put("voltagem", produto.getVoltagem());
         json.put("carga", produto.getCarga());

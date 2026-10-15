@@ -135,6 +135,23 @@ class ExportacaoHistoricoTest {
     }
 
     @Test
+    void deveExibirUsuarioRemovidoQuandoOVendedorDoProdutoJaExcluiuAConta() {
+        Produto semDono = ProdutoTestFactory.produto(ProdutoTestFactory.dados(
+                "Peca de vendedor removido", 10, "test", 7L, "10", "image/png", ESP32, USADO));
+        semDono.setId(2L);
+        semDono.setPreco(5.0);
+        semDono.setUsuario(null);
+        ItemPedido itemSemDono = new ItemPedido(item.getPedido(), semDono);
+        when(itemPedidoRepository.pegarComprasNoPeriodo(eq(3L), any(), any())).thenReturn(List.of(itemSemDono));
+
+        ArquivoExportado arquivo = csv.exportar(3L, INICIO, FIM);
+        String conteudo = new String(arquivo.conteudo(), StandardCharsets.UTF_8);
+
+        assertTrue(conteudo.contains("Peca de vendedor removido"));
+        assertTrue(conteudo.contains("Usuário removido"));
+    }
+
+    @Test
     void deveGerarCsvComCabecalhoLinhaETotal() {
         ArquivoExportado arquivo = csv.exportar(3L, INICIO, FIM);
         String conteudo = new String(arquivo.conteudo(), StandardCharsets.UTF_8);

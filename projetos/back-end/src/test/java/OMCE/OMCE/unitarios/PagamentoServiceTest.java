@@ -113,6 +113,16 @@ public class PagamentoServiceTest {
     }
 
     @Test
+    public void DeveNegarAcessoQuandoOCompradorDoPedidoJaExcluiuAConta() {
+        Pedido pedido = new Pedido();
+        pedido.setId(7L);
+        Pagamento pagamento = new Pagamento(pedido, MetodoPagamento.PIX, 50.0);
+        when(pagamentoRepository.findByPedidoId(7L)).thenReturn(Optional.of(pagamento));
+
+        assertThrows(AcessoNegado.class, () -> pagamentoService.buscarPorPedido(7L, 10L));
+    }
+
+    @Test
     public void DeveLancarNaoEncontradoQuandoPedidoNaoTemPagamento() {
         when(pagamentoRepository.findByPedidoId(5L)).thenReturn(Optional.empty());
 

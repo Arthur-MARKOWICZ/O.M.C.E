@@ -16,26 +16,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     long countByRole(Role role);
 
     @Modifying
-    @Query(value = "DELETE FROM pagamento WHERE pedido_id IN (SELECT pedido_id FROM pedido WHERE comprador_id = :id)", nativeQuery = true)
-    void deletePagamentosDosPedidosDoUsuario(@Param("id") Long id);
-
-    @Modifying
-    @Query(value = "DELETE FROM itens_pedido WHERE pedido_id IN (SELECT pedido_id FROM pedido WHERE comprador_id = :id)", nativeQuery = true)
-    void deleteItensDosPedidosDoUsuario(@Param("id") Long id);
-
-    @Modifying
-    @Query(value = "DELETE FROM pedido WHERE comprador_id = :id", nativeQuery = true)
-    void deletePedidosDoUsuario(@Param("id") Long id);
-
-    @Modifying
     @Query(value = "DELETE FROM avaliacao_vendedor WHERE vendedor_id = :id", nativeQuery = true)
     void deleteAvaliacoesDoVendedor(@Param("id") Long id);
 
     @Modifying
-    @Query(value = "DELETE FROM itens_pedido WHERE produto_id IN (SELECT id FROM produto WHERE id_usuario = :id)", nativeQuery = true)
-    void deleteItensDosProdutosDoUsuario(@Param("id") Long id);
+    @Query(value = "UPDATE pedido SET logradouro = 'Removido', pais = 'Removido', estado = 'Removido', cidade = 'Removido', cep = 'Removido' WHERE comprador_id = :id", nativeQuery = true)
+    void anonimizarEnderecoDosPedidosDoUsuario(@Param("id") Long id);
 
     @Modifying
-    @Query(value = "DELETE FROM produto WHERE id_usuario = :id", nativeQuery = true)
-    void deleteProdutosDoUsuario(@Param("id") Long id);
+    @Query(value = "DELETE FROM produto WHERE id_usuario = :id AND NOT EXISTS (SELECT 1 FROM itens_pedido WHERE itens_pedido.produto_id = produto.id)", nativeQuery = true)
+    void deleteProdutosSemVendaDoUsuario(@Param("id") Long id);
 }

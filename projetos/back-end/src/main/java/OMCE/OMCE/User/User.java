@@ -44,6 +44,13 @@ public class User  implements UserDetails {
     @Column(name = "token_expiracao")
     private LocalDateTime tokenExpiracao;
     public User(){}
+
+    public boolean tokenDeRedefinicaoValido() {
+        return tokenRedefinicao != null
+                && tokenExpiracao != null
+                && tokenExpiracao.isAfter(LocalDateTime.now());
+    }
+    
     public User(DadosCadastroUser dados){
         this.ativo = true;
         this.nome = dados.nome();

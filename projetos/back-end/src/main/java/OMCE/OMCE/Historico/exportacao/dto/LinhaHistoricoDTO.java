@@ -24,7 +24,7 @@ public record LinhaHistoricoDTO(Long pedidoId, LocalDateTime dataCompra, String 
         this(item.getPedido().getId(),
                 item.getPedido().getDataPedido(),
                 item.getProduto().getNome(),
-                item.getProduto().getUsuario() != null ? item.getProduto().getUsuario().getNome() : "",
+                item.getProduto().nomeDoVendedor(),
                 nomeEnum(item.getProduto()),
                 item.getProduto().getCondicao() != null ? item.getProduto().getCondicao().name() : "",
                 1,

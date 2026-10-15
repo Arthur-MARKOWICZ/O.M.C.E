@@ -13,9 +13,9 @@ public record ProdutoRespostaDTO(Long id, String nome, Double preco, String deta
                 produto.getDetalhes(),
                 produto.getImagem(),
                 produto.getImageTipo(),
-                produto.getUsuario().getNome(),
+                produto.nomeDoVendedor(),
                 produto.getCondicao(),
-                produto.getUsuario().getId(),
+                produto.idDoVendedor(),
                 null)
         ;
     }
@@ -28,9 +28,9 @@ public record ProdutoRespostaDTO(Long id, String nome, Double preco, String deta
                 produto.getDetalhes(),
                 produto.getImagem(),
                 produto.getImageTipo(),
-                produto.getUsuario().getNome(),
+                produto.nomeDoVendedor(),
                 produto.getCondicao(),
-                produto.getUsuario().getId(),
+                produto.idDoVendedor(),
                 null)
         ;
     }
@@ -42,9 +42,9 @@ public record ProdutoRespostaDTO(Long id, String nome, Double preco, String deta
                 produto.getDetalhes(),
                 produto.getImagem(),
                 produto.getImageTipo(),
-                produto.getUsuario().getNome(),
+                produto.nomeDoVendedor(),
                 produto.getCondicao(),
-                produto.getUsuario().getId(),
+                produto.idDoVendedor(),
                 valorFrete)
         ;
     }

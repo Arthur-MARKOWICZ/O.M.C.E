@@ -16,6 +16,10 @@ export const formatarCpf = (valor) => valor.replace(/\D/g, '').slice(0, 11)
 
 export const formatarCep = (valor) => valor.replace(/[^\d-]/g, '');
 
+export const cepValido = (valor) => /^\d{5}-?\d{3}$/.test(valor || '');
+
+export const PATTERN_CEP = '\\d{5}-?\\d{3}';
+
 export const telefoneValido = (valor) => {
   const digitos = (valor || '').replace(/\D/g, '');
   return digitos.length === 10 || digitos.length === 11;

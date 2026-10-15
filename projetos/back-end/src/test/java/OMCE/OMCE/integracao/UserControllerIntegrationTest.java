@@ -15,6 +15,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -127,6 +129,7 @@ public class UserControllerIntegrationTest {
                 "USERTEST", "test");
         User user = new User(dadosCadastroUser);
         user.setTokenRedefinicao("test");
+        user.setTokenExpiracao(LocalDateTime.now().plusMinutes(30));
         userRepository.save(user);
 
 
