@@ -1,9 +1,12 @@
 package OMCE.OMCE.unitarios;
 
 import OMCE.OMCE.Enderco.DadosEndereco;
+import OMCE.OMCE.Execao.ProdutoJaVendido;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.dto.DadosAlterarDadosProduto;
 import OMCE.OMCE.Produto.dto.DadosCadastroProduto;
+import OMCE.OMCE.Produto.dto.ProdutoRespostaDTO;
+import OMCE.OMCE.Produto.enums.Categoria;
 import OMCE.OMCE.utils.ProdutoTestFactory;
 import OMCE.OMCE.Produto.repository.ProdutoRepository;
 import OMCE.OMCE.Produto.service.ProdutoService;
@@ -27,6 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Map;
 import java.util.Optional;
@@ -37,6 +42,7 @@ import static OMCE.OMCE.Produto.enums.Condicao.USADO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -142,6 +148,50 @@ public class ProdutoServiceTest {
         Produto produtoCadastro = service.cadastro(dados);
         service.deletar(produto.getId());
         verify(repository).deleteById(1L);
+    }
+
+    @Test
+    void DeveFiltrarOsProdutosDoUsuario(){
+        Pageable pageable = Pageable.unpaged();
+        when(repository.filtrarProdutosDoUsuario(1L, "sensor", Categoria.SENSORES, 5.0, 50.0, pageable))
+                .thenReturn(Page.empty());
+
+        Page<ProdutoRespostaDTO> resultado = service.pegarProdutosPorUser(1L, "sensor", "sensores", 5.0, 50.0, pageable);
+
+        assertTrue(resultado.isEmpty());
+        verify(repository).filtrarProdutosDoUsuario(1L, "sensor", Categoria.SENSORES, 5.0, 50.0, pageable);
+    }
+
+    @Test
+    void NaoDeveDeletarProdutoJaVendido(){
+        Produto produto = ProdutoTestFactory.produto(ProdutoTestFactory.dados("test", 10, "test", 1L,
+                "10", "10", ESP32, USADO));
+        produto.setId(8L);
+        produto.setVendido(true);
+        when(repository.findById(8L)).thenReturn(Optional.of(produto));
+
+        ProdutoJaVendido erro = assertThrows(ProdutoJaVendido.class, () -> service.deletar(8L));
+
+        assertTrue(erro.getMessage().contains("não pode ser excluído"));
+        verify(repository, never()).deleteById(any());
+    }
+
+    @Test
+    void NaoDeveAlterarDadosDeProdutoJaVendido(){
+        Produto produto = ProdutoTestFactory.produto(ProdutoTestFactory.dados("test", 10, "test", 1L,
+                "10", "10", ESP32, USADO));
+        produto.setId(9L);
+        produto.setPreco(10.0);
+        produto.setVendido(true);
+        when(repository.findById(9L)).thenReturn(Optional.of(produto));
+        DadosAlterarDadosProduto dadosAlterar = new DadosAlterarDadosProduto(
+                9L, "novo nome", 999.00, "test", "10", "10");
+
+        ProdutoJaVendido erro = assertThrows(ProdutoJaVendido.class, () -> service.alterarDadosProduto(dadosAlterar));
+
+        assertTrue(erro.getMessage().contains("não pode mais ser editado"));
+        assertEquals(Double.valueOf(10.0), produto.getPreco());
+        verify(repository, never()).save(any(Produto.class));
     }
 
     @Test

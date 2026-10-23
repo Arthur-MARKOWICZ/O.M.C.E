@@ -27,13 +27,23 @@ public class HistoricoController {
     @Autowired
     private HistoricoService historicoService;
     @GetMapping("/vendas")
-    public ResponseEntity<Page<ProdutoRespostaDTO>> historicoVendas(@PageableDefault(size=10) Pageable pageable, @RequestHeader("Id-Usuario") Long id_usuario){
-        Page<ProdutoRespostaDTO> produtos = historicoService.pegarHistoricoDeVenda(id_usuario,pageable);
+    public ResponseEntity<Page<ProdutoRespostaDTO>> historicoVendas(@PageableDefault(size=10) Pageable pageable,
+                                                                    @RequestHeader("Id-Usuario") Long id_usuario,
+                                                                    @RequestParam(required = false) String nome,
+                                                                    @RequestParam(required = false) String categoria,
+                                                                    @RequestParam(required = false) Double precoMin,
+                                                                    @RequestParam(required = false) Double precoMax){
+        Page<ProdutoRespostaDTO> produtos = historicoService.pegarHistoricoDeVenda(id_usuario, nome, categoria, precoMin, precoMax, pageable);
         return ResponseEntity.ok(produtos);
     }
     @GetMapping("/compra")
-    public ResponseEntity<Page<ProdutoRespostaDTO>> historicoCompra(@PageableDefault(size=10) Pageable pageable, @RequestHeader("Id-Usuario") Long id_usuario){
-        Page<ProdutoRespostaDTO> produtos = historicoService.pegarHistoricoDeCompra(id_usuario,pageable);
+    public ResponseEntity<Page<ProdutoRespostaDTO>> historicoCompra(@PageableDefault(size=10) Pageable pageable,
+                                                                    @RequestHeader("Id-Usuario") Long id_usuario,
+                                                                    @RequestParam(required = false) String nome,
+                                                                    @RequestParam(required = false) String categoria,
+                                                                    @RequestParam(required = false) Double precoMin,
+                                                                    @RequestParam(required = false) Double precoMax){
+        Page<ProdutoRespostaDTO> produtos = historicoService.pegarHistoricoDeCompra(id_usuario, nome, categoria, precoMin, precoMax, pageable);
         return ResponseEntity.ok(produtos);
     }
     @GetMapping("/compra/exportar")

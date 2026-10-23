@@ -1,6 +1,7 @@
 package OMCE.OMCE.Produto.service;
 
 import OMCE.OMCE.Execao.CategoriaInvalida;
+import OMCE.OMCE.Execao.ProdutoJaVendido;
 import OMCE.OMCE.Execao.ProdutoNaoEncontrado;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.dto.DadosAlterarDadosProduto;
@@ -107,7 +108,6 @@ public class ProdutoService {
                         )
                 );
 
-        // vendedor nulo = conta excluida; o produto (ja vendido) continua existindo
         User usuario = produto.getUsuario() != null
                 ? userService.pegarUserPorId(produto.getUsuario().getId())
                 : null;
@@ -146,23 +146,7 @@ public class ProdutoService {
             Double precoMax,
             Pageable pageable) {
 
-        Categoria catEnum = null;
-
-        if (categoria != null && !categoria.isBlank()) {
-
-            try {
-
-                catEnum = Categoria.valueOf(
-                        categoria.toUpperCase()
-                );
-
-            } catch (IllegalArgumentException e) {
-
-                throw new CategoriaInvalida(
-                        "Categoria invalida: " + categoria
-                );
-            }
-        }
+        Categoria catEnum = Categoria.deTexto(categoria);
 
         Page<Produto> produtos = repository.filtrarProdutos(
                 nome,
@@ -185,6 +169,10 @@ public class ProdutoService {
             );
         }
 
+        if (produto.get().isVendido()) {
+            throw ProdutoJaVendido.aoExcluir();
+        }
+
         repository.deleteById(id);
     }
 
@@ -199,6 +187,10 @@ public class ProdutoService {
                         )
                 );
 
+        if (produto.isVendido()) {
+            throw ProdutoJaVendido.aoEditar();
+        }
+
         produto.alterarDados(dados);
 
         repository.save(produto);
@@ -206,11 +198,19 @@ public class ProdutoService {
 
     public Page<ProdutoRespostaDTO> pegarProdutosPorUser(
             Long id_usuario,
+            String nome,
+            String categoria,
+            Double precoMin,
+            Double precoMax,
             Pageable pageable) {
 
         Page<Produto> produtos =
-                repository.pegarProdutosUsuario(
+                repository.filtrarProdutosDoUsuario(
                         id_usuario,
+                        nome,
+                        Categoria.deTexto(categoria),
+                        precoMin,
+                        precoMax,
                         pageable
                 );
 

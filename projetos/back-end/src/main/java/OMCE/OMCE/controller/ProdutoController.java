@@ -69,8 +69,12 @@ public class ProdutoController {
     }
     @GetMapping("/todosProdutosUsuario")
     public ResponseEntity<Page<ProdutoRespostaDTO>> pegarProdutosUsuario(@PageableDefault(size=10)Pageable pageable,
-                                                                         @RequestHeader("Id-Usuario") Long id_usuario) {
-        Page<ProdutoRespostaDTO> produtoDTO = service.pegarProdutosPorUser(id_usuario,pageable);
+                                                                         @RequestHeader("Id-Usuario") Long id_usuario,
+                                                                         @RequestParam(required = false) String nome,
+                                                                         @RequestParam(required = false) String categoria,
+                                                                         @RequestParam(required = false) Double precoMin,
+                                                                         @RequestParam(required = false) Double precoMax) {
+        Page<ProdutoRespostaDTO> produtoDTO = service.pegarProdutosPorUser(id_usuario, nome, categoria, precoMin, precoMax, pageable);
        return ResponseEntity.ok(produtoDTO);
 
     }

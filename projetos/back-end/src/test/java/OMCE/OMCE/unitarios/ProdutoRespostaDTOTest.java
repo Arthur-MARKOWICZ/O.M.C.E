@@ -11,8 +11,11 @@ import org.junit.jupiter.api.Test;
 import static OMCE.OMCE.Produto.enums.Categoria.ESP32;
 import static OMCE.OMCE.Produto.enums.Condicao.USADO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+/** Produto vendido continua existindo depois que o vendedor exclui a conta (vendedor nulo). */
 public class ProdutoRespostaDTOTest {
 
     private User vendedor() {
@@ -39,6 +42,17 @@ public class ProdutoRespostaDTOTest {
 
         assertEquals("vendedor teste", dto.nomeUsuario());
         assertEquals(Long.valueOf(7L), dto.id_vendedor());
+        assertFalse(dto.vendido());
+    }
+
+    @Test
+    void deveIndicarQuandoOProdutoJaFoiVendido() {
+        Produto produto = produtoDe(vendedor());
+        produto.setVendido(true);
+
+        assertTrue(new ProdutoRespostaDTO(produto).vendido());
+        assertTrue(new ProdutoRespostaDTO(produto, 30.0).vendido());
+        assertTrue(new ProdutoRespostaDTO(produto, 30.0, 9.9).vendido());
     }
 
     @Test

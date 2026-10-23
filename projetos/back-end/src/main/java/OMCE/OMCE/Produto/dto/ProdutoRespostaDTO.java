@@ -5,7 +5,7 @@ import OMCE.OMCE.Produto.enums.Condicao;
 
 public record ProdutoRespostaDTO(Long id, String nome, Double preco, String detalhes,
                                  byte[] imagem, String image_tipo,
-                                 String nomeUsuario, Condicao condicao, Long id_vendedor, Double valorFrete) {
+                                 String nomeUsuario, Condicao condicao, Long id_vendedor, Double valorFrete, boolean vendido) {
     public ProdutoRespostaDTO(Produto produto){
         this(produto.getId(),
                 produto.getNome(),
@@ -16,7 +16,8 @@ public record ProdutoRespostaDTO(Long id, String nome, Double preco, String deta
                 produto.nomeDoVendedor(),
                 produto.getCondicao(),
                 produto.idDoVendedor(),
-                null)
+                null,
+                produto.isVendido())
         ;
     }
 
@@ -31,7 +32,8 @@ public record ProdutoRespostaDTO(Long id, String nome, Double preco, String deta
                 produto.nomeDoVendedor(),
                 produto.getCondicao(),
                 produto.idDoVendedor(),
-                null)
+                null,
+                produto.isVendido())
         ;
     }
 
@@ -45,7 +47,8 @@ public record ProdutoRespostaDTO(Long id, String nome, Double preco, String deta
                 produto.nomeDoVendedor(),
                 produto.getCondicao(),
                 produto.idDoVendedor(),
-                valorFrete)
+                valorFrete,
+                produto.isVendido())
         ;
     }
 

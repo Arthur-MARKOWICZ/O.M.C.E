@@ -1,5 +1,6 @@
 package OMCE.OMCE.controller;
 
+import OMCE.OMCE.Execao.ProdutoJaVendido;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.repository.ProdutoRepository;
 import OMCE.OMCE.User.Role;
@@ -27,7 +28,6 @@ public class AdminController {
     private ProdutoRepository produtoRepository;
 
 
-    // Dashboard
     @GetMapping("/dashboard")
     public ResponseEntity<DadosDashboardAdmin> dashboard() {
 
@@ -46,7 +46,6 @@ public class AdminController {
         );
     }
 
-// Usuarios
     @GetMapping("/usuarios")
     public ResponseEntity<List<DadosAdminUser>> listarUsuarios() {
         List<DadosAdminUser> usuarios = userRepository.findAll()
@@ -110,7 +109,6 @@ public class AdminController {
         return ResponseEntity.ok().build();
     }
 
-// Produtos
     @GetMapping("/produtos")
     public ResponseEntity<List<DadosAdminProduto>> listarProdutos() {
         List<DadosAdminProduto> produtos = produtoRepository.findAll()
@@ -148,8 +146,12 @@ public class AdminController {
     @Transactional
     public ResponseEntity<Void> excluirProduto(@PathVariable Long id) {
 
-        if (!produtoRepository.existsById(id)) {
+        Produto produto = produtoRepository.findById(id).orElse(null);
+        if (produto == null) {
             return ResponseEntity.notFound().build();
+        }
+        if (produto.isVendido()) {
+            throw ProdutoJaVendido.aoExcluir();
         }
 
         produtoRepository.deleteById(id);
