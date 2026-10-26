@@ -1,6 +1,7 @@
 package OMCE.OMCE.unitarios;
 
 import OMCE.OMCE.Enderco.DadosEndereco;
+import OMCE.OMCE.Execao.AcessoNegado;
 import OMCE.OMCE.Execao.ProdutoJaVendido;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.dto.DadosAlterarDadosProduto;
@@ -131,7 +132,7 @@ public class ProdutoServiceTest {
                 produtoCadastro.getId(), "testalterado", 10.00, "test", "10", "10"
         );
 
-        service.alterarDadosProduto(dadosAlterar);
+        service.alterarDadosProduto(dadosAlterar, 1L);
 
         assertEquals("testalterado", produtoCadastro.getNome());
 
@@ -145,8 +146,9 @@ public class ProdutoServiceTest {
         produto.setId(1L);
         when(repository.save(any(Produto.class))).thenReturn(produto);
         when(repository.findById(1L)).thenReturn(Optional.of(produto));
+        produto.setUsuario(usuarioCadastro);
         Produto produtoCadastro = service.cadastro(dados);
-        service.deletar(produto.getId());
+        service.deletar(produto.getId(), 1L);
         verify(repository).deleteById(1L);
     }
 
@@ -163,14 +165,70 @@ public class ProdutoServiceTest {
     }
 
     @Test
+    void NaoDeveExcluirProdutoDeOutroVendedor(){
+        Produto produto = ProdutoTestFactory.produto(ProdutoTestFactory.dados("test", 10, "test", 1L,
+                "10", "10", ESP32, USADO));
+        produto.setId(11L);
+        produto.setUsuario(usuarioCadastro);
+        when(repository.findById(11L)).thenReturn(Optional.of(produto));
+
+        assertThrows(AcessoNegado.class, () -> service.deletar(11L, 2L));
+
+        verify(repository, never()).deleteById(any());
+    }
+
+    @Test
+    void NaoDeveEditarProdutoDeOutroVendedor(){
+        Produto produto = ProdutoTestFactory.produto(ProdutoTestFactory.dados("test", 10, "test", 1L,
+                "10", "10", ESP32, USADO));
+        produto.setId(12L);
+        produto.setNome("original");
+        produto.setUsuario(usuarioCadastro);
+        when(repository.findById(12L)).thenReturn(Optional.of(produto));
+        DadosAlterarDadosProduto dadosAlterar = new DadosAlterarDadosProduto(
+                12L, "invadido", 1.00, "test", "10", "10");
+
+        assertThrows(AcessoNegado.class, () -> service.alterarDadosProduto(dadosAlterar, 2L));
+
+        assertEquals("original", produto.getNome());
+        verify(repository, never()).save(any(Produto.class));
+    }
+
+    @Test
+    void NaoDeveMexerEmProdutoSemVendedor(){
+        Produto produto = ProdutoTestFactory.produto(ProdutoTestFactory.dados("test", 10, "test", 1L,
+                "10", "10", ESP32, USADO));
+        produto.setId(13L);
+        produto.setUsuario(null);
+        when(repository.findById(13L)).thenReturn(Optional.of(produto));
+        DadosAlterarDadosProduto dadosAlterar = new DadosAlterarDadosProduto(
+                13L, "qualquer", 1.00, "test", "10", "10");
+
+        assertThrows(AcessoNegado.class, () -> service.deletar(13L, 1L));
+        assertThrows(AcessoNegado.class, () -> service.alterarDadosProduto(dadosAlterar, 1L));
+    }
+
+    @Test
+    void NaoDeveAnunciarProdutoEmNomeDeOutroUsuario(){
+        DadosCadastroProduto dados = ProdutoTestFactory.dados("test", 10, "test", 1L,
+                "10", "10", ESP32, USADO);
+
+        assertThrows(AcessoNegado.class, () -> service.cadastro(dados, 2L));
+
+        verify(userService, never()).pegarUserPorId(any());
+        verify(repository, never()).save(any(Produto.class));
+    }
+
+    @Test
     void NaoDeveDeletarProdutoJaVendido(){
         Produto produto = ProdutoTestFactory.produto(ProdutoTestFactory.dados("test", 10, "test", 1L,
                 "10", "10", ESP32, USADO));
         produto.setId(8L);
+        produto.setUsuario(usuarioCadastro);
         produto.setVendido(true);
         when(repository.findById(8L)).thenReturn(Optional.of(produto));
 
-        ProdutoJaVendido erro = assertThrows(ProdutoJaVendido.class, () -> service.deletar(8L));
+        ProdutoJaVendido erro = assertThrows(ProdutoJaVendido.class, () -> service.deletar(8L, 1L));
 
         assertTrue(erro.getMessage().contains("não pode ser excluído"));
         verify(repository, never()).deleteById(any());
@@ -181,13 +239,14 @@ public class ProdutoServiceTest {
         Produto produto = ProdutoTestFactory.produto(ProdutoTestFactory.dados("test", 10, "test", 1L,
                 "10", "10", ESP32, USADO));
         produto.setId(9L);
+        produto.setUsuario(usuarioCadastro);
         produto.setPreco(10.0);
         produto.setVendido(true);
         when(repository.findById(9L)).thenReturn(Optional.of(produto));
         DadosAlterarDadosProduto dadosAlterar = new DadosAlterarDadosProduto(
                 9L, "novo nome", 999.00, "test", "10", "10");
 
-        ProdutoJaVendido erro = assertThrows(ProdutoJaVendido.class, () -> service.alterarDadosProduto(dadosAlterar));
+        ProdutoJaVendido erro = assertThrows(ProdutoJaVendido.class, () -> service.alterarDadosProduto(dadosAlterar, 1L));
 
         assertTrue(erro.getMessage().contains("não pode mais ser editado"));
         assertEquals(Double.valueOf(10.0), produto.getPreco());

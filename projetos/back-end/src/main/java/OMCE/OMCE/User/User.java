@@ -4,6 +4,7 @@ import OMCE.OMCE.Enderco.Endereco;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.User.dto.DadosAlterarDadosUser;
 import OMCE.OMCE.User.dto.DadosCadastroUser;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "user")
+// segredos que nunca podem sair em JSON (a entidade e devolvida por alguns endpoints)
+@JsonIgnoreProperties({"senha", "password", "tokenRedefinicao", "tokenExpiracao"})
 public class User  implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,7 +53,6 @@ public class User  implements UserDetails {
                 && tokenExpiracao != null
                 && tokenExpiracao.isAfter(LocalDateTime.now());
     }
-    
     public User(DadosCadastroUser dados){
         this.ativo = true;
         this.nome = dados.nome();

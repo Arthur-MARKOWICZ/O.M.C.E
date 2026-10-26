@@ -1,9 +1,11 @@
 package OMCE.OMCE.unitarios;
 
 import OMCE.OMCE.Enderco.DadosEndereco;
+import OMCE.OMCE.Execao.AcessoNegado;
 import OMCE.OMCE.Execao.SenhaDiferenteDaOriginal;
 import OMCE.OMCE.Execao.TokenRedefinicaoInvalido;
 import OMCE.OMCE.Execao.UserNaoEncontrado;
+import OMCE.OMCE.User.Role;
 import OMCE.OMCE.User.Service.UserService;
 import OMCE.OMCE.User.User;
 import OMCE.OMCE.User.dto.DadosCadastroUser;
@@ -178,6 +180,40 @@ public class UsuarioServiceTest {
         assertThrows(TokenRedefinicaoInvalido.class,
                 () -> service.novaSenha(new DadosRedefinirSenha("uso-unico", "OutraSenha@456")));
         assertTrue(new BCryptPasswordEncoder().matches("SenhaNova@123", usuario.getSenha()));
+    }
+
+    @Test
+    public void deveEntregarOsDadosDaContaAoProprioDono() {
+        User dono = usuarioComSenha("senhaCorreta");
+        when(repository.findById(1L)).thenReturn(Optional.of(dono));
+
+        assertEquals(dono, service.pegarUserParaLeitura(1L, dono));
+    }
+
+    @Test
+    public void naoDeveEntregarOsDadosDeOutraConta() {
+        User outro = usuarioComSenha("senhaCorreta");
+        outro.setId(2L);
+
+        assertThrows(AcessoNegado.class, () -> service.pegarUserParaLeitura(1L, outro));
+
+        verify(repository, never()).findById(any());
+    }
+
+    @Test
+    public void deveEntregarOsDadosDeQualquerContaParaAdministrador() {
+        User admin = usuarioComSenha("senhaCorreta");
+        admin.setId(3L);
+        admin.setRole(Role.ADMIN);
+        User alvo = usuarioComSenha("outraSenha");
+        when(repository.findById(1L)).thenReturn(Optional.of(alvo));
+
+        assertEquals(alvo, service.pegarUserParaLeitura(1L, admin));
+    }
+
+    @Test
+    public void naoDeveEntregarDadosSemUsuarioLogado() {
+        assertThrows(AcessoNegado.class, () -> service.pegarUserParaLeitura(1L, null));
     }
 
     private User usuarioComSenha(String senha) {

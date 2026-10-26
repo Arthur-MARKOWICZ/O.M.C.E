@@ -1,5 +1,6 @@
 package OMCE.OMCE.Produto.service;
 
+import OMCE.OMCE.Execao.AcessoNegado;
 import OMCE.OMCE.Execao.CategoriaInvalida;
 import OMCE.OMCE.Execao.ProdutoJaVendido;
 import OMCE.OMCE.Execao.ProdutoNaoEncontrado;
@@ -73,6 +74,19 @@ public class ProdutoService {
         this.cadastroMotor = cadastroMotor;
         this.cadastroConector = cadastroConector;
         this.cadastroOutro = cadastroOutro;
+    }
+
+    public Produto cadastro(DadosCadastroProduto dados, Long idUsuarioLogado) {
+        if (idUsuarioLogado == null || dados.id_usuario() != idUsuarioLogado) {
+            throw new AcessoNegado("Você só pode anunciar produtos em nome da sua própria conta.");
+        }
+        return cadastro(dados);
+    }
+
+    private void exigirDono(Produto produto, Long idUsuarioLogado, String acao) {
+        if (idUsuarioLogado == null || !idUsuarioLogado.equals(produto.idDoVendedor())) {
+            throw new AcessoNegado("Você não tem permissão para " + acao + " este produto.");
+        }
     }
 
     public Produto cadastro(DadosCadastroProduto dados) {
@@ -159,7 +173,7 @@ public class ProdutoService {
         return produtos.map(ProdutoRespostaDTO::new);
     }
 
-    public void deletar(Long id) {
+    public void deletar(Long id, Long idUsuarioLogado) {
 
         Optional<Produto> produto = repository.findById(id);
 
@@ -169,6 +183,8 @@ public class ProdutoService {
             );
         }
 
+        exigirDono(produto.get(), idUsuarioLogado, "excluir");
+
         if (produto.get().isVendido()) {
             throw ProdutoJaVendido.aoExcluir();
         }
@@ -177,7 +193,7 @@ public class ProdutoService {
     }
 
     public void alterarDadosProduto(
-            DadosAlterarDadosProduto dados) {
+            DadosAlterarDadosProduto dados, Long idUsuarioLogado) {
 
         Produto produto = repository.findById(dados.id())
                 .orElseThrow(() ->
@@ -186,6 +202,8 @@ public class ProdutoService {
                                         + dados.id()
                         )
                 );
+
+        exigirDono(produto, idUsuarioLogado, "editar");
 
         if (produto.isVendido()) {
             throw ProdutoJaVendido.aoEditar();

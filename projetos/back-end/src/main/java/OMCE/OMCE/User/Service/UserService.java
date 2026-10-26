@@ -1,5 +1,6 @@
 package OMCE.OMCE.User.Service;
 
+import OMCE.OMCE.Execao.AcessoNegado;
 import OMCE.OMCE.Execao.SenhaDiferenteDaOriginal;
 import OMCE.OMCE.Execao.SenhaIgualAOriginal;
 import OMCE.OMCE.Execao.TokenRedefinicaoInvalido;
@@ -54,6 +55,12 @@ public class UserService {
         }
         user.alterarDados(dados,novoHash);
         userRepository.save(user);
+    }
+    public User pegarUserParaLeitura(Long id, User solicitante){
+        if (solicitante == null || (solicitante.getId() != id && solicitante.getRole() != Role.ADMIN)) {
+            throw new AcessoNegado("Você não tem permissão para ver os dados desta conta.");
+        }
+        return pegarUserPorId(id);
     }
     public User pegarUserPorId(Long id){
         return userRepository.findById(id)
