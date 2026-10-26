@@ -68,9 +68,7 @@ public class UserControllerIntegrationTest {
         DadosCadastroUser dadosCadastroUser = new DadosCadastroUser("test","12345678912"
                 ,"22-06-2005","test",dadosEndereco,"cadastro@gmail","1231313139",
                 "USERTEST","test");
-        User user = new User(dadosCadastroUser);
-        user.setSenha("test");
-        ResponseEntity<Void> response = restTemplate.postForEntity("/user/cadastro",user, Void.class);
+        ResponseEntity<Void> response = restTemplate.postForEntity("/user/cadastro", dadosCadastroUser, Void.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
     @Test
