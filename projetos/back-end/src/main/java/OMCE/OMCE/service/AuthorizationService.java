@@ -1,5 +1,6 @@
 package OMCE.OMCE.service;
 
+import OMCE.OMCE.Execao.TokenRedefinicaoInvalido;
 import OMCE.OMCE.User.User;
 import OMCE.OMCE.User.dto.AuthenticationDTO;
 import OMCE.OMCE.User.dto.DadosRedefinirSenha;
@@ -52,7 +53,13 @@ public class AuthorizationService implements UserDetailsService {
         return new LoginResponseDTO(token,idUser,nome,role);
     }
     public void redefinirSenha(DadosRedefinirSenha dados){
+        if (dados.token() == null || dados.token().isBlank()) {
+            throw new TokenRedefinicaoInvalido("Link de redefinição inválido ou expirado. Solicite um novo.");
+        }
         User user = userRepository.findByTokenRedefinicao(dados.token());
+        if (user == null || !user.tokenDeRedefinicaoValido()) {
+            throw new TokenRedefinicaoInvalido("Link de redefinição inválido ou expirado. Solicite um novo.");
+        }
         String novaSenhaHash = new BCryptPasswordEncoder().encode(dados.novaSenha());
         user.setSenha(novaSenhaHash);
         user.setTokenRedefinicao(null);
@@ -60,7 +67,5 @@ public class AuthorizationService implements UserDetailsService {
         userRepository.save(user);
 
     }
-
-
 
 }

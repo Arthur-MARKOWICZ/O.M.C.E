@@ -2,6 +2,7 @@ package OMCE.OMCE.unitarios;
 
 import OMCE.OMCE.Enderco.DadosEndereco;
 import OMCE.OMCE.Historico.HistoricoService;
+import OMCE.OMCE.Execao.CategoriaInvalida;
 import OMCE.OMCE.Pedido.ItemPedido;
 import OMCE.OMCE.Pedido.Pedido;
 import OMCE.OMCE.Pedido.dto.PedidoCadastroDTO;
@@ -9,6 +10,7 @@ import OMCE.OMCE.Pedido.repository.ItemPedidoRepository;
 import OMCE.OMCE.Pedido.repository.PedidoRepository;
 import OMCE.OMCE.Pedido.service.PedidoService;
 import OMCE.OMCE.Produto.Produto;
+import OMCE.OMCE.Produto.enums.Categoria;
 import OMCE.OMCE.Produto.dto.DadosCadastroProduto;
 import OMCE.OMCE.utils.ProdutoTestFactory;
 import OMCE.OMCE.Produto.dto.ProdutoRespostaDTO;
@@ -38,6 +40,7 @@ import static OMCE.OMCE.Produto.enums.Categoria.ESP32;
 import static OMCE.OMCE.Produto.enums.Condicao.USADO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -87,20 +90,20 @@ class HistoricoServiceTest {
         produtoCadastro.setId(1L);
         produtoCadastro.setUsuario(usuarioCadastro);
         Page<Produto> pageVendas = new PageImpl<>(List.of(produtoCadastro));
-        lenient().when(produtoRepository.pegarVendas(1L, Pageable.unpaged())).thenReturn(pageVendas);
+        lenient().when(produtoRepository.filtrarVendas(eq(1L), any(), any(), any(), any(), eq(Pageable.unpaged()))).thenReturn(pageVendas);
 
         Pedido pedidoCompra = new Pedido();
         pedidoCompra.setId(1L);
         pedidoCompra.setValor(37.90);
         ItemPedido itemCompra = new ItemPedido(pedidoCompra, produtoCadastro);
         Page<ItemPedido> pageCompras = new PageImpl<>(List.of(itemCompra));
-        lenient().when(itemPedidoRepository.pegarComprasDoUsuario(1L, Pageable.unpaged()))
+        lenient().when(itemPedidoRepository.filtrarComprasDoUsuario(eq(1L), any(), any(), any(), any(), eq(Pageable.unpaged())))
                 .thenReturn(pageCompras);
     }
 
     @Test
     void DeveObterOHistoricoDeVenda() {
-        Page<ProdutoRespostaDTO> historicoVenda = service.pegarHistoricoDeVenda(1L, Pageable.unpaged());
+        Page<ProdutoRespostaDTO> historicoVenda = service.pegarHistoricoDeVenda(1L, null, null, null, null, Pageable.unpaged());
 
         assertNotNull(historicoVenda);
         assertEquals(1, historicoVenda.getContent().size());
@@ -109,11 +112,33 @@ class HistoricoServiceTest {
 
     @Test
     void DeveObterOHistoricoDeCompra() {
-        Page<ProdutoRespostaDTO> historicoCompra = service.pegarHistoricoDeCompra(1L, Pageable.unpaged());
+        Page<ProdutoRespostaDTO> historicoCompra = service.pegarHistoricoDeCompra(1L, null, null, null, null, Pageable.unpaged());
 
         assertNotNull(historicoCompra);
         assertEquals(1, historicoCompra.getContent().size());
         assertEquals(produtoCadastro.getId(), historicoCompra.getContent().get(0).id());
         assertEquals(produtoCadastro.getPreco(), historicoCompra.getContent().get(0).preco());
+    }
+
+    @Test
+    void DeveRepassarOsFiltrosDoHistoricoDeVenda() {
+        service.pegarHistoricoDeVenda(1L, "sensor", "sensores", 5.0, 50.0, Pageable.unpaged());
+
+        verify(produtoRepository).filtrarVendas(1L, "sensor", Categoria.SENSORES, 5.0, 50.0, Pageable.unpaged());
+    }
+
+    @Test
+    void DeveRepassarOsFiltrosDoHistoricoDeCompra() {
+        service.pegarHistoricoDeCompra(1L, "sensor", "sensores", 5.0, 50.0, Pageable.unpaged());
+
+        verify(itemPedidoRepository).filtrarComprasDoUsuario(1L, "sensor", Categoria.SENSORES, 5.0, 50.0, Pageable.unpaged());
+    }
+
+    @Test
+    void DeveRecusarCategoriaInvalidaNoHistorico() {
+        assertThrows(CategoriaInvalida.class,
+                () -> service.pegarHistoricoDeVenda(1L, null, "XYZ", null, null, Pageable.unpaged()));
+        assertThrows(CategoriaInvalida.class,
+                () -> service.pegarHistoricoDeCompra(1L, null, "XYZ", null, null, Pageable.unpaged()));
     }
 }

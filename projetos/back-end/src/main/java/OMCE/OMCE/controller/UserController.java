@@ -1,6 +1,7 @@
 package OMCE.OMCE.controller;
 
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import OMCE.OMCE.User.*;
 
 import OMCE.OMCE.User.Service.UserService;
@@ -28,8 +29,8 @@ public class UserController {
     @Autowired
     private UserService userService;
     @GetMapping("/{id}")
-    public  ResponseEntity<User> pegarUsuario(@PathVariable Long id){
-       User user = userService.pegarUserPorId(id);
+    public  ResponseEntity<User> pegarUsuario(@PathVariable Long id, @AuthenticationPrincipal User usuarioLogado){
+       User user = userService.pegarUserParaLeitura(id, usuarioLogado);
         return ResponseEntity.ok(user);
     }
 

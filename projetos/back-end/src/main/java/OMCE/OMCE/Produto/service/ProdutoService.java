@@ -1,6 +1,8 @@
 package OMCE.OMCE.Produto.service;
 
+import OMCE.OMCE.Execao.AcessoNegado;
 import OMCE.OMCE.Execao.CategoriaInvalida;
+import OMCE.OMCE.Execao.ProdutoJaVendido;
 import OMCE.OMCE.Execao.ProdutoNaoEncontrado;
 import OMCE.OMCE.Produto.Produto;
 import OMCE.OMCE.Produto.dto.DadosAlterarDadosProduto;
@@ -74,6 +76,19 @@ public class ProdutoService {
         this.cadastroOutro = cadastroOutro;
     }
 
+    public Produto cadastro(DadosCadastroProduto dados, Long idUsuarioLogado) {
+        if (idUsuarioLogado == null || dados.id_usuario() != idUsuarioLogado) {
+            throw new AcessoNegado("Você só pode anunciar produtos em nome da sua própria conta.");
+        }
+        return cadastro(dados);
+    }
+
+    private void exigirDono(Produto produto, Long idUsuarioLogado, String acao) {
+        if (idUsuarioLogado == null || !idUsuarioLogado.equals(produto.idDoVendedor())) {
+            throw new AcessoNegado("Você não tem permissão para " + acao + " este produto.");
+        }
+    }
+
     public Produto cadastro(DadosCadastroProduto dados) {
 
         return switch (dados.categoria()) {
@@ -107,9 +122,9 @@ public class ProdutoService {
                         )
                 );
 
-        User usuario = userService.pegarUserPorId(
-                produto.getUsuario().getId()
-        );
+        User usuario = produto.getUsuario() != null
+                ? userService.pegarUserPorId(produto.getUsuario().getId())
+                : null;
 
         byte[] imagemBytes = produto.getImagem();
 
@@ -127,8 +142,8 @@ public class ProdutoService {
         json.put("condicao", produto.getCondicao());
         json.put("categoria", produto.getCategoria());
         json.put("detalhes", produto.getDetalhes());
-        json.put("nome_do_usuario", usuario.getNome());
-        json.put("id_vendedor", usuario.getId());
+        json.put("nome_do_usuario", usuario != null ? usuario.getNome() : Produto.VENDEDOR_REMOVIDO);
+        json.put("id_vendedor", usuario != null ? usuario.getId() : null);
         json.put("modelo", produto.getModelo());
         json.put("voltagem", produto.getVoltagem());
         json.put("carga", produto.getCarga());
@@ -145,23 +160,7 @@ public class ProdutoService {
             Double precoMax,
             Pageable pageable) {
 
-        Categoria catEnum = null;
-
-        if (categoria != null && !categoria.isBlank()) {
-
-            try {
-
-                catEnum = Categoria.valueOf(
-                        categoria.toUpperCase()
-                );
-
-            } catch (IllegalArgumentException e) {
-
-                throw new CategoriaInvalida(
-                        "Categoria invalida: " + categoria
-                );
-            }
-        }
+        Categoria catEnum = Categoria.deTexto(categoria);
 
         Page<Produto> produtos = repository.filtrarProdutos(
                 nome,
@@ -174,7 +173,7 @@ public class ProdutoService {
         return produtos.map(ProdutoRespostaDTO::new);
     }
 
-    public void deletar(Long id) {
+    public void deletar(Long id, Long idUsuarioLogado) {
 
         Optional<Produto> produto = repository.findById(id);
 
@@ -184,11 +183,17 @@ public class ProdutoService {
             );
         }
 
+        exigirDono(produto.get(), idUsuarioLogado, "excluir");
+
+        if (produto.get().isVendido()) {
+            throw ProdutoJaVendido.aoExcluir();
+        }
+
         repository.deleteById(id);
     }
 
     public void alterarDadosProduto(
-            DadosAlterarDadosProduto dados) {
+            DadosAlterarDadosProduto dados, Long idUsuarioLogado) {
 
         Produto produto = repository.findById(dados.id())
                 .orElseThrow(() ->
@@ -198,6 +203,12 @@ public class ProdutoService {
                         )
                 );
 
+        exigirDono(produto, idUsuarioLogado, "editar");
+
+        if (produto.isVendido()) {
+            throw ProdutoJaVendido.aoEditar();
+        }
+
         produto.alterarDados(dados);
 
         repository.save(produto);
@@ -205,11 +216,19 @@ public class ProdutoService {
 
     public Page<ProdutoRespostaDTO> pegarProdutosPorUser(
             Long id_usuario,
+            String nome,
+            String categoria,
+            Double precoMin,
+            Double precoMax,
             Pageable pageable) {
 
         Page<Produto> produtos =
-                repository.pegarProdutosUsuario(
+                repository.filtrarProdutosDoUsuario(
                         id_usuario,
+                        nome,
+                        Categoria.deTexto(categoria),
+                        precoMin,
+                        precoMax,
                         pageable
                 );
 

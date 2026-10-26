@@ -1,7 +1,9 @@
 package OMCE.OMCE.User.Service;
 
+import OMCE.OMCE.Execao.AcessoNegado;
 import OMCE.OMCE.Execao.SenhaDiferenteDaOriginal;
 import OMCE.OMCE.Execao.SenhaIgualAOriginal;
+import OMCE.OMCE.Execao.TokenRedefinicaoInvalido;
 import OMCE.OMCE.Execao.UserNaoEncontrado;
 import OMCE.OMCE.User.*;
 import OMCE.OMCE.User.dto.DadosAlterarDadosUser;
@@ -13,6 +15,7 @@ import OMCE.OMCE.Validacao.ValidacaoUser;
 import OMCE.OMCE.config.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,12 +26,16 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class UserService {
+    private static final String MENSAGEM_TOKEN_INVALIDO = "Link de redefinição inválido ou expirado. Solicite um novo.";
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private ValidacaoUser validar;
     @Autowired
     private EmailService emailService;
+
+    @Value("${app.frontend-url:http://localhost:5173}")
+    private String frontendUrl;
 
     private BCryptPasswordEncoder encoder =  new BCryptPasswordEncoder();
     public void alterardados(DadosAlterarDadosUser dados){
@@ -49,6 +56,12 @@ public class UserService {
         user.alterarDados(dados,novoHash);
         userRepository.save(user);
     }
+    public User pegarUserParaLeitura(Long id, User solicitante){
+        if (solicitante == null || (solicitante.getId() != id && solicitante.getRole() != Role.ADMIN)) {
+            throw new AcessoNegado("Você não tem permissão para ver os dados desta conta.");
+        }
+        return pegarUserPorId(id);
+    }
     public User pegarUserPorId(Long id){
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNaoEncontrado("Usuário não encontrado com id: " + id));
@@ -60,12 +73,9 @@ public class UserService {
         if (!encoder.matches(senha, user.getSenha())) {
             throw new SenhaDiferenteDaOriginal("Senha diferente da original");
         }
-        userRepository.deletePagamentosDosPedidosDoUsuario(id);
-        userRepository.deleteItensDosPedidosDoUsuario(id);
-        userRepository.deletePedidosDoUsuario(id);
+        userRepository.anonimizarEnderecoDosPedidosDoUsuario(id);
         userRepository.deleteAvaliacoesDoVendedor(id);
-        userRepository.deleteItensDosProdutosDoUsuario(id);
-        userRepository.deleteProdutosDoUsuario(id);
+        userRepository.deleteProdutosSemVendaDoUsuario(id);
         userRepository.delete(user);
     }
     public void redefinirSenhaPorEmail(DadosSolicitarRedefinicaoSenha dados){
@@ -77,7 +87,7 @@ public class UserService {
         usuario.setTokenRedefinicao(token);
         usuario.setTokenExpiracao(LocalDateTime.now().plusMinutes(30));
         userRepository.save(usuario);
-        String link = "http://127.0.0.1:5500/O.M.C.E/projetos/front-end/html/novaSenha.html?token=" + token;
+        String link = frontendUrl + "/nova-senha?token=" + token;
         String assunto = "Redefinição de Senha - OMCE";
         String corpo = "Olá, " + usuario.getNome() + "!\n\n" +
                 "Recebemos uma solicitação para redefinir sua senha. " +
@@ -91,9 +101,15 @@ public class UserService {
     }
     @Transactional
     public void novaSenha(DadosRedefinirSenha dados){
+        if (dados.token() == null || dados.token().isBlank()) {
+            throw new TokenRedefinicaoInvalido(MENSAGEM_TOKEN_INVALIDO);
+        }
+        if (dados.novaSenha() == null || dados.novaSenha().isBlank()) {
+            throw new IllegalArgumentException("A nova senha nao pode ser vazia.");
+        }
         User user = userRepository.findByTokenRedefinicao(dados.token());
-        if (user == null) {
-           throw  new UserNaoEncontrado("User nao foi encontrado");
+        if (user == null || !user.tokenDeRedefinicaoValido()) {
+            throw new TokenRedefinicaoInvalido(MENSAGEM_TOKEN_INVALIDO);
         }
         BCryptPasswordEncoder encoder =  new BCryptPasswordEncoder();
         if(encoder.matches(dados.novaSenha(),user.getSenha())){
@@ -101,6 +117,8 @@ public class UserService {
         }
         String novoHash =  encoder.encode(dados.novaSenha());
         user.setSenha(novoHash);
+        user.setTokenRedefinicao(null);
+        user.setTokenExpiracao(null);
     }
     public User cadastro(DadosCadastroUser dados){
         validar.validarCadastroUsuario(dados);

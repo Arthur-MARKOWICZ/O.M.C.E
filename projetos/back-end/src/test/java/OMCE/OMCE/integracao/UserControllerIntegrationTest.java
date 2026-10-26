@@ -15,6 +15,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -66,9 +68,7 @@ public class UserControllerIntegrationTest {
         DadosCadastroUser dadosCadastroUser = new DadosCadastroUser("test","12345678912"
                 ,"22-06-2005","test",dadosEndereco,"cadastro@gmail","1231313139",
                 "USERTEST","test");
-        User user = new User(dadosCadastroUser);
-        user.setSenha("test");
-        ResponseEntity<Void> response = restTemplate.postForEntity("/user/cadastro",user, Void.class);
+        ResponseEntity<Void> response = restTemplate.postForEntity("/user/cadastro", dadosCadastroUser, Void.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
     @Test
@@ -127,6 +127,7 @@ public class UserControllerIntegrationTest {
                 "USERTEST", "test");
         User user = new User(dadosCadastroUser);
         user.setTokenRedefinicao("test");
+        user.setTokenExpiracao(LocalDateTime.now().plusMinutes(30));
         userRepository.save(user);
 
 

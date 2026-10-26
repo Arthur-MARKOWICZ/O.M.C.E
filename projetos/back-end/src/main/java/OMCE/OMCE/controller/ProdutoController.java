@@ -1,4 +1,5 @@
 package OMCE.OMCE.controller;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import OMCE.OMCE.Produto.*;
 import OMCE.OMCE.Produto.dto.DadosAlterarDadosProduto;
 import OMCE.OMCE.Produto.dto.DadosCadastroProduto;
@@ -34,8 +35,8 @@ public class ProdutoController {
         this.service = service;
     }
     @PostMapping("/cadastroProduto")
-    public ResponseEntity<Void> cadastroProduto(@RequestBody DadosCadastroProduto dados) {
-        service.cadastro(dados);
+    public ResponseEntity<Void> cadastroProduto(@RequestBody DadosCadastroProduto dados, @AuthenticationPrincipal User usuarioLogado) {
+        service.cadastro(dados, usuarioLogado.getId());
         return ResponseEntity.ok().build();
     }
     @GetMapping(value = "/visualizarDetalhesProduto/{id}", produces = "application/json")
@@ -56,21 +57,25 @@ public class ProdutoController {
     }
     @DeleteMapping("/deletar/{id}")
     @Transactional
-    public ResponseEntity<String> deletarProduto(@PathVariable Long id) {
-        service.deletar(id);
+    public ResponseEntity<String> deletarProduto(@PathVariable Long id, @AuthenticationPrincipal User usuarioLogado) {
+        service.deletar(id, usuarioLogado.getId());
         return ResponseEntity.ok("Produto deletado com sucesso.");
     }
 
     @PutMapping ("/alterarDadosProduto")
     @Transactional
-    public ResponseEntity<Void> alterardados(@RequestBody DadosAlterarDadosProduto dados){
-        service.alterarDadosProduto(dados);
+    public ResponseEntity<Void> alterardados(@RequestBody DadosAlterarDadosProduto dados, @AuthenticationPrincipal User usuarioLogado){
+        service.alterarDadosProduto(dados, usuarioLogado.getId());
         return ResponseEntity.ok().build();
     }
     @GetMapping("/todosProdutosUsuario")
     public ResponseEntity<Page<ProdutoRespostaDTO>> pegarProdutosUsuario(@PageableDefault(size=10)Pageable pageable,
-                                                                         @RequestHeader("Id-Usuario") Long id_usuario) {
-        Page<ProdutoRespostaDTO> produtoDTO = service.pegarProdutosPorUser(id_usuario,pageable);
+                                                                         @AuthenticationPrincipal User usuarioLogado,
+                                                                         @RequestParam(required = false) String nome,
+                                                                         @RequestParam(required = false) String categoria,
+                                                                         @RequestParam(required = false) Double precoMin,
+                                                                         @RequestParam(required = false) Double precoMax) {
+        Page<ProdutoRespostaDTO> produtoDTO = service.pegarProdutosPorUser(usuarioLogado.getId(), nome, categoria, precoMin, precoMax, pageable);
        return ResponseEntity.ok(produtoDTO);
 
     }

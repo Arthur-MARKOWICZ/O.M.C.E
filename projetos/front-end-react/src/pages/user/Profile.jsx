@@ -4,7 +4,7 @@ import { auth, request } from '../../api';
 import { useNotice } from '../../contexts/NoticeContext';
 import { ErrorMessage, Loading } from '../../components/ui/Feedback';
 import Page from '../../components/ui/Page';
-import { semNumeros, formatarTelefone, formatarCpf, formatarCep, cpfValido, telefoneValido, idadeMinimaValida, senhaForte, PATTERN_SENHA_FORTE, DICA_SENHA_FORTE, PATTERN_TELEFONE } from '../../utils/validation';
+import { semNumeros, formatarTelefone, formatarCpf, formatarCep, cepValido, cpfValido, telefoneValido, idadeMinimaValida, senhaForte, PATTERN_SENHA_FORTE, DICA_SENHA_FORTE, PATTERN_TELEFONE, PATTERN_CEP } from '../../utils/validation';
 
 export default function Profile() {
   const notice = useNotice();
@@ -36,7 +36,7 @@ export default function Profile() {
     const values = Object.fromEntries(new FormData(event.currentTarget));
     if (!telefoneValido(values.telefone)) return setError('Informe o telefone completo, com DDD.');
     if (!cpfValido(values.cpf)) return setError('CPF inválido. Confira o número informado.');
-    if (!idadeMinimaValida(values.dataNasc)) return setError('É preciso ter pelo menos 14 anos.');
+    if (!idadeMinimaValida(values.dataNasc)) return setError('É preciso ter pelo menos 14 anos.'); if (address.cep && !cepValido(address.cep)) return setError('Informe o CEP completo, com 8 dígitos.');
     if (values.novaSenha && !senhaForte(values.novaSenha)) return setError('A nova senha precisa ter ao menos 8 caracteres, com letra maiúscula, minúscula, número e símbolo.');
     setSaving(true);
     setError('');
@@ -101,7 +101,7 @@ export default function Profile() {
               <label>Data de nascimento<input name="dataNasc" type="date" defaultValue={user.dataNasc} required min="1900-01-01" max={new Date().toISOString().slice(0, 10)} /></label>
             </div>
             <h2>Endereço</h2>
-            <label>CEP<input value={address.cep || ''} onChange={(event) => setAddress({ ...address, cep: formatarCep(event.target.value) })} placeholder="00000-000" maxLength={9} /></label>
+            <label>CEP<input value={address.cep || ''} onChange={(event) => setAddress({ ...address, cep: formatarCep(event.target.value) })} placeholder="00000-000" maxLength={9} pattern={PATTERN_CEP} title="Informe o CEP completo (00000-000)." /></label>
             <div className="form-row">
               <label>Logradouro<input value={address.logradouro || ''} onChange={(event) => setAddress({ ...address, logradouro: event.target.value })} /></label>
               <label>Cidade<input value={address.cidade || ''} onChange={(event) => setAddress({ ...address, cidade: event.target.value })} /></label>

@@ -5,6 +5,7 @@ import OMCE.OMCE.Entrega.EntregaCalculada;
 import OMCE.OMCE.Entrega.EntregaContext;
 import OMCE.OMCE.Entrega.EntregaStrategy;
 import OMCE.OMCE.Entrega.TipoEntrega;
+import OMCE.OMCE.Execao.AcessoNegado;
 import OMCE.OMCE.Pagamento.enums.MetodoPagamento;
 import OMCE.OMCE.Pagamento.service.PagamentoService;
 import OMCE.OMCE.Pedido.ItemPedido;
@@ -22,6 +23,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -83,7 +85,7 @@ public class PedidoServiceTest {
         when(produtoRepository.findById(any(Long.class))).thenReturn(Optional.of(new Produto()));
         doNothing().when(produtoRepository).produtoVendido(any(Long.class));
 
-        pedidoService.CadastroCompra(dto);
+        pedidoService.CadastroCompra(dto, 10L);
 
         verify(pedidoRepository, times(1)).save(any(Pedido.class));
 
@@ -92,5 +94,20 @@ public class PedidoServiceTest {
         verify(itemPedidoRepository, times(2)).save(any(ItemPedido.class));
 
         verify(pagamentoService, times(1)).registrarPagamento(pedidoSalvo, MetodoPagamento.PIX, pedidoSalvo.getValor());
+    }
+
+    @Test
+    public void NaoDeveCadastrarPedidoEmNomeDeOutroComprador() {
+        ArrayList<Long> idsProdutos = new ArrayList<>();
+        idsProdutos.add(1L);
+        DadosEndereco endereco = new DadosEndereco("9991-140", "Brasil", "São Paulo", "SP", "12345678");
+        PedidoCadastroDTO dto = new PedidoCadastroDTO(
+                idsProdutos, 10L, 50.0, endereco, TipoEntrega.PADRAO, MetodoPagamento.PIX);
+
+        assertThrows(AcessoNegado.class, () -> pedidoService.CadastroCompra(dto, 99L));
+
+        verify(pedidoRepository, never()).save(any(Pedido.class));
+        verify(produtoRepository, never()).produtoVendido(any(Long.class));
+        verify(pagamentoService, never()).registrarPagamento(any(), any(), anyDouble());
     }
 }

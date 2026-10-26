@@ -7,6 +7,7 @@ import OMCE.OMCE.Pedido.ItemPedido;
 import OMCE.OMCE.Pedido.repository.ItemPedidoRepository;
 import OMCE.OMCE.Pedido.repository.PedidoRepository;
 import OMCE.OMCE.Produto.Produto;
+import OMCE.OMCE.Produto.enums.Categoria;
 import OMCE.OMCE.Produto.repository.ProdutoRepository;
 import OMCE.OMCE.Produto.dto.ProdutoRespostaDTO;
 import OMCE.OMCE.User.repository.UserRepository;
@@ -31,13 +32,17 @@ public class HistoricoService {
     @Autowired
     private ExportacaoContext exportacaoContext;
 
-    public Page<ProdutoRespostaDTO> pegarHistoricoDeVenda(Long id_usuario, Pageable pageable){
-        Page<Produto> historicoVenda = produtoRepository.pegarVendas(id_usuario, pageable);
+    public Page<ProdutoRespostaDTO> pegarHistoricoDeVenda(Long id_usuario, String nome, String categoria,
+                                                          Double precoMin, Double precoMax, Pageable pageable){
+        Page<Produto> historicoVenda = produtoRepository.filtrarVendas(
+                id_usuario, nome, Categoria.deTexto(categoria), precoMin, precoMax, pageable);
         Page<ProdutoRespostaDTO> dtosVenda = historicoVenda.map(ProdutoRespostaDTO::new);
         return dtosVenda;
     }
-    public Page<ProdutoRespostaDTO>pegarHistoricoDeCompra(Long idUsuario,@PageableDefault(size=10) Pageable pageable) {
-        Page<ItemPedido> compras = itemPedidoRepository.pegarComprasDoUsuario(idUsuario, pageable);
+    public Page<ProdutoRespostaDTO> pegarHistoricoDeCompra(Long idUsuario, String nome, String categoria,
+                                                           Double precoMin, Double precoMax, Pageable pageable) {
+        Page<ItemPedido> compras = itemPedidoRepository.filtrarComprasDoUsuario(
+                idUsuario, nome, Categoria.deTexto(categoria), precoMin, precoMax, pageable);
         return compras.map(item -> new ProdutoRespostaDTO( item.getProduto(), item.getProduto().getPreco(), item.getPedido().getValorFrete() ));
     }
 

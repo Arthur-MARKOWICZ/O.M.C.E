@@ -54,6 +54,16 @@ public class Produto {
         this.usuario = usuario;
     }
 
+    public static final String VENDEDOR_REMOVIDO = "Usuário removido";
+
+    public String nomeDoVendedor() {
+        return usuario != null ? usuario.getNome() : VENDEDOR_REMOVIDO;
+    }
+
+    public Long idDoVendedor() {
+        return usuario != null ? usuario.getId() : null;
+    }
+
     public long getId() {
         return id;
     }

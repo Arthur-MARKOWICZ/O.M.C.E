@@ -28,7 +28,7 @@ public class PagamentoService {
     public PagamentoRespostaDTO buscarPorPedido(Long pedidoId, Long idUsuario) {
         Pagamento pagamento = pagamentoRepository.findByPedidoId(pedidoId)
                 .orElseThrow(() -> new PagamentoNaoEncontrado("Pagamento não encontrado para o pedido: " + pedidoId));
-        if (!pagamento.getPedido().getCompradorId().equals(idUsuario)) {
+        if (!idUsuario.equals(pagamento.getPedido().getCompradorId())) {
             throw new AcessoNegado("Você não tem permissão para visualizar o pagamento deste pedido.");
         }
         return toDTO(pagamento);

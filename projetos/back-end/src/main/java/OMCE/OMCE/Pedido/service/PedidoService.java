@@ -1,5 +1,6 @@
 package OMCE.OMCE.Pedido.service;
 
+import OMCE.OMCE.Execao.AcessoNegado;
 import OMCE.OMCE.Enderco.Endereco;
 import OMCE.OMCE.Entrega.EntregaCalculada;
 import OMCE.OMCE.Entrega.EntregaContext;
@@ -31,7 +32,10 @@ public class PedidoService {
     private EntregaContext entregaContext;
 
 @Transactional
-    public void CadastroCompra(PedidoCadastroDTO dto) {
+    public void CadastroCompra(PedidoCadastroDTO dto, Long idUsuarioLogado) {
+        if (idUsuarioLogado == null || !idUsuarioLogado.equals(dto.id_comprador())) {
+            throw new AcessoNegado("Você só pode fazer pedidos em nome da sua própria conta.");
+        }
         Endereco endereco = new Endereco(dto.endereco());
         EntregaCalculada entrega = entregaContext.escolher(dto.tipoEntrega()).calcular(dto.valor(), endereco);
         Pedido pedido = pedidoRepository.save(new Pedido(dto, entrega));

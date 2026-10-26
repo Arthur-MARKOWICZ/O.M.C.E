@@ -5,7 +5,7 @@ import OMCE.OMCE.Produto.enums.Condicao;
 
 public record ProdutoRespostaDTO(Long id, String nome, Double preco, String detalhes,
                                  byte[] imagem, String image_tipo,
-                                 String nomeUsuario, Condicao condicao, Long id_vendedor, Double valorFrete) {
+                                 String nomeUsuario, Condicao condicao, Long id_vendedor, Double valorFrete, boolean vendido) {
     public ProdutoRespostaDTO(Produto produto){
         this(produto.getId(),
                 produto.getNome(),
@@ -13,10 +13,11 @@ public record ProdutoRespostaDTO(Long id, String nome, Double preco, String deta
                 produto.getDetalhes(),
                 produto.getImagem(),
                 produto.getImageTipo(),
-                produto.getUsuario().getNome(),
+                produto.nomeDoVendedor(),
                 produto.getCondicao(),
-                produto.getUsuario().getId(),
-                null)
+                produto.idDoVendedor(),
+                null,
+                produto.isVendido())
         ;
     }
 
@@ -28,10 +29,11 @@ public record ProdutoRespostaDTO(Long id, String nome, Double preco, String deta
                 produto.getDetalhes(),
                 produto.getImagem(),
                 produto.getImageTipo(),
-                produto.getUsuario().getNome(),
+                produto.nomeDoVendedor(),
                 produto.getCondicao(),
-                produto.getUsuario().getId(),
-                null)
+                produto.idDoVendedor(),
+                null,
+                produto.isVendido())
         ;
     }
 
@@ -42,10 +44,11 @@ public record ProdutoRespostaDTO(Long id, String nome, Double preco, String deta
                 produto.getDetalhes(),
                 produto.getImagem(),
                 produto.getImageTipo(),
-                produto.getUsuario().getNome(),
+                produto.nomeDoVendedor(),
                 produto.getCondicao(),
-                produto.getUsuario().getId(),
-                valorFrete)
+                produto.idDoVendedor(),
+                valorFrete,
+                produto.isVendido())
         ;
     }
 
